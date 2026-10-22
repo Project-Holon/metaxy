@@ -71,11 +71,44 @@ max_sessions = 100000
 handshake_ms = 10000
 idle_ms = 60000
 session_expiry_ms = 600000
+
+log_level = "info"     # error, warn, info, debug, trace or off
+log_json = false       # true: JSON lines
 ```
 
-The relay logs connections, sessions and errors, with the IP address, to
-standard error. It never logs message contents. Keep logs 7 days with your
-log tool (journald, logrotate).
+## Logs
+
+The relay writes one line per event to standard error, with a UTC time (RFC
+3339, to the millisecond), a level, and named fields. The session code, the
+peer number and the client address are there wherever they apply.
+
+- `--log-level LEVEL` (or `log_level`): `error`, `warn`, `info` (the
+  default), `debug`, `trace` or `off`. A filter such as `metaxy=debug` also
+  works.
+- `--log-json` (or `log_json = true`): JSON lines instead of text.
+
+At `info` you see connections opening and closing (with the cause and the
+duration), sessions created and forgotten, joins, leaves, `Q` removals, and
+every `E` the relay sends, with its detail text. At `debug` you also get
+per-peer frame and byte counts every 60 seconds and at disconnect, rate
+limit drops, and queue high-water marks.
+
+```
+2026-10-22T12:33:40.611Z  INFO session created conn=1 code=SJA37C peer=1 host_addr=203.0.113.7 host_name="Ann" listener_port=4141 mode="plain"
+2026-10-22T12:33:41.002Z  INFO join conn=2 code=SJA37C peer=2 name="Bob" addr=198.51.100.4 kind="new"
+2026-10-22T12:33:41.812Z  INFO E sent conn=3 addr=198.51.100.9 reason="unknown-code" detail="no session has code ZZZZZZ"
+2026-10-22T12:35:02.120Z  INFO leave conn=2 code=SJA37C peer=2 name="Bob" addr=198.51.100.4 how="drop" cause="idle timeout (60 s idle)"
+2026-10-22T12:35:02.121Z  INFO connection closed conn=2 code=SJA37C peer=2 addr=198.51.100.4 duration_s=61.119 cause="idle timeout (60 s idle)"
+2026-10-22T12:36:00.000Z DEBUG peer traffic conn=1 code=SJA37C peer=1 addr=203.0.113.7 frames_in=480 bytes_in=61250 frames_out=455 bytes_out=58120 d_dropped=0 d_dropped_bytes=0 queue_high=4310
+```
+
+The relay never logs message contents (`D` keys and bytes) or session
+tokens. It does log player names and IP addresses. Keep logs 7 days with
+your log tool (journald, logrotate).
+
+`E` frames carry a short text after the reason word, for example
+`E full the session has 16 of 16 players`. The list is in section 7 of the
+spec.
 
 ## Self-hosting
 

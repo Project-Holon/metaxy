@@ -193,27 +193,34 @@ async fn join_errors() {
     let (_s, a) = start(cfg()).await;
     let (_h, code) = Client::host(a, TOK1, "H").await;
     let mut c = Client::join_raw(a, TOK2, "ZZZZZZ", "G").await;
-    c.expect_error("unknown-code").await;
+    c.expect_error("unknown-code no session has code ZZZZZZ")
+        .await;
+    let version = "version got \"eidos-net/2\", this relay speaks eidos-net/1";
     let mut c = Client::connect(a).await;
     c.send('J', format!("eidos-net/2 {TOK2} {code} G").as_bytes())
         .await;
-    c.expect_error("version").await;
+    c.expect_error(version).await;
     let mut c = Client::connect(a).await;
     c.send('H', format!("eidos-net/2 {TOK2} G").as_bytes())
         .await;
-    c.expect_error("version").await;
+    c.expect_error(version).await;
     let mut c = Client::connect(a).await;
     c.send('J', format!("eidos-net/1 NOTHEX {code} G").as_bytes())
         .await;
-    c.expect_error("bad-frame").await;
+    c.expect_error("bad-frame J token must be 16 to 64 characters of 0-9 and a-f (got 6 bytes)")
+        .await;
     let mut c = Client::connect(a).await;
     c.send('J', format!("eidos-net/1 {TOK2} {code}").as_bytes())
         .await;
-    c.expect_error("bad-frame").await;
+    c.expect_error("bad-frame J has no name").await;
     let mut c = Client::connect(a).await;
     c.send('H', format!("eidos-net/1 {TOK2} bad\u{7}name").as_bytes())
         .await;
-    c.expect_error("bad-frame").await;
+    c.expect_error("bad-frame H name has a control character")
+        .await;
+    let mut c = Client::connect(a).await;
+    c.send('H', b"eidos-net/1").await;
+    c.expect_error("bad-frame H has no token").await;
 }
 
 #[tokio::test]
@@ -225,7 +232,7 @@ async fn full_session() {
     .await;
     let (_h, _j, code) = pair(a).await;
     let mut c = Client::join_raw(a, TOK3, &code, "X").await;
-    c.expect_error("full").await;
+    c.expect_error("full the session has 2 of 2 players").await;
 }
 
 #[tokio::test]
@@ -240,7 +247,8 @@ async fn sixteen_players() {
         others.push(c);
     }
     let mut c = Client::join_raw(a, TOK2, &code, "P").await;
-    c.expect_error("full").await;
+    c.expect_error("full the session has 16 of 16 players")
+        .await;
     h.expect('P', "2 P").await;
 }
 
@@ -304,45 +312,69 @@ async fn bad_state_and_bad_frames() {
     let (_s, a) = start(cfg()).await;
     let mut c = Client::connect(a).await;
     c.send('D', &data(0, "k", b"x")).await;
-    c.expect_error("bad-state").await;
+    c.expect_error("bad-state D before joining").await;
     let mut c = Client::connect(a).await;
     c.send('Q', b"2").await;
-    c.expect_error("bad-state").await;
+    c.expect_error("bad-state Q before joining").await;
     // a second H or J
     let (mut h, code) = Client::host(a, TOK1, "H").await;
     h.send('H', format!("eidos-net/1 {TOK1} H").as_bytes())
         .await;
-    h.expect_error("bad-state").await;
+    h.expect_error("bad-state H after joining").await;
     let (mut h, _) = Client::host(a, TOK2, "H").await;
     h.send('J', format!("eidos-net/1 {TOK2} {code} H").as_bytes())
         .await;
-    h.expect_error("bad-state").await;
-    for raw in [
-        &b"Z 0\n"[..],
-        b"D 01\nx",
-        b"D -1\n",
-        b"D x\n",
-        b"D1\n",
-        b"D 12345678901234567890\n",
-        b"\n",
+    h.expect_error("bad-state J after joining").await;
+    for (raw, text) in [
+        (&b"Z 0\n"[..], "bad-frame unknown frame type \"Z\""),
+        (b"D 01\nx", "bad-frame length \"01\" has a leading zero"),
+        (b"D -1\n", "bad-frame length \"-\" is not a number"),
+        (b"D x\n", "bad-frame length \"x\" is not a number"),
+        (b"D 12a\n", "bad-frame length \"12a\" is not a number"),
+        (b"D1\n", "bad-frame no space after the frame type \"D\""),
+        (
+            b"D 12345678901234567890\n",
+            "bad-frame header is longer than 16 bytes",
+        ),
+        (b"D \n", "bad-frame length is empty"),
+        (b"\n", "bad-frame unknown frame type \"\\n\""),
     ] {
         let (mut h, _) = Client::host(a, TOK3, "H").await;
         h.send_raw(raw).await;
-        h.expect_error("bad-frame").await;
+        h.expect_error(text).await;
     }
     // bad D bodies inside a session
-    for p in [&b"x"[..], b"1\nk", b"1\n\nx", b"a\nk\nx", b""] {
+    for (p, text) in [
+        (&b"x"[..], "bad-frame D has no newline after the peer"),
+        (b"1\nk", "bad-frame D has no newline after the key"),
+        (b"1\n\nx", "bad-frame D key is empty"),
+        (
+            b"a\nk\nx",
+            "bad-frame D peer is not a number of up to 4 digits",
+        ),
+        (b"", "bad-frame D has no newline after the peer"),
+    ] {
         let (mut h, _) = Client::host(a, TOK3, "H").await;
         h.send('D', p).await;
-        h.expect_error("bad-frame").await;
+        h.expect_error(text).await;
     }
     // oversize
     let (mut h, _) = Client::host(a, TOK3, "H").await;
     h.send_raw(b"D 4225\n").await;
-    h.expect_error("too-big").await;
+    h.expect_error("too-big frame of 4225 bytes (limit 4224)")
+        .await;
+    let (mut h, _) = Client::host(a, TOK3, "H").await;
+    h.send_raw(b"D 9000\n").await;
+    h.expect_error("too-big frame of 9000 bytes (limit 4224)")
+        .await;
     let (mut h, _) = Client::host(a, TOK3, "H").await;
     h.send('D', &data(0, "k", &vec![0u8; 4097])).await;
-    h.expect_error("too-big").await;
+    h.expect_error("too-big D message of 4097 bytes (limit 4096)")
+        .await;
+    let (mut h, _) = Client::host(a, TOK3, "H").await;
+    h.send('D', &data(0, &"k".repeat(97), b"x")).await;
+    h.expect_error("bad-frame D key of 97 bytes (limit 96)")
+        .await;
     // a 0-length frame from a client is fine
     let (mut h, _) = Client::host(a, TOK3, "H").await;
     h.send('K', b"").await;
@@ -436,7 +468,8 @@ async fn sessions_are_forgotten_after_the_expiry() {
     // forgotten after the expiry
     sleep(Duration::from_millis(2200)).await;
     let mut c = Client::join_raw(a, TOK1, &code, "Host").await;
-    c.expect_error("unknown-code").await;
+    c.expect_error(&format!("unknown-code no session has code {code}"))
+        .await;
 }
 
 #[tokio::test]
@@ -472,7 +505,7 @@ async fn only_the_host_can_remove() {
     h.expect_none().await;
     // from the host
     h.send('Q', b"3").await;
-    k.expect_error("removed").await;
+    k.expect_error("removed by the host").await;
     j.expect('X', "3").await;
     h.expect('X', "3").await;
     h.expect_none().await;
@@ -482,7 +515,8 @@ async fn only_the_host_can_remove() {
     // a malformed Q from the host is a bad frame
     h.send('Q', b"x").await;
     h.expect('P', "3 M").await;
-    h.expect_error("bad-frame").await;
+    h.expect_error("bad-frame Q peer \"x\" is not a number of up to 4 digits")
+        .await;
 }
 
 #[tokio::test]
@@ -595,7 +629,12 @@ async fn sustained_excess_gets_e_rate() {
     loop {
         match h.read(Duration::from_secs(2)).await {
             Got::Frame('E', p) => {
-                assert_eq!(p, b"rate");
+                let p = String::from_utf8(p).unwrap();
+                assert!(
+                    p.starts_with("rate over 4x the message rate for 0.5 s (")
+                        && p.ends_with(" per second, limit 20)"),
+                    "{p}"
+                );
                 closed = true;
             }
             Got::Frame(..) => {}
@@ -708,7 +747,11 @@ async fn slow_reader_gets_too_slow_and_is_dropped() {
     loop {
         match j.read(Duration::from_secs(5)).await {
             Got::Frame('E', p) => {
-                assert_eq!(p, b"too-slow");
+                let p = String::from_utf8(p).unwrap();
+                assert!(
+                    p.starts_with("too-slow ") && p.ends_with(" bytes queued (limit 100000)"),
+                    "{p}"
+                );
                 got_e = true;
             }
             Got::Frame('D', p) => assert_eq!(p.len(), 2 + 1 + 1 + 4096),
@@ -750,7 +793,23 @@ async fn sessions_per_ip_are_limited() {
     let mut c = Client::connect(a).await;
     c.send('H', format!("eidos-net/1 {TOK3} H").as_bytes())
         .await;
-    c.expect_error("busy").await;
+    c.expect_error("busy this address has 2 open sessions (limit 2)")
+        .await;
+}
+
+#[tokio::test]
+async fn session_total_is_limited() {
+    let (_s, a) = start(Config {
+        max_sessions: 1,
+        ..cfg()
+    })
+    .await;
+    let (_h, _) = Client::host(a, TOK1, "H").await;
+    let mut c = Client::connect(a).await;
+    c.send('H', format!("eidos-net/1 {TOK2} H").as_bytes())
+        .await;
+    c.expect_error("busy the relay holds 1 sessions (limit 1)")
+        .await;
 }
 
 #[tokio::test]
@@ -758,8 +817,8 @@ async fn shutdown_sends_e_shutdown() {
     let (s, a) = start(cfg()).await;
     let (mut h, mut j, _) = pair(a).await;
     s.shutdown().await;
-    h.expect_error("shutdown").await;
-    j.expect_error("shutdown").await;
+    h.expect_error("shutdown the relay is stopping").await;
+    j.expect_error("shutdown the relay is stopping").await;
 }
 
 #[tokio::test]
@@ -823,4 +882,190 @@ async fn tls_listener() {
         got.extend_from_slice(&buf[..n]);
     }
     assert!(got.starts_with(b"C 6\n"));
+}
+
+/// Captured log output.
+#[derive(Clone, Default)]
+struct LogBuf(std::sync::Arc<std::sync::Mutex<Vec<u8>>>);
+
+impl std::io::Write for LogBuf {
+    fn write(&mut self, b: &[u8]) -> std::io::Result<usize> {
+        self.0.lock().unwrap().extend_from_slice(b);
+        Ok(b.len())
+    }
+    fn flush(&mut self) -> std::io::Result<()> {
+        Ok(())
+    }
+}
+
+impl LogBuf {
+    fn text(&self) -> String {
+        String::from_utf8(self.0.lock().unwrap().clone()).unwrap()
+    }
+}
+
+/// Run `f` with a debug-level logger on this thread and return the log.
+fn capture(json: bool) -> (LogBuf, tracing::subscriber::DefaultGuard) {
+    let buf = LogBuf::default();
+    let b = buf.clone();
+    let sub = metaxy::logging::subscriber("debug", json, move || b.clone()).unwrap();
+    (buf, tracing::subscriber::set_default(sub))
+}
+
+const SECRET_KEY: &str = "SECRETKEY.mod.zq9";
+const SECRET_BYTES: &str = "SECRETBYTES-4471";
+
+/// A full session life with secrets in the messages.
+async fn secret_session(a: SocketAddr) {
+    let (mut h, mut j, code) = pair(a).await;
+    // a third player drops
+    let mut k = Client::join_raw(a, TOK4, &code, "Third").await;
+    k.expect('W', "3 Third").await;
+    k.expect('P', "1 Host").await;
+    k.expect('P', "2 Guest").await;
+    h.expect('P', "3 Third").await;
+    j.expect('P', "3 Third").await;
+    drop(k);
+    h.expect('X', "3").await;
+    j.expect('X', "3").await;
+    for i in 0..30 {
+        h.send(
+            'D',
+            &data(2, SECRET_KEY, format!("{SECRET_BYTES}{i}").as_bytes()),
+        )
+        .await;
+    }
+    sleep(Duration::from_millis(300)).await;
+    while let Got::Frame(..) = j.read(Duration::from_millis(100)).await {}
+    // refusals and a removal
+    let mut c = Client::join_raw(a, TOK3, "ZZZZZZ", "Nobody").await;
+    c.expect_error("unknown-code no session has code ZZZZZZ")
+        .await;
+    h.send('Q', b"2").await;
+    j.expect('E', "removed by the host").await;
+    h.expect('X', "2").await;
+    let _ = code;
+    h.send('B', b"").await;
+    h.expect_closed().await;
+    sleep(Duration::from_millis(100)).await;
+}
+
+#[tokio::test]
+async fn logs_say_what_happened_and_hold_no_secrets() {
+    let (log, _g) = capture(false);
+    let (_s, a) = start(Config {
+        msg_rate: 5.0,
+        msg_burst: 5.0,
+        ..cfg()
+    })
+    .await;
+    secret_session(a).await;
+    let t = log.text();
+    for secret in [SECRET_KEY, SECRET_BYTES, TOK1, TOK2, TOK3, TOK4] {
+        assert!(!t.contains(secret), "log holds {secret}:\n{t}");
+    }
+    for want in [
+        "connection opened",
+        "mode=\"plain\"",
+        "session created",
+        "host_name=\"Host\"",
+        "join",
+        "kind=\"new\"",
+        "name=\"Guest\"",
+        "E sent",
+        "reason=\"unknown-code\"",
+        "detail=\"no session has code ZZZZZZ\"",
+        "Q removed a player",
+        "removed_name=\"Guest\"",
+        "leave",
+        "how=\"B\"",
+        "how=\"drop\"",
+        "connection closed",
+        "cause=\"left (B)\"",
+        "cause=\"removed by the host\"",
+        "D frames dropped",
+        "why=\"message rate\"",
+        "peer traffic at disconnect",
+        "d_dropped=",
+        "queue_high=",
+        "addr=127.0.0.1",
+    ] {
+        assert!(t.contains(want), "log lacks {want}:\n{t}");
+    }
+    // every line starts with an RFC 3339 UTC time with milliseconds
+    for line in t.lines() {
+        let b = line.as_bytes();
+        assert!(
+            b.len() > 24
+                && b[4] == b'-'
+                && b[7] == b'-'
+                && b[10] == b'T'
+                && b[13] == b':'
+                && b[19] == b'.'
+                && b[23] == b'Z',
+            "{line}"
+        );
+    }
+}
+
+#[tokio::test]
+async fn json_logs_are_json_lines_without_secrets() {
+    let (log, _g) = capture(true);
+    let (_s, a) = start(cfg()).await;
+    secret_session(a).await;
+    let t = log.text();
+    assert!(!t.contains(SECRET_KEY) && !t.contains(SECRET_BYTES) && !t.contains(TOK1));
+    assert!(t.lines().count() > 10);
+    for line in t.lines() {
+        assert!(line.starts_with('{') && line.ends_with('}'), "{line}");
+        assert!(line.contains("\"timestamp\":\"20") && line.contains("\"level\":\""));
+    }
+    assert!(t.contains("\"reason\":\"unknown-code\""));
+}
+
+#[tokio::test]
+async fn refusals_and_closes_are_logged_with_their_cause() {
+    let (log, _g) = capture(false);
+    let (s, a) = start(Config {
+        conn_per_window: 3,
+        idle_ms: 400,
+        handshake_ms: 300,
+        sessions_per_ip: 1,
+        ..cfg()
+    })
+    .await;
+    // idle timeout
+    let (_h, _code) = Client::host(a, TOK1, "Host").await;
+    // busy
+    let mut c = Client::connect(a).await;
+    c.send('H', format!("eidos-net/1 {TOK2} H").as_bytes())
+        .await;
+    c.expect_error("busy this address has 1 open sessions (limit 1)")
+        .await;
+    // handshake timeout
+    let mut c = Client::connect(a).await;
+    c.expect_closed().await;
+    sleep(Duration::from_millis(700)).await;
+    // connection rate: four were used in this window
+    let mut c = Client::connect(a).await;
+    c.expect_closed().await;
+    s.shutdown().await;
+    sleep(Duration::from_millis(100)).await;
+    let t = log.text();
+    for want in [
+        "cause=\"idle timeout (",
+        "cause=\"handshake timeout (",
+        "cause=\"busy\"",
+        "connection refused",
+        "reason=\"connection rate\"",
+        "count=3",
+        "window_s=60",
+        "listening",
+    ] {
+        // "listening" is logged by the binary, not the library
+        if want == "listening" {
+            continue;
+        }
+        assert!(t.contains(want), "log lacks {want}:\n{t}");
+    }
 }

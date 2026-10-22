@@ -6,6 +6,7 @@
 
 pub mod codec;
 pub mod config;
+pub mod logging;
 pub mod outbox;
 pub mod registry;
 pub mod server;

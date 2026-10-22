@@ -8,7 +8,7 @@ use serde::Deserialize;
 use std::path::PathBuf;
 
 macro_rules! settings {
-    ($( $name:ident : $ty:ty = $def:expr, $help:literal; )*) => {
+    ($( $([$($extra:tt)*])? $name:ident : $ty:ty = $def:expr, $help:literal; )*) => {
         /// Every setting of the relay.
         #[derive(Debug, Clone, Deserialize)]
         #[serde(default, deny_unknown_fields)]
@@ -29,7 +29,7 @@ macro_rules! settings {
             /// Read settings from this TOML file.
             #[arg(long)]
             pub config: Option<PathBuf>,
-            $( #[arg(long, help = $help)] pub $name: Option<$ty>, )*
+            $( #[arg(long, help = $help $(, $($extra)*)?)] pub $name: Option<$ty>, )*
         }
 
         impl Args {
@@ -44,7 +44,7 @@ macro_rules! settings {
 settings! {
     bind: String = "0.0.0.0".to_string(), "Address to listen on";
     port: u16 = 4141, "Plain TCP port (0 picks a free one)";
-    plain: bool = true, "Serve plain TCP (true or false)";
+    [num_args = 0..=1, default_missing_value = "true"] plain: bool = true, "Serve plain TCP (true or false)";
     tls_cert: String = String::new(), "TLS certificate chain, PEM file (with tls_key, turns TLS on)";
     tls_key: String = String::new(), "TLS private key, PEM file";
     tls_port: u16 = 443, "TLS port";
@@ -65,6 +65,8 @@ settings! {
     handshake_ms: u64 = 10_000, "Time from connect to H or J, milliseconds";
     idle_ms: u64 = 60_000, "Silence before a connection is dropped, milliseconds";
     session_expiry_ms: u64 = 600_000, "A session is forgotten this long after its last player disconnected, milliseconds";
+    log_level: String = "info".to_string(), "Log level: error, warn, info, debug, trace or off (or filter directives such as metaxy=debug)";
+    [num_args = 0..=1, default_missing_value = "true"] log_json: bool = false, "Write logs as JSON lines";
 }
 
 impl Config {
@@ -96,6 +98,7 @@ impl Config {
         if self.rate_window_ms == 0 || self.rate_close_windows == 0 {
             return Err("rate_window_ms and rate_close_windows must be above 0".into());
         }
+        crate::logging::parse_level(&self.log_level)?;
         Ok(())
     }
 }
@@ -136,6 +139,24 @@ mod tests {
         let a = Args::parse_from(["metaxy", "--port", "9100", "--max-players", "4"]);
         a.apply(&mut c);
         assert_eq!((c.port, c.max_players), (9100, 4));
+    }
+
+    #[test]
+    fn log_flags() {
+        let mut c = Config::default();
+        assert_eq!((c.log_level.as_str(), c.log_json), ("info", false));
+        Args::parse_from(["metaxy", "--log-level", "debug", "--log-json"]).apply(&mut c);
+        assert_eq!((c.log_level.as_str(), c.log_json), ("debug", true));
+        assert!(c.validate().is_ok());
+        c.log_level = "loud".into();
+        assert!(c.validate().is_err());
+        let c: Config = toml::from_str(
+            "log_level = \"warn\"
+log_json = true
+",
+        )
+        .unwrap();
+        assert_eq!((c.log_level.as_str(), c.log_json), ("warn", true));
     }
 
     #[test]

@@ -46,7 +46,7 @@ A connection carries a stream of frames in both directions:
   leading zeros (except `0` itself).
 - `payload`: exactly `length` bytes.
 
-The relay refuses a frame (with `E bad-frame`, then closes) when the header
+The relay refuses a frame (with `E bad-frame` and a text, then closes) when the header
 is longer than 16 bytes before the newline, the type is unknown, the length
 is not a decimal number, or the length is over the limit in section 6.
 
@@ -168,34 +168,65 @@ a 512 KB save moves in about a second.
 
 ## 7. Errors
 
-`E` reasons are one word, then optional text:
+An `E` payload is the reason word, then optionally a space and a short
+plain text that says what was wrong. The reason word is always first and
+never changes: clients match on it, and show or log the text. The text is
+for people. Its wording may change, so a client must not parse it. It never
+holds message contents, keys or tokens.
 
-| Reason | Meaning |
-|---|---|
-| `version` | the client's protocol version is not one the relay speaks |
-| `unknown-code` | no session has that code |
-| `full` | the session has 16 players |
-| `removed` | the host removed this player |
-| `bad-frame` | a frame the relay cannot read |
-| `bad-state` | a frame that does not fit now (for example `D` before `W`) |
-| `too-big` | a frame over the size limit |
-| `rate` | over the message or byte rate |
-| `too-slow` | the client does not read fast enough |
-| `busy` | too many sessions from this address |
-| `shutdown` | the relay is stopping |
+| Reason | Meaning | Example |
+|---|---|---|
+| `version` | the client's protocol version is not one the relay speaks | `E version got "eidos-net/2", this relay speaks eidos-net/1` |
+| `unknown-code` | no session has that code | `E unknown-code no session has code ABC123` |
+| `full` | the session has 16 players | `E full the session has 16 of 16 players` |
+| `removed` | the host removed this player | `E removed by the host` |
+| `bad-frame` | a frame the relay cannot read | `E bad-frame length "12a" is not a number` |
+| `bad-state` | a frame that does not fit now (for example `D` before `W`) | `E bad-state D before joining` |
+| `too-big` | a frame over the size limit | `E too-big frame of 9000 bytes (limit 4224)` |
+| `rate` | over the message or byte rate | `E rate over 4x the message rate for 5 s (240 per second, limit 60)` |
+| `too-slow` | the client does not read fast enough | `E too-slow 2097152 bytes queued (limit 2097152)` |
+| `busy` | too many sessions from this address | `E busy this address has 4 open sessions (limit 4)` |
+| `shutdown` | the relay is stopping | `E shutdown the relay is stopping` |
+
+The text is at most a few hundred bytes. A client that reads only the first
+word keeps working.
 
 ## 8. Privacy and operation
 
-- The relay never writes message contents (`D` bytes and keys) to logs or
-  disk.
-- Logs hold: connection opened and closed, session created and expired,
-  errors sent, with the IP address. Logs are kept 7 days.
+- The relay never writes message contents (`D` keys and bytes), session
+  tokens or anything else from inside a `D` frame to logs or disk. It logs
+  player names and IP addresses.
+- Logs go to standard error, one event per line, each with a UTC time (RFC
+  3339, millisecond), a level and named fields. The session code, the peer
+  number and the client address are fields wherever they apply. Text is the
+  default; `--log-json` (or `log_json = true`) writes JSON lines instead.
+  `--log-level` (or `log_level`) picks the level: `error`, `warn`, `info`
+  (the default), `debug`, `trace` or `off`.
+- At `info` the logs hold:
+  - connection opened (address, plain or TLS) and closed (address, session
+    and peer if any, duration, cause: `eof`, `reset`, `idle timeout`,
+    `handshake timeout`, `removed by the host`, `left (B)`, `server
+    shutdown`, `replaced by a rejoin`, or the reason word of an `E` the
+    relay sent, such as `rate`, `too-slow` or `bad-frame`);
+  - session created (code, host address and name, listener port and mode)
+    and session forgotten (code, age, why);
+  - join (code, peer, name, address, new or rejoin), leave (`B`, or a drop
+    with its cause), and `Q` (the removed player, or why it was ignored);
+  - every `E` sent (reason, the detail text, code, peer, address), which
+    also covers refusals before a session (unknown code, full, busy,
+    version);
+  - connections refused for the per-address rate (count and window).
+- At `debug` it also holds, per peer: frame and byte counts in and out
+  every 60 seconds and when the connection ends, how many `D` frames the
+  rate limits dropped and which limit, and the most bytes ever queued to the
+  client.
+- Logs are kept 7 days.
 - A stats page (counts only: sessions, players, bytes per second) is
   optional and off by default.
 - Players never see each other's IP addresses.
 - A self-hosted relay is one binary with a config file or command-line
-  flags: bind address, ports, TLS certificate paths, and the limits in
-  section 6.
+  flags: bind address, ports, TLS certificate paths, log settings, and the
+  limits in section 6.
 
 ## 9. Notes
 

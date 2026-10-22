@@ -3,23 +3,26 @@
 //! All state sits behind one lock in `server.rs`. Every method here runs
 //! to the end without waiting: frames go into per-connection queues.
 
-use crate::codec::{self, encode, Frame};
+use crate::codec::{self, encode, Fail, Frame};
 use crate::config::Config;
-use crate::outbox::Outbox;
+use crate::outbox::{Outbox, Sent};
 use std::collections::{BTreeMap, HashMap, VecDeque};
 use std::net::IpAddr;
+use std::sync::atomic::Ordering;
 use std::sync::Arc;
-use std::time::{Duration, Instant, SystemTime, UNIX_EPOCH};
+use std::time::{Duration, Instant};
+use tracing::{debug, info};
 
 const CODE_ALPHABET: &[u8] = b"23456789ABCDEFGHJKMNPQRSTUVWXYZ";
 
-/// Print one log line. Never call this with message contents.
-pub fn log(msg: &str) {
-    let t = SystemTime::now()
-        .duration_since(UNIX_EPOCH)
-        .map(|d| d.as_secs())
-        .unwrap_or(0);
-    eprintln!("[{t}] {msg}");
+/// A session code or peer number for a log line, left out when absent.
+fn opt<T: std::fmt::Display>(v: Option<T>) -> Option<tracing::field::DisplayValue<T>> {
+    v.map(tracing::field::display)
+}
+
+/// Round for a log or error text: whole numbers print without a dot.
+fn num(x: f64) -> f64 {
+    (x * 10.0).round() / 10.0
 }
 
 /// What a frame did, for the connection task.
@@ -31,8 +34,8 @@ pub enum Outcome {
     Joined,
     /// The player left: close without a frame.
     Bye,
-    /// Send `E <reason>` and close.
-    Error(&'static str),
+    /// Send `E <reason> <detail>` and close.
+    Error(Fail),
 }
 
 #[derive(Debug)]
@@ -50,6 +53,7 @@ struct Session {
     host_ip: Option<IpAddr>,
     /// Set while no player is connected.
     empty_since: Option<Instant>,
+    created: Instant,
 }
 
 impl Session {
@@ -83,13 +87,18 @@ struct Rate {
     win_msgs: f64,
     win_bytes: f64,
     streak: u32,
+    /// Messages and bytes per second of the last window that was over.
+    over_msgs: f64,
+    over_bytes: f64,
 }
 
 #[derive(Debug, PartialEq, Eq)]
 enum Verdict {
     Pass,
-    Drop,
-    Close,
+    /// Dropped: which rate was exceeded.
+    Drop(&'static str),
+    /// Close with this detail.
+    Close(String),
 }
 
 impl Rate {
@@ -107,6 +116,27 @@ impl Rate {
             win_msgs: 0.0,
             win_bytes: 0.0,
             streak: 0,
+            over_msgs: 0.0,
+            over_bytes: 0.0,
+        }
+    }
+
+    fn close_detail(&self, cfg: &Config) -> String {
+        let win = cfg.rate_window_ms as f64 / 1000.0;
+        let secs = num(f64::from(self.streak) * win);
+        let f = num(cfg.rate_factor);
+        if self.over_msgs > cfg.rate_factor * cfg.msg_rate {
+            format!(
+                "over {f}x the message rate for {secs} s ({} per second, limit {})",
+                self.over_msgs.round(),
+                num(cfg.msg_rate)
+            )
+        } else {
+            format!(
+                "over {f}x the byte rate for {secs} s ({} bytes per second, limit {})",
+                self.over_bytes.round(),
+                num(cfg.byte_rate)
+            )
         }
     }
 
@@ -117,6 +147,10 @@ impl Rate {
         if elapsed >= win {
             let over = self.win_msgs > cfg.rate_factor * cfg.msg_rate * win
                 || self.win_bytes > cfg.rate_factor * cfg.byte_rate * win;
+            if over {
+                self.over_msgs = self.win_msgs / win;
+                self.over_bytes = self.win_bytes / win;
+            }
             if over && elapsed < 2.0 * win {
                 self.streak += 1;
             } else {
@@ -129,26 +163,88 @@ impl Rate {
         self.win_msgs += 1.0;
         self.win_bytes += len as f64;
         if self.streak >= cfg.rate_close_windows {
-            return Verdict::Close;
+            return Verdict::Close(self.close_detail(cfg));
         }
         self.msgs.refill(cfg.msg_rate, cfg.msg_burst, now);
         self.bytes.refill(cfg.byte_rate, cfg.byte_burst, now);
-        if self.msgs.tokens >= 1.0 && self.bytes.tokens >= len as f64 {
+        if self.msgs.tokens < 1.0 {
+            Verdict::Drop("message rate")
+        } else if self.bytes.tokens < len as f64 {
+            Verdict::Drop("byte rate")
+        } else {
             self.msgs.tokens -= 1.0;
             self.bytes.tokens -= len as f64;
             Verdict::Pass
-        } else {
-            Verdict::Drop
         }
     }
 }
 
+/// Counts of what one client sent, for the debug log.
+#[derive(Debug, Default)]
+struct Traffic {
+    frames_in: u64,
+    bytes_in: u64,
+    /// `D` frames dropped by the rate limits, and their payload bytes.
+    dropped: u64,
+    dropped_bytes: u64,
+    /// Drops since the last debug line about them.
+    pending: u64,
+    last_drop_log: Option<Instant>,
+}
+
 #[derive(Debug)]
 struct Conn {
+    id: u64,
     out: Outbox,
     ip: IpAddr,
+    listener_port: u16,
+    tls: bool,
     session: Option<(String, u8)>,
     rate: Rate,
+    traffic: Traffic,
+}
+
+impl Conn {
+    /// Session code and peer number for a log line, none before a join.
+    fn who(&self) -> (Option<&str>, Option<u8>) {
+        match &self.session {
+            Some((c, p)) => (Some(c.as_str()), Some(*p)),
+            None => (None, None),
+        }
+    }
+
+    fn log_traffic(&self, what: &str) {
+        let (code, peer) = self.who();
+        let o = &self.out.stats;
+        debug!(
+            conn = self.id,
+            code = opt(code),
+            peer,
+            addr = %self.ip,
+            frames_in = self.traffic.frames_in,
+            bytes_in = self.traffic.bytes_in,
+            frames_out = o.frames.load(Ordering::Relaxed),
+            bytes_out = o.bytes.load(Ordering::Relaxed),
+            d_dropped = self.traffic.dropped,
+            d_dropped_bytes = self.traffic.dropped_bytes,
+            queue_high = o.high.load(Ordering::Relaxed),
+            "{what}"
+        );
+    }
+}
+
+/// Log that an `E` is being sent to this connection.
+fn log_e(c: &Conn, reason: &str, detail: &str) {
+    let (code, peer) = c.who();
+    info!(conn = c.id, code = opt(code), peer, addr = %c.ip, reason, detail, "E sent");
+}
+
+/// Why a new connection was refused.
+#[derive(Debug, PartialEq, Eq)]
+pub struct Refused {
+    /// Connections this address opened in the window.
+    pub count: usize,
+    pub window_ms: u64,
 }
 
 /// Everything the relay knows.
@@ -162,7 +258,9 @@ pub struct Registry {
 
 fn tell(conns: &HashMap<u64, Conn>, cap: usize, id: u64, frame: &[u8]) {
     if let Some(c) = conns.get(&id) {
-        c.out.send(frame.to_vec(), cap);
+        if let Sent::TooSlow(detail) = c.out.send(frame.to_vec(), cap) {
+            log_e(c, "too-slow", &detail);
+        }
     }
 }
 
@@ -193,7 +291,13 @@ impl Registry {
     }
 
     /// Admit a new connection unless the address is over its rate.
-    pub fn admit(&mut self, ip: IpAddr, out: Outbox) -> Option<u64> {
+    pub fn admit(
+        &mut self,
+        ip: IpAddr,
+        out: Outbox,
+        listener_port: u16,
+        tls: bool,
+    ) -> Result<u64, Refused> {
         let now = Instant::now();
         let window = Duration::from_millis(self.cfg.conn_window_ms);
         let hist = self.ip_hist.entry(ip).or_default();
@@ -204,7 +308,10 @@ impl Registry {
             hist.pop_front();
         }
         if hist.len() >= self.cfg.conn_per_window {
-            return None;
+            return Err(Refused {
+                count: hist.len(),
+                window_ms: self.cfg.conn_window_ms,
+            });
         }
         hist.push_back(now);
         let id = self.next_id;
@@ -212,13 +319,17 @@ impl Registry {
         self.conns.insert(
             id,
             Conn {
+                id,
                 out,
                 ip,
+                listener_port,
+                tls,
                 session: None,
                 rate: Rate::new(&self.cfg, now),
+                traffic: Traffic::default(),
             },
         );
-        Some(id)
+        Ok(id)
     }
 
     /// Forget old per-address records and end sessions that expired.
@@ -237,41 +348,85 @@ impl Registry {
                 .empty_since
                 .is_none_or(|t| now.duration_since(t) <= expiry);
             if !keep {
-                log(&format!("session {code} expired"));
+                info!(
+                    code = %code,
+                    age_s = now.duration_since(s.created).as_secs(),
+                    why = %format!("empty for {} s", expiry.as_secs()),
+                    "session forgotten"
+                );
             }
             keep
         });
     }
 
-    /// Ask every connection to stop with `E shutdown`.
-    pub fn shutdown_all(&mut self) {
-        for c in self.conns.values() {
-            c.out.kill(Some(encode(b'E', b"shutdown")));
+    /// Debug lines with every connected peer's frame and byte counts.
+    pub fn log_traffic(&self) {
+        for c in self.conns.values().filter(|c| c.session.is_some()) {
+            c.log_traffic("peer traffic");
         }
     }
 
-    /// A connection ended: drop its player and forget it.
-    pub fn disconnect(&mut self, id: u64) {
-        self.leave(id, true);
+    /// Ask every connection to stop with `E shutdown`.
+    pub fn shutdown_all(&mut self) {
+        let f = Fail::new("shutdown", "the relay is stopping");
+        for c in self.conns.values() {
+            if !c.out.ctl.killed.load(Ordering::Relaxed) {
+                log_e(c, f.reason, &f.detail);
+            }
+            c.out.kill(Some(f.frame()), "server shutdown");
+        }
+    }
+
+    /// Log an error that the connection task is about to send.
+    pub fn report(&self, id: u64, e: &Fail) {
+        if let Some(c) = self.conns.get(&id) {
+            log_e(c, e.reason, &e.detail);
+        }
+    }
+
+    /// A connection ended: drop its player and forget it. `cause` says
+    /// why, for the log. Returns the session it was in, if any.
+    pub fn disconnect(&mut self, id: u64, cause: &str) -> Option<(String, u8)> {
+        let session = self.conns.get(&id).and_then(|c| c.session.clone());
+        if let Some(c) = self.conns.get(&id) {
+            c.log_traffic("peer traffic at disconnect");
+        }
+        self.leave(id, true, cause);
         self.conns.remove(&id);
+        session
     }
 
     /// Handle one frame from connection `id`.
     pub fn on_frame(&mut self, id: u64, f: Frame) -> Outcome {
-        let in_session = match self.conns.get(&id) {
-            Some(c) => c.session.is_some(),
+        let o = self.handle(id, f);
+        if let Outcome::Error(e) = &o {
+            self.report(id, e);
+        }
+        o
+    }
+
+    fn handle(&mut self, id: u64, f: Frame) -> Outcome {
+        let in_session = match self.conns.get_mut(&id) {
+            Some(c) => {
+                c.traffic.frames_in += 1;
+                c.traffic.bytes_in += f.payload.len() as u64;
+                c.session.is_some()
+            }
             None => return Outcome::Bye,
         };
         match f.kind {
             b'K' => Outcome::Ok,
             b'H' | b'J' => {
-                if in_session {
-                    return Outcome::Error("bad-state");
-                }
                 let join = f.kind == b'J';
+                if in_session {
+                    return Outcome::Error(Fail::new(
+                        "bad-state",
+                        format!("{} after joining", if join { 'J' } else { 'H' }),
+                    ));
+                }
                 let h = match codec::parse_hello(&f.payload, join) {
                     Ok(h) => h,
-                    Err(r) => return Outcome::Error(r.reason()),
+                    Err(r) => return Outcome::Error(r.into()),
                 };
                 let r = if join {
                     self.join(id, h)
@@ -284,22 +439,25 @@ impl Registry {
                 }
             }
             b'B' => {
-                self.leave(id, false);
+                self.leave(id, false, "B");
                 Outcome::Bye
             }
             b'Q' => {
                 if !in_session {
-                    return Outcome::Error("bad-state");
+                    return Outcome::Error(Fail::new("bad-state", "Q before joining"));
                 }
                 self.remove(id, &f.payload)
             }
             b'D' => {
                 if !in_session {
-                    return Outcome::Error("bad-state");
+                    return Outcome::Error(Fail::new("bad-state", "D before joining"));
                 }
                 self.data(id, &f.payload)
             }
-            _ => Outcome::Error("bad-frame"),
+            k => Outcome::Error(Fail::new(
+                "bad-frame",
+                format!("unknown frame type \"{}\"", codec::show(&[k], 1)),
+            )),
         }
     }
 
@@ -320,15 +478,31 @@ impl Registry {
         }
     }
 
-    fn host(&mut self, id: u64, h: codec::Hello) -> Result<(), &'static str> {
+    fn host(&mut self, id: u64, h: codec::Hello) -> Result<(), Fail> {
         let ip = self.conns[&id].ip;
         let hosted = self
             .sessions
             .values()
             .filter(|s| s.host_ip == Some(ip))
             .count();
-        if hosted >= self.cfg.sessions_per_ip || self.sessions.len() >= self.cfg.max_sessions {
-            return Err("busy");
+        if hosted >= self.cfg.sessions_per_ip {
+            return Err(Fail::new(
+                "busy",
+                format!(
+                    "this address has {hosted} open sessions (limit {})",
+                    self.cfg.sessions_per_ip
+                ),
+            ));
+        }
+        if self.sessions.len() >= self.cfg.max_sessions {
+            return Err(Fail::new(
+                "busy",
+                format!(
+                    "the relay holds {} sessions (limit {})",
+                    self.sessions.len(),
+                    self.cfg.max_sessions
+                ),
+            ));
         }
         let code = self.new_code();
         let mut slots = BTreeMap::new();
@@ -346,23 +520,40 @@ impl Registry {
                 slots,
                 host_ip: Some(ip),
                 empty_since: None,
+                created: Instant::now(),
             },
         );
         self.conns.get_mut(&id).unwrap().session = Some((code.clone(), 1));
         let cap = self.cfg.queue_cap;
         tell(&self.conns, cap, id, &encode(b'C', code.as_bytes()));
         tell(&self.conns, cap, id, &peer_name(b'W', 1, &h.name));
-        log(&format!("session {code} created from {ip}"));
+        let c = &self.conns[&id];
+        info!(
+            conn = id,
+            code = %code,
+            peer = 1,
+            host_addr = %ip,
+            host_name = ?h.name,
+            listener_port = c.listener_port,
+            mode = if c.tls { "tls" } else { "plain" },
+            "session created"
+        );
         Ok(())
     }
 
-    fn join(&mut self, id: u64, h: codec::Hello) -> Result<(), &'static str> {
+    fn join(&mut self, id: u64, h: codec::Hello) -> Result<(), Fail> {
         let cap = self.cfg.queue_cap;
         let max_players = self.cfg.max_players;
         let Registry {
             conns, sessions, ..
         } = self;
-        let sess = sessions.get_mut(&h.code).ok_or("unknown-code")?;
+        let ip = conns[&id].ip;
+        let sess = sessions.get_mut(&h.code).ok_or_else(|| {
+            Fail::new(
+                "unknown-code",
+                format!("no session has code {}", codec::show(h.code.as_bytes(), 16)),
+            )
+        })?;
         let known = sess
             .slots
             .iter()
@@ -374,7 +565,15 @@ impl Registry {
                 let free = (1..=16u8).find(|p| !sess.slots.contains_key(p));
                 match free {
                     Some(p) if sess.slots.len() < max_players => p,
-                    _ => return Err("full"),
+                    _ => {
+                        return Err(Fail::new(
+                            "full",
+                            format!(
+                                "the session has {} of {max_players} players",
+                                sess.slots.len()
+                            ),
+                        ))
+                    }
                 }
             }
         };
@@ -385,7 +584,7 @@ impl Registry {
             if let Some(old) = sess.slots.get_mut(&peer).and_then(|s| s.conn.take()) {
                 if let Some(c) = conns.get_mut(&old) {
                     c.session = None;
-                    c.out.kill(None);
+                    c.out.kill(None, "replaced by a rejoin");
                     old_was_open = true;
                 }
             }
@@ -416,23 +615,40 @@ impl Registry {
                 tell(conns, cap, c, &peer_name(b'P', peer, &name));
             }
         }
-        log(&format!("peer {peer} joined {}", h.code));
+        info!(
+            conn = id,
+            code = %h.code,
+            peer,
+            name = ?name,
+            addr = %ip,
+            kind = if known.is_some() { "rejoin" } else { "new" },
+            "join"
+        );
         Ok(())
     }
 
     /// The player on `id` leaves (`keep` false) or drops (`keep` true,
     /// the slot and its number stay while the session is in memory).
-    fn leave(&mut self, id: u64, keep: bool) {
+    fn leave(&mut self, id: u64, keep: bool, cause: &str) {
         let cap = self.cfg.queue_cap;
         let Registry {
             conns, sessions, ..
         } = self;
-        let Some((code, peer)) = conns.get_mut(&id).and_then(|c| c.session.take()) else {
+        let Some(c) = conns.get_mut(&id) else {
+            return;
+        };
+        let ip = c.ip;
+        let Some((code, peer)) = c.session.take() else {
             return;
         };
         let Some(sess) = sessions.get_mut(&code) else {
             return;
         };
+        let name = sess
+            .slots
+            .get(&peer)
+            .map(|s| s.name.clone())
+            .unwrap_or_default();
         if keep {
             if let Some(s) = sess.slots.get_mut(&peer) {
                 s.conn = None;
@@ -447,7 +663,11 @@ impl Registry {
         if others.is_empty() {
             sess.empty_since = Some(Instant::now());
         }
-        log(&format!("peer {peer} left {code}"));
+        if keep {
+            info!(conn = id, code = %code, peer, name = ?name, addr = %ip, how = "drop", cause, "leave");
+        } else {
+            info!(conn = id, code = %code, peer, name = ?name, addr = %ip, how = "B", "leave");
+        }
     }
 
     /// `Q <peer>`: the host removes a player. Ignored from anyone else.
@@ -456,41 +676,62 @@ impl Registry {
         let Registry {
             conns, sessions, ..
         } = self;
-        let Some((code, from)) = conns.get(&id).and_then(|c| c.session.clone()) else {
+        let Some(c) = conns.get(&id) else {
             return Outcome::Ok;
         };
-        if from != 1 {
+        let ip = c.ip;
+        let Some((code, from)) = c.session.clone() else {
             return Outcome::Ok;
+        };
+        let ignored = |why: &str| {
+            info!(conn = id, code = %code, peer = from, addr = %ip, why, "Q ignored");
+            Outcome::Ok
+        };
+        if from != 1 {
+            return ignored("the sender is not the host");
         }
         let target = match codec::parse_peer(payload) {
             Ok(t) => t,
-            Err(e) => return Outcome::Error(e.reason()),
+            Err(e) => return Outcome::Error(e.into()),
         };
-        if target == 1 || !(1..=16).contains(&target) {
-            return Outcome::Ok;
+        if target == 1 {
+            return ignored("the host cannot remove itself");
+        }
+        if !(1..=16).contains(&target) {
+            return ignored("peer number is out of range");
         }
         let target = target as u8;
         let Some(sess) = sessions.get_mut(&code) else {
             return Outcome::Ok;
         };
         let Some(slot) = sess.slots.remove(&target) else {
-            return Outcome::Ok;
+            return ignored("no such peer in the session");
         };
         if let Some(c) = slot.conn.and_then(|c| conns.get_mut(&c)) {
+            let f = Fail::new("removed", "by the host");
+            log_e(c, f.reason, &f.detail);
             c.session = None;
-            c.out.kill(Some(encode(b'E', b"removed")));
+            c.out.kill(Some(f.frame()), "removed by the host");
             for (_, o) in sess.connected() {
                 tell(conns, cap, o, &encode(b'X', target.to_string().as_bytes()));
             }
         }
-        log(&format!("peer {target} removed from {code}"));
+        info!(
+            conn = id,
+            code = %code,
+            peer = from,
+            addr = %ip,
+            removed_peer = target,
+            removed_name = ?slot.name,
+            "Q removed a player"
+        );
         Outcome::Ok
     }
 
     fn data(&mut self, id: u64, payload: &[u8]) -> Outcome {
         let d = match codec::parse_data(payload) {
             Ok(d) => d,
-            Err(e) => return Outcome::Error(e.reason()),
+            Err(e) => return Outcome::Error(e.into()),
         };
         let cap = self.cfg.queue_cap;
         let Registry {
@@ -500,9 +741,33 @@ impl Registry {
             ..
         } = self;
         let conn = conns.get_mut(&id).unwrap();
-        match conn.rate.offer(payload.len(), cfg, Instant::now()) {
-            Verdict::Close => return Outcome::Error("rate"),
-            Verdict::Drop => return Outcome::Ok,
+        let now = Instant::now();
+        match conn.rate.offer(payload.len(), cfg, now) {
+            Verdict::Close(detail) => return Outcome::Error(Fail::new("rate", detail)),
+            Verdict::Drop(why) => {
+                let t = &mut conn.traffic;
+                t.dropped += 1;
+                t.dropped_bytes += payload.len() as u64;
+                t.pending += 1;
+                // One line a second at most, with the count since the last.
+                if t.last_drop_log
+                    .is_none_or(|l| now.duration_since(l) >= Duration::from_secs(1))
+                {
+                    let (code, peer) = conn.who();
+                    debug!(
+                        conn = id,
+                        code = opt(code),
+                        peer,
+                        addr = %conn.ip,
+                        dropped = conn.traffic.pending,
+                        why,
+                        "D frames dropped"
+                    );
+                    conn.traffic.pending = 0;
+                    conn.traffic.last_drop_log = Some(now);
+                }
+                return Outcome::Ok;
+            }
             Verdict::Pass => {}
         }
         let Some((code, from)) = conn.session.clone() else {

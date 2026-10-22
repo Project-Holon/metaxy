@@ -21,21 +21,73 @@ pub struct Frame {
     pub payload: Vec<u8>,
 }
 
-/// Why a frame was refused.
-#[derive(Debug, Clone, Copy, PartialEq, Eq)]
-pub enum CodecError {
-    /// Header too long, unknown type, or bad length.
-    BadFrame,
-    /// Length over the limit.
-    TooBig,
+/// An `E` frame to send: the reason word, then plain text for people.
+///
+/// The reason word is what clients match on and never changes. The text
+/// never holds message contents, keys or tokens.
+#[derive(Debug, Clone, PartialEq, Eq)]
+pub struct Fail {
+    pub reason: &'static str,
+    pub detail: String,
 }
 
-impl CodecError {
-    /// The `E` reason for this error.
-    pub fn reason(self) -> &'static str {
-        match self {
-            CodecError::BadFrame => "bad-frame",
-            CodecError::TooBig => "too-big",
+impl Fail {
+    pub fn new(reason: &'static str, detail: impl Into<String>) -> Fail {
+        Fail {
+            reason,
+            detail: detail.into(),
+        }
+    }
+
+    /// The payload of the `E` frame: `<reason> <detail>`.
+    pub fn text(&self) -> String {
+        if self.detail.is_empty() {
+            self.reason.to_string()
+        } else {
+            format!("{} {}", self.reason, self.detail)
+        }
+    }
+
+    /// The whole `E` frame.
+    pub fn frame(&self) -> Vec<u8> {
+        encode(b'E', self.text().as_bytes())
+    }
+}
+
+/// Show client bytes in a log line or an error text: printable ASCII as
+/// is, anything else escaped, cut to `max` input bytes.
+pub fn show(bytes: &[u8], max: usize) -> String {
+    let cut = &bytes[..bytes.len().min(max)];
+    let mut s = cut.escape_ascii().to_string();
+    if bytes.len() > max {
+        s.push_str("...");
+    }
+    s
+}
+
+/// Why a frame was refused. The text says what was wrong.
+#[derive(Debug, Clone)]
+pub enum CodecError {
+    /// Header too long, unknown type, or bad length.
+    BadFrame(String),
+    /// Length over the limit.
+    TooBig(String),
+}
+
+/// Two errors are equal when they are the same kind (the text is for
+/// people).
+impl PartialEq for CodecError {
+    fn eq(&self, other: &Self) -> bool {
+        std::mem::discriminant(self) == std::mem::discriminant(other)
+    }
+}
+impl Eq for CodecError {}
+
+impl From<CodecError> for Fail {
+    fn from(e: CodecError) -> Fail {
+        match e {
+            CodecError::BadFrame(d) => Fail::new("bad-frame", d),
+            CodecError::TooBig(d) => Fail::new("too-big", d),
         }
     }
 }
@@ -61,10 +113,16 @@ pub fn parse(buf: &[u8], max_payload: usize) -> Result<Option<(Frame, usize)>, C
         return Ok(None);
     }
     if !CLIENT_TYPES.contains(&buf[0]) {
-        return Err(CodecError::BadFrame);
+        return Err(CodecError::BadFrame(format!(
+            "unknown frame type \"{}\"",
+            show(&buf[..1], 1)
+        )));
     }
     if buf.len() >= 2 && buf[1] != b' ' {
-        return Err(CodecError::BadFrame);
+        return Err(CodecError::BadFrame(format!(
+            "no space after the frame type \"{}\"",
+            buf[0] as char
+        )));
     }
     let mut nl = None;
     for (i, &b) in buf.iter().enumerate().skip(2) {
@@ -72,23 +130,39 @@ pub fn parse(buf: &[u8], max_payload: usize) -> Result<Option<(Frame, usize)>, C
             nl = Some(i);
             break;
         }
-        if !b.is_ascii_digit() || i >= MAX_HEADER {
-            return Err(CodecError::BadFrame);
+        if !b.is_ascii_digit() {
+            return Err(CodecError::BadFrame(format!(
+                "length \"{}\" is not a number",
+                show(&buf[2..=i], MAX_HEADER)
+            )));
+        }
+        if i >= MAX_HEADER {
+            return Err(CodecError::BadFrame(format!(
+                "header is longer than {MAX_HEADER} bytes"
+            )));
         }
     }
     let Some(nl) = nl else {
         return Ok(None);
     };
     let digits = &buf[2..nl];
-    if digits.is_empty() || (digits.len() > 1 && digits[0] == b'0') {
-        return Err(CodecError::BadFrame);
+    if digits.is_empty() {
+        return Err(CodecError::BadFrame("length is empty".into()));
+    }
+    if digits.len() > 1 && digits[0] == b'0' {
+        return Err(CodecError::BadFrame(format!(
+            "length \"{}\" has a leading zero",
+            show(digits, MAX_HEADER)
+        )));
     }
     let mut len: u64 = 0;
     for &d in digits {
         len = len * 10 + u64::from(d - b'0');
     }
     if len > max_payload as u64 {
-        return Err(CodecError::TooBig);
+        return Err(CodecError::TooBig(format!(
+            "frame of {len} bytes (limit {max_payload})"
+        )));
     }
     let len = len as usize;
     let end = nl + 1 + len;
@@ -105,17 +179,25 @@ pub fn parse(buf: &[u8], max_payload: usize) -> Result<Option<(Frame, usize)>, C
 }
 
 /// Why an `H` or `J` payload was refused.
-#[derive(Debug, Clone, Copy, PartialEq, Eq)]
+#[derive(Debug, Clone)]
 pub enum Reject {
-    Version,
-    BadFrame,
+    Version(String),
+    BadFrame(String),
 }
 
-impl Reject {
-    pub fn reason(self) -> &'static str {
-        match self {
-            Reject::Version => "version",
-            Reject::BadFrame => "bad-frame",
+/// Equal when the same kind (the text is for people).
+impl PartialEq for Reject {
+    fn eq(&self, other: &Self) -> bool {
+        std::mem::discriminant(self) == std::mem::discriminant(other)
+    }
+}
+impl Eq for Reject {}
+
+impl From<Reject> for Fail {
+    fn from(r: Reject) -> Fail {
+        match r {
+            Reject::Version(d) => Fail::new("version", d),
+            Reject::BadFrame(d) => Fail::new("bad-frame", d),
         }
     }
 }
@@ -147,28 +229,44 @@ fn valid_token(t: &[u8]) -> bool {
 
 /// Parse the payload of `H` (`join` false) or `J` (`join` true).
 pub fn parse_hello(payload: &[u8], join: bool) -> Result<Hello, Reject> {
+    let k = if join { 'J' } else { 'H' };
+    let bad = |d: String| Reject::BadFrame(d);
     let fields = if join { 4 } else { 3 };
     let mut parts = payload.splitn(fields, |&b| b == b' ');
     let version = parts.next().unwrap_or(&[]);
     if version != PROTO.as_bytes() {
-        return Err(Reject::Version);
+        return Err(Reject::Version(format!(
+            "got \"{}\", this relay speaks {PROTO}",
+            show(version, 32)
+        )));
     }
-    let token = parts.next().ok_or(Reject::BadFrame)?;
+    let token = parts
+        .next()
+        .ok_or_else(|| bad(format!("{k} has no token")))?;
     if !valid_token(token) {
-        return Err(Reject::BadFrame);
+        return Err(bad(format!(
+            "{k} token must be 16 to 64 characters of 0-9 and a-f (got {} bytes)",
+            token.len()
+        )));
     }
     let code = if join {
-        let c = parts.next().ok_or(Reject::BadFrame)?;
+        let c = parts.next().ok_or_else(|| bad("J has no code".into()))?;
         std::str::from_utf8(c)
-            .map_err(|_| Reject::BadFrame)?
+            .map_err(|_| bad("J code is not valid UTF-8".into()))?
             .to_ascii_uppercase()
     } else {
         String::new()
     };
-    let name = parts.next().ok_or(Reject::BadFrame)?;
-    let name = std::str::from_utf8(name).map_err(|_| Reject::BadFrame)?;
-    if name.is_empty() || name.chars().any(char::is_control) {
-        return Err(Reject::BadFrame);
+    let name = parts
+        .next()
+        .ok_or_else(|| bad(format!("{k} has no name")))?;
+    let name =
+        std::str::from_utf8(name).map_err(|_| bad(format!("{k} name is not valid UTF-8")))?;
+    if name.is_empty() {
+        return Err(bad(format!("{k} name is empty")));
+    }
+    if name.chars().any(char::is_control) {
+        return Err(bad(format!("{k} name has a control character")));
     }
     Ok(Hello {
         token: String::from_utf8_lossy(token).into_owned(),
@@ -180,7 +278,10 @@ pub fn parse_hello(payload: &[u8], join: bool) -> Result<Hello, Reject> {
 /// Parse the payload of `Q`: a decimal peer number.
 pub fn parse_peer(payload: &[u8]) -> Result<u32, CodecError> {
     if payload.is_empty() || payload.len() > 4 || !payload.iter().all(u8::is_ascii_digit) {
-        return Err(CodecError::BadFrame);
+        return Err(CodecError::BadFrame(format!(
+            "Q peer \"{}\" is not a number of up to 4 digits",
+            show(payload, 16)
+        )));
     }
     Ok(payload
         .iter()
@@ -196,15 +297,17 @@ pub struct Data {
     pub rest: Vec<u8>,
 }
 
-/// Parse the payload of a client `D`.
+/// Parse the payload of a client `D`. The texts never repeat the key or
+/// the message.
 pub fn parse_data(payload: &[u8]) -> Result<Data, CodecError> {
+    let bad = |d: &str| CodecError::BadFrame(d.to_string());
     let nl = payload
         .iter()
         .position(|&b| b == b'\n')
-        .ok_or(CodecError::BadFrame)?;
+        .ok_or_else(|| bad("D has no newline after the peer"))?;
     let peer_bytes = &payload[..nl];
     if peer_bytes.is_empty() || peer_bytes.len() > 4 || !peer_bytes.iter().all(u8::is_ascii_digit) {
-        return Err(CodecError::BadFrame);
+        return Err(bad("D peer is not a number of up to 4 digits"));
     }
     let peer = peer_bytes
         .iter()
@@ -213,12 +316,20 @@ pub fn parse_data(payload: &[u8]) -> Result<Data, CodecError> {
     let knl = rest
         .iter()
         .position(|&b| b == b'\n')
-        .ok_or(CodecError::BadFrame)?;
-    if knl == 0 || knl > MAX_KEY {
-        return Err(CodecError::BadFrame);
+        .ok_or_else(|| bad("D has no newline after the key"))?;
+    if knl == 0 {
+        return Err(bad("D key is empty"));
     }
-    if rest.len() - knl - 1 > MAX_DATA {
-        return Err(CodecError::TooBig);
+    if knl > MAX_KEY {
+        return Err(CodecError::BadFrame(format!(
+            "D key of {knl} bytes (limit {MAX_KEY})"
+        )));
+    }
+    let msg = rest.len() - knl - 1;
+    if msg > MAX_DATA {
+        return Err(CodecError::TooBig(format!(
+            "D message of {msg} bytes (limit {MAX_DATA})"
+        )));
     }
     Ok(Data {
         peer,
@@ -255,17 +366,32 @@ mod tests {
 
     #[test]
     fn unknown_type() {
-        assert_eq!(parse(b"Z 0\n", MAX), Err(CodecError::BadFrame));
-        assert_eq!(parse(b"h 0\n", MAX), Err(CodecError::BadFrame));
+        assert_eq!(
+            parse(b"Z 0\n", MAX),
+            Err(CodecError::BadFrame(String::new()))
+        );
+        assert_eq!(
+            parse(b"h 0\n", MAX),
+            Err(CodecError::BadFrame(String::new()))
+        );
         // relay-only types are unknown to the relay
-        assert_eq!(parse(b"E 1\nx", MAX), Err(CodecError::BadFrame));
-        assert_eq!(parse(b"\n", MAX), Err(CodecError::BadFrame));
+        assert_eq!(
+            parse(b"E 1\nx", MAX),
+            Err(CodecError::BadFrame(String::new()))
+        );
+        assert_eq!(parse(b"\n", MAX), Err(CodecError::BadFrame(String::new())));
     }
 
     #[test]
     fn bad_separator() {
-        assert_eq!(parse(b"D\t1\nx", MAX), Err(CodecError::BadFrame));
-        assert_eq!(parse(b"D1\nx", MAX), Err(CodecError::BadFrame));
+        assert_eq!(
+            parse(b"D\t1\nx", MAX),
+            Err(CodecError::BadFrame(String::new()))
+        );
+        assert_eq!(
+            parse(b"D1\nx", MAX),
+            Err(CodecError::BadFrame(String::new()))
+        );
     }
 
     #[test]
@@ -280,7 +406,11 @@ mod tests {
             b"D 1 \nx",
             b"D 0x1\nx",
         ] {
-            assert_eq!(parse(h, MAX), Err(CodecError::BadFrame), "{h:?}");
+            assert_eq!(
+                parse(h, MAX),
+                Err(CodecError::BadFrame(String::new())),
+                "{h:?}"
+            );
         }
     }
 
@@ -289,14 +419,23 @@ mod tests {
         // 16 bytes before the newline is fine, 17 is not
         let ok = format!("D 1{}\n", "0".repeat(13));
         assert_eq!(ok.len() - 1, 16);
-        assert_eq!(parse(ok.as_bytes(), MAX), Err(CodecError::TooBig));
+        assert_eq!(
+            parse(ok.as_bytes(), MAX),
+            Err(CodecError::TooBig(String::new()))
+        );
         let long = format!("D 1{}", "0".repeat(15));
-        assert_eq!(parse(long.as_bytes(), MAX), Err(CodecError::BadFrame));
+        assert_eq!(
+            parse(long.as_bytes(), MAX),
+            Err(CodecError::BadFrame(String::new()))
+        );
     }
 
     #[test]
     fn too_big_is_seen_before_the_payload() {
-        assert_eq!(parse(b"D 4225\n", MAX), Err(CodecError::TooBig));
+        assert_eq!(
+            parse(b"D 4225\n", MAX),
+            Err(CodecError::TooBig(String::new()))
+        );
         assert!(parse(b"D 4224\n", MAX).unwrap().is_none());
     }
 
@@ -317,18 +456,27 @@ mod tests {
     #[test]
     fn hello_version() {
         let p = format!("eidos-net/2 {} Ann", tok());
-        assert_eq!(parse_hello(p.as_bytes(), false), Err(Reject::Version));
-        assert_eq!(parse_hello(b"", false), Err(Reject::Version));
+        assert_eq!(
+            parse_hello(p.as_bytes(), false),
+            Err(Reject::Version(String::new()))
+        );
+        assert_eq!(parse_hello(b"", false), Err(Reject::Version(String::new())));
     }
 
     #[test]
     fn hello_token() {
         for t in ["", "abc", "ABCDEF0123456789ABCD", &"g".repeat(32)] {
             let p = format!("eidos-net/1 {t} Ann");
-            assert_eq!(parse_hello(p.as_bytes(), false), Err(Reject::BadFrame));
+            assert_eq!(
+                parse_hello(p.as_bytes(), false),
+                Err(Reject::BadFrame(String::new()))
+            );
         }
         let p = format!("eidos-net/1 {} Ann", "a".repeat(65));
-        assert_eq!(parse_hello(p.as_bytes(), false), Err(Reject::BadFrame));
+        assert_eq!(
+            parse_hello(p.as_bytes(), false),
+            Err(Reject::BadFrame(String::new()))
+        );
         let p = format!("eidos-net/1 {} Ann", "a".repeat(16));
         assert!(parse_hello(p.as_bytes(), false).is_ok());
         let p = format!("eidos-net/1 {} Ann", "a".repeat(64));
@@ -344,14 +492,23 @@ mod tests {
             format!("eidos-net/1 {t} A\nB"),
             format!("eidos-net/1 {t} A\u{7f}"),
         ] {
-            assert_eq!(parse_hello(bad.as_bytes(), false), Err(Reject::BadFrame));
+            assert_eq!(
+                parse_hello(bad.as_bytes(), false),
+                Err(Reject::BadFrame(String::new()))
+            );
         }
         let mut bytes = format!("eidos-net/1 {t} ").into_bytes();
         bytes.extend_from_slice(&[0xff, 0xfe]);
-        assert_eq!(parse_hello(&bytes, false), Err(Reject::BadFrame));
+        assert_eq!(
+            parse_hello(&bytes, false),
+            Err(Reject::BadFrame(String::new()))
+        );
         // join without a name
         let p = format!("eidos-net/1 {t} ABCDEF");
-        assert_eq!(parse_hello(p.as_bytes(), true), Err(Reject::BadFrame));
+        assert_eq!(
+            parse_hello(p.as_bytes(), true),
+            Err(Reject::BadFrame(String::new()))
+        );
     }
 
     #[test]
@@ -389,12 +546,16 @@ mod tests {
             b"1\n",
             b"12345\nk\nx",
         ] {
-            assert_eq!(parse_data(p), Err(CodecError::BadFrame), "{p:?}");
+            assert_eq!(
+                parse_data(p),
+                Err(CodecError::BadFrame(String::new())),
+                "{p:?}"
+            );
         }
         let mut long = b"1\n".to_vec();
         long.extend(std::iter::repeat_n(b'k', 97));
         long.extend_from_slice(b"\nx");
-        assert_eq!(parse_data(&long), Err(CodecError::BadFrame));
+        assert_eq!(parse_data(&long), Err(CodecError::BadFrame(String::new())));
     }
 
     #[test]
@@ -403,7 +564,7 @@ mod tests {
         p.extend(std::iter::repeat_n(0u8, 4096));
         assert!(parse_data(&p).is_ok());
         p.push(0);
-        assert_eq!(parse_data(&p), Err(CodecError::TooBig));
+        assert_eq!(parse_data(&p), Err(CodecError::TooBig(String::new())));
         let mut p = b"1\n".to_vec();
         p.extend(std::iter::repeat_n(b'k', 96));
         p.extend_from_slice(b"\n");
@@ -423,7 +584,11 @@ mod tests {
             b"1
 ",
         ] {
-            assert_eq!(parse_peer(p), Err(CodecError::BadFrame), "{p:?}");
+            assert_eq!(
+                parse_peer(p),
+                Err(CodecError::BadFrame(String::new())),
+                "{p:?}"
+            );
         }
     }
 
@@ -445,7 +610,7 @@ mod tests {
                     .as_bytes(),
                     MAX
                 ),
-                Err(CodecError::BadFrame)
+                Err(CodecError::BadFrame(String::new()))
             );
         }
     }

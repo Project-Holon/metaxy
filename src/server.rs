@@ -1,9 +1,9 @@
 //! Listeners, connection tasks and the janitor.
 
-use crate::codec::{self, encode};
+use crate::codec::{self, Fail};
 use crate::config::Config;
 use crate::outbox::{Ctl, Outbox};
-use crate::registry::{log, Outcome, Registry};
+use crate::registry::{Outcome, Registry};
 
 use std::net::{IpAddr, SocketAddr};
 use std::sync::atomic::Ordering;
@@ -14,6 +14,12 @@ use tokio::net::TcpListener;
 use tokio::sync::{mpsc, watch};
 use tokio::task::JoinHandle;
 use tokio::time::{sleep_until, timeout, Instant};
+use tracing::{info, warn};
+
+/// Seconds since `t`, to the millisecond, for a log line.
+fn secs(t: Instant) -> f64 {
+    (t.elapsed().as_secs_f64() * 1000.0).round() / 1000.0
+}
 
 struct Shared {
     cfg: Arc<Config>,
@@ -127,12 +133,20 @@ impl Server {
 
 async fn janitor(shared: Arc<Shared>, mut stop: watch::Receiver<bool>) {
     let tick = Duration::from_millis((shared.cfg.session_expiry_ms / 10).clamp(10, 1000));
+    let mut last_traffic = std::time::Instant::now();
     loop {
         tokio::select! {
             _ = stop.changed() => return,
             _ = tokio::time::sleep(tick) => {}
         }
-        shared.reg.lock().unwrap().sweep();
+        let mut reg = shared.reg.lock().unwrap();
+        reg.sweep();
+        if last_traffic.elapsed() >= Duration::from_secs(60) {
+            last_traffic = std::time::Instant::now();
+            if tracing::enabled!(tracing::Level::DEBUG) {
+                reg.log_traffic();
+            }
+        }
     }
 }
 
@@ -142,13 +156,16 @@ async fn accept_loop(
     shared: Arc<Shared>,
     mut stop: watch::Receiver<bool>,
 ) {
+    let port = l.local_addr().map(|a| a.port()).unwrap_or(0);
+    let is_tls = tls.is_some();
+    let mode = if is_tls { "tls" } else { "plain" };
     loop {
         let (sock, peer) = tokio::select! {
             _ = stop.changed() => return,
             r = l.accept() => match r {
                 Ok(x) => x,
                 Err(e) => {
-                    log(&format!("accept failed: {e}"));
+                    warn!(port, mode, error = %e, "accept failed");
                     tokio::time::sleep(Duration::from_millis(50)).await;
                     continue;
                 }
@@ -156,31 +173,51 @@ async fn accept_loop(
         };
         let ip = peer.ip().to_canonical();
         let (out, rx) = Outbox::new();
-        let id = shared.reg.lock().unwrap().admit(ip, out.clone());
-        let Some(id) = id else {
-            log(&format!("connection from {ip} refused: rate"));
-            continue;
+        let id = shared
+            .reg
+            .lock()
+            .unwrap()
+            .admit(ip, out.clone(), port, is_tls);
+        let id = match id {
+            Ok(id) => id,
+            Err(r) => {
+                info!(
+                    addr = %ip,
+                    mode,
+                    reason = "connection rate",
+                    count = r.count,
+                    window_s = r.window_ms / 1000,
+                    "connection refused"
+                );
+                continue;
+            }
         };
         let shared = shared.clone();
         let tls = tls.clone();
         tokio::spawn(async move {
             let _ = sock.set_nodelay(true);
-            log(&format!("connection {id} opened from {ip}"));
+            info!(conn = id, addr = %ip, mode, "connection opened");
             match tls {
                 None => run_conn(sock, id, ip, out, rx, shared).await,
-                Some(acc) => match timeout(
-                    Duration::from_millis(shared.cfg.handshake_ms),
-                    acc.accept(sock),
-                )
-                .await
-                {
-                    Ok(Ok(s)) => run_conn(s, id, ip, out, rx, shared).await,
-                    _ => {
-                        out.kill(None);
-                        shared.reg.lock().unwrap().disconnect(id);
-                        log(&format!("connection {id} closed from {ip}: tls"));
-                    }
-                },
+                Some(acc) => {
+                    let opened = Instant::now();
+                    let limit = shared.cfg.handshake_ms;
+                    let cause = match timeout(Duration::from_millis(limit), acc.accept(sock)).await
+                    {
+                        Ok(Ok(s)) => return run_conn(s, id, ip, out, rx, shared).await,
+                        Ok(Err(e)) => format!("tls handshake failed ({e})"),
+                        Err(_) => format!("handshake timeout ({} s, tls)", limit / 1000),
+                    };
+                    out.kill(None, &cause);
+                    shared.reg.lock().unwrap().disconnect(id, &cause);
+                    info!(
+                        conn = id,
+                        addr = %ip,
+                        duration_s = secs(opened),
+                        cause = cause.as_str(),
+                        "connection closed"
+                    );
+                }
             }
         });
     }
@@ -254,7 +291,9 @@ async fn run_conn<S>(
     let mut in_session = false;
     let mut buf: Vec<u8> = Vec::with_capacity(8192);
     let mut chunk = [0u8; 8192];
-    let why: &str = 'conn: loop {
+    // The cause for the log, and whether to read on for a moment after
+    // closing (so the peer gets our last frame).
+    let (cause, linger): (String, bool) = 'conn: loop {
         // Use every whole frame already read.
         loop {
             match codec::parse(&buf, cfg.max_payload) {
@@ -265,22 +304,15 @@ async fn run_conn<S>(
                     match outcome {
                         Outcome::Ok => {}
                         Outcome::Joined => in_session = true,
-                        Outcome::Bye => break 'conn "bye",
-                        Outcome::Error(reason) => {
-                            log(&format!("error {reason} sent to {ip}"));
-                            out.kill(Some(encode(b'E', reason.as_bytes())));
-                            let _ =
-                                timeout(Duration::from_secs(3), out.ctl.closed.notified()).await;
-                            break 'conn reason;
-                        }
+                        Outcome::Bye => break 'conn ("left (B)".into(), false),
+                        Outcome::Error(f) => break 'conn fail(&out, f).await,
                     }
                 }
                 Ok(None) => break,
                 Err(e) => {
-                    log(&format!("error {} sent to {ip}", e.reason()));
-                    out.kill(Some(encode(b'E', e.reason().as_bytes())));
-                    let _ = timeout(Duration::from_secs(3), out.ctl.closed.notified()).await;
-                    break 'conn e.reason();
+                    let f = Fail::from(e);
+                    shared.reg.lock().unwrap().report(id, &f);
+                    break 'conn fail(&out, f).await;
                 }
             }
         }
@@ -290,19 +322,38 @@ async fn run_conn<S>(
             started + Duration::from_millis(cfg.handshake_ms)
         };
         tokio::select! {
-            _ = sleep_until(deadline) => break 'conn if in_session { "idle" } else { "handshake" },
-            _ = out.ctl.closed.notified() => break 'conn "closed",
+            _ = sleep_until(deadline) => {
+                let c = if in_session {
+                    format!("idle timeout ({} s idle)", last_frame.elapsed().as_secs())
+                } else {
+                    format!("handshake timeout ({} s)", cfg.handshake_ms / 1000)
+                };
+                break 'conn (c, true);
+            }
+            _ = out.ctl.closed.notified() => {
+                let c = out.ctl.cause().unwrap_or_else(|| "write failed".into());
+                break 'conn (c, true);
+            }
             r = rd.read(&mut chunk) => match r {
-                Ok(0) => break 'conn "eof",
+                Ok(0) => break 'conn ("eof".into(), false),
                 Ok(n) => buf.extend_from_slice(&chunk[..n]),
-                Err(_) => break 'conn "error",
+                Err(e) => break 'conn (format!("reset ({})", e.kind()), false),
             }
         }
     };
-    out.kill(None);
-    shared.reg.lock().unwrap().disconnect(id);
+    out.kill(None, &cause);
+    let session = shared.reg.lock().unwrap().disconnect(id, &cause);
     let _ = wtask.await;
-    if !matches!(why, "eof" | "error" | "bye") {
+    info!(
+        conn = id,
+        code = session.as_ref().map(|s| tracing::field::display(&s.0)),
+        peer = session.as_ref().map(|s| s.1),
+        addr = %ip,
+        duration_s = secs(started),
+        cause = cause.as_str(),
+        "connection closed"
+    );
+    if linger {
         // Read what the peer still sends, for a moment: closing a socket
         // with unread input resets it, and the peer would lose our `E`.
         let _ = timeout(Duration::from_secs(1), async {
@@ -310,5 +361,11 @@ async fn run_conn<S>(
         })
         .await;
     }
-    log(&format!("connection {id} closed from {ip}: {why}"));
+}
+
+/// Send `E` and wait for the writer to finish. The cause is the reason.
+async fn fail(out: &Outbox, f: Fail) -> (String, bool) {
+    out.kill(Some(f.frame()), f.reason);
+    let _ = timeout(Duration::from_secs(3), out.ctl.closed.notified()).await;
+    (f.reason.to_string(), true)
 }

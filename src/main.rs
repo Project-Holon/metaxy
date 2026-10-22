@@ -16,6 +16,10 @@ async fn main() {
         None => Config::default(),
     };
     args.apply(&mut cfg);
+    if let Err(e) = metaxy::logging::init(&cfg.log_level, cfg.log_json) {
+        eprintln!("metaxy: {e}");
+        std::process::exit(2);
+    }
     let server = match Server::start(cfg).await {
         Ok(s) => s,
         Err(e) => {
@@ -24,13 +28,13 @@ async fn main() {
         }
     };
     if let Some(a) = server.addr {
-        eprintln!("metaxy: listening on {a} (plain)");
+        tracing::info!(addr = %a, mode = "plain", "listening");
     }
     if let Some(a) = server.tls_addr {
-        eprintln!("metaxy: listening on {a} (tls)");
+        tracing::info!(addr = %a, mode = "tls", "listening");
     }
     wait_for_stop().await;
-    eprintln!("metaxy: stopping");
+    tracing::info!("stopping");
     server.shutdown().await;
 }
 
