@@ -821,6 +821,94 @@ async fn shutdown_sends_e_shutdown() {
     j.expect_error("shutdown the relay is stopping").await;
 }
 
+/// Copy `from` to `to` the way a TCP proxy on the internet can: what was
+/// read is written again in small pieces of odd sizes, with short pauses,
+/// so frame borders fall anywhere.
+async fn reslice(
+    mut from: tokio::net::tcp::OwnedReadHalf,
+    mut to: tokio::net::tcp::OwnedWriteHalf,
+) {
+    let mut buf = vec![0u8; 65536];
+    let sizes = [7usize, 1, 97, 1400, 3, 536, 13];
+    let mut k = 0;
+    while let Ok(n) = from.read(&mut buf).await {
+        if n == 0 {
+            break;
+        }
+        let mut at = 0;
+        while at < n {
+            let end = (at + sizes[k % sizes.len()]).min(n);
+            k += 1;
+            if to.write_all(&buf[at..end]).await.is_err() {
+                return;
+            }
+            at = end;
+            if k % 16 == 0 {
+                sleep(Duration::from_millis(1)).await;
+            } else {
+                tokio::task::yield_now().await;
+            }
+        }
+    }
+    let _ = to.shutdown().await;
+}
+
+/// A proxy in front of the relay that re-slices both directions.
+async fn slicing_proxy(relay: SocketAddr) -> SocketAddr {
+    let l = tokio::net::TcpListener::bind("127.0.0.1:0").await.unwrap();
+    let a = l.local_addr().unwrap();
+    tokio::spawn(async move {
+        while let Ok((c, _)) = l.accept().await {
+            let u = TcpStream::connect(relay).await.unwrap();
+            let _ = c.set_nodelay(true);
+            let _ = u.set_nodelay(true);
+            let (cr, cw) = c.into_split();
+            let (ur, uw) = u.into_split();
+            tokio::spawn(reslice(cr, uw));
+            tokio::spawn(reslice(ur, cw));
+        }
+    });
+    a
+}
+
+#[tokio::test]
+async fn save_pieces_through_a_slicing_proxy_arrive_whole_and_in_order() {
+    // The pattern of a client sending a 512 KB save: pieces of 3840 bytes
+    // under a text header, the frame header and the payload in two writes,
+    // several back to back. The bytes hold newlines, spaces, digits and
+    // letters, so a reader that looked inside the payload would trip.
+    let (_s, relay) = start(cfg()).await;
+    let a = slicing_proxy(relay).await;
+    let (mut h, mut j, _) = pair(a).await;
+    let mut x: u32 = 12345;
+    let save: Vec<u8> = (0..5 * 3840)
+        .map(|i| {
+            x = x.wrapping_mul(1_103_515_245).wrapping_add(12345);
+            match i % 7 {
+                0 => b'\n',
+                1 => b' ',
+                2 => b'0' + (x >> 16) as u8 % 10,
+                3 => b'D',
+                _ => (x >> 16) as u8,
+            }
+        })
+        .collect();
+    let mut want = Vec::new();
+    for (n, piece) in save.chunks(3840).enumerate() {
+        let mut msg = format!("save 524288 {} 305419896\n", n * 3840).into_bytes();
+        msg.extend_from_slice(piece);
+        let payload = data(2, "eidos:port", &msg);
+        h.send_raw(format!("D {}\n", payload.len()).as_bytes())
+            .await;
+        h.send_raw(&payload).await;
+        want.push(data(1, "eidos:port", &msg));
+    }
+    for w in want {
+        assert_eq!(j.read(Duration::from_secs(10)).await, Got::Frame('D', w));
+    }
+    j.expect_none().await;
+}
+
 #[tokio::test]
 async fn partial_frames_across_writes() {
     let (_s, a) = start(cfg()).await;
