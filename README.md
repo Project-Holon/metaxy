@@ -13,5 +13,4 @@ The protocol and the multiplayer design are in [docs/SPEC.md](docs/SPEC.md).
 
 ## License
 
-MIT or Apache-2.0, whichever you prefer: [LICENSE-MIT](LICENSE-MIT),
-[LICENSE-APACHE](LICENSE-APACHE).
+MIT (`LICENSE`).
