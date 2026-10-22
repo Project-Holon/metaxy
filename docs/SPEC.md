@@ -55,6 +55,7 @@ is not a decimal number, or the length is over the limit in section 6.
 | `D` | `<peer>\n<key>\n<bytes>` | a mod's message: to one peer, or to every other peer when `peer` is 0 |
 | `B` | empty | leave the session |
 | `K` | empty | keep-alive: sent after 20 seconds without any other frame; the relay never answers it |
+| `G` | `go` | start the game (the leader only, see section 5) |
 
 ### Relay to client
 
@@ -65,6 +66,8 @@ is not a decimal number, or the length is over the limit in section 6.
 | `P` | `<peer> <name>` | a peer joined (also sent once for each player already in the session, after `W`) |
 | `X` | `<peer>` | a peer left or was dropped |
 | `D` | `<peer>\n<key>\n<bytes>` | a mod's message; `peer` is the sender |
+| `G` | `go` | the game started |
+| `L` | `lobby`, `back` or `not-leader` | the session is in the lobby (`lobby`: on join; `back`: the game stopped because the roster changed; `not-leader`: a `G` from someone other than the leader) |
 | `E` | `<reason>` | an error; the relay closes the connection after it |
 
 Every frame from the relay has a non-empty payload. Released eidos clients
@@ -109,18 +112,39 @@ payloads from clients (`B`, `K`).
   left), or to the sender itself, is dropped silently. A `D` to peer 0 goes
   to every other player, never back to the sender.
 
-## 5. Leaving, drops and rejoining
+## 5. Lobby, leaving and rejoining
 
-- `B` from a client: the relay sends `X <peer>` to the others and closes the
-  connection. The peer number is freed.
-- A connection that closes without `B`, or sends nothing (not even `K`)
-  for 60 seconds: a drop. The relay sends `X <peer>` to the others and keeps the peer
-  number reserved for that token for 10 minutes.
-- A `J` with the same code and the same token within those 10 minutes gets
-  the same peer number back. Reservations are keyed by (code, token). If the old connection is still open, the relay
-  closes it first (no `X`, the player is the same).
-- After 10 minutes the reserved number is freed.
+A session is a lobby that players come and go from. Nothing is lost when a
+player leaves: the session stays, and the player can come back.
 
+- **Peer numbers are kept for the whole session.** A token keeps its
+  number for as long as the session exists. A player who leaves with `B` or
+  drops gets the same number back when they join the same code again.
+  Numbers are keyed by (code, token). If the old connection is still open,
+  the relay closes it first (no `X`, the player is the same).
+- **A drop:** a connection that closes without `B`, or sends nothing (not
+  even `K`) for 60 seconds. It counts as leaving.
+- **States:** `lobby` (a new session starts here) and `game`.
+- **The leader:** the connected player with the lowest peer number (the
+  host, while the host is there).
+- **Starting:** the leader sends `G go` in the lobby. The relay sets the
+  state to `game` and sends `G go` to every connected player, the leader
+  included. A `G` from anyone else gets `L not-leader`, to that player only.
+  A `G` during a game is ignored.
+- **Back to the lobby:** any roster change during a game (a player leaves,
+  drops, or rejoins) sends everyone back to the lobby. The relay sends `X`
+  (leave or drop) or `P` (rejoin) as usual, then `L back` to every
+  connected player, and the state becomes `lobby`. The players start again
+  when the leader sends `G`.
+- **In the lobby,** players join and leave freely: `P` and `X` only.
+- **Joining:** a new token may join in the lobby, while fewer than 16
+  numbers are taken (kept numbers count). During a game a new token gets
+  `E in-game`; a known token may rejoin at any time.
+- **On join,** after `W` and the `P` frames, the relay sends the state:
+  `L lobby` or `G go`.
+- `D` messages pass in both states, so mods can chat in the lobby.
+- **Expiry:** the session ends 10 minutes after the last player
+  disconnects.
 
 ## 6. Limits
 
@@ -149,6 +173,7 @@ Position updates every step (about 8 per second) fit well inside them.
 | `version` | the client's protocol version is not one the relay speaks |
 | `unknown-code` | no session has that code |
 | `full` | the session has 16 players |
+| `in-game` | a new player tried to join during a game |
 | `bad-frame` | a frame the relay cannot read |
 | `bad-state` | a frame that does not fit now (for example `D` before `W`) |
 | `too-big` | a frame over the size limit |
