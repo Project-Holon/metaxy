@@ -15,8 +15,10 @@ of it, plus the rules the client relies on and the limits the relay applies.
   carry.
 - It holds no game code and no game data.
 
-It does not: run game logic, store saves, match players with strangers,
-keep accounts, or keep message contents.
+It does not: run game logic, store saves or sessions, match players with
+strangers, keep accounts, or keep message contents. It keeps nothing on
+disk except its logs: a session exists in memory only. The host's save is
+the source of truth for the session (section 5).
 
 ## 2. Transport
 
@@ -51,23 +53,22 @@ is not a decimal number, or the length is over the limit in section 6.
 | Type | Payload | Meaning |
 |---|---|---|
 | `H` | `<version> <token> <name>` | host a new session |
+| `R` | `<version> <token> <code> <name>` | reopen a session with the code the host's save keeps |
 | `J` | `<version> <token> <code> <name>` | join a session |
 | `D` | `<peer>\n<key>\n<bytes>` | a mod's message: to one peer, or to every other peer when `peer` is 0 |
 | `B` | empty | leave the session |
 | `K` | empty | keep-alive: sent after 20 seconds without any other frame; the relay never answers it |
-| `G` | `go` | start the game (the leader only, see section 5) |
+| `Q` | `<peer>` | remove a player (the host only) |
 
 ### Relay to client
 
 | Type | Payload | Meaning |
 |---|---|---|
-| `C` | `<code>` | the new session's code (to the host only, before `W`) |
-| `W` | `<peer> <name>` | you are in: your peer number and the name the relay kept |
-| `P` | `<peer> <name>` | a peer joined (also sent once for each player already in the session, after `W`) |
+| `C` | `<code>` | the session's code (to the host only, before `W`, after `H` or `R`) |
+| `W` | `<peer> <id> <name>` | you are in: your peer number, your player id and the name the relay kept |
+| `P` | `<peer> <id> <name>` | a peer joined (also sent once for each player already in the session, after `W`) |
 | `X` | `<peer>` | a peer left or was dropped |
 | `D` | `<peer>\n<key>\n<bytes>` | a mod's message; `peer` is the sender |
-| `G` | `go` | the game started |
-| `L` | `lobby`, `back`, `not-leader` or `waiting <peer>...` | the session is in the lobby (`lobby`: on join; `back`: the game stopped because a player left, dropped or rejoined; `not-leader`: a `G` from someone other than the leader; `waiting`: a `G` while roster players are missing, with their numbers) |
 | `E` | `<reason>` | an error; the relay closes the connection after it |
 
 Every frame from the relay has a non-empty payload. Released eidos clients
@@ -87,6 +88,11 @@ payloads from clients (`B`, `K`).
   it, so it may contain spaces. 1 to 64 bytes of UTF-8, no control
   characters. The relay trims it to 64 bytes on a character boundary.
 - `code`: see section 4.
+- `id`: the player's id, 16 hex digits: the first 8 bytes of
+  SHA-256(`<code>:<token>`). It is the same every time the same token joins
+  the same code, so the host's save can keep its roster by id without the
+  relay keeping anything, and players can check that peer 1 is the host
+  their save knows. The token itself is never sent to other players.
 - `peer`: a decimal number. Peers are 1 to 16; 0 means "everyone else" in a
   client's `D` and never names a player.
 - `key`: the mod's namespace, 1 to 96 bytes, no newline. The relay forwards
@@ -99,65 +105,61 @@ payloads from clients (`B`, `K`).
 - A code is 6 characters from `23456789ABCDEFGHJKMNPQRSTUVWXYZ` (31
   characters, no 0/O, 1/I/L): about 887 million codes. Codes are not case
   sensitive: the relay upper-cases a code before it looks it up.
-- The host's `H` creates the session and makes the host peer 1. The relay
-  answers `C <code>`, then `W 1 <name>`.
-- A `J` with a known code and a free slot makes the player the lowest free
-  peer number. The relay answers `W`, then a `P` for each player already
-  in, and sends `P` for the new player to everyone else.
-- The host has no special role after the session starts. The session lives
-  as long as section 5 says (it is kept on disk), so players can come back
-  to the same code.
+- `H` creates a session with a new code and makes the sender peer 1, the
+  host. The relay answers `C <code>`, then `W 1 <id> <name>`. The host's
+  save keeps the code.
+- `R` reopens a session with the code the host's save keeps. If no session
+  with that code is in memory, the relay creates it with that code and the
+  sender as peer 1. If one is, and its peer 1 has the same token, the
+  sender takes peer 1 back (a rejoin). Otherwise the relay answers
+  `E code-taken`.
+- A `J` with a code in memory and a free slot makes the player the lowest
+  free peer number. The relay answers `W`, then a `P` for each player
+  already in, and sends `P` for the
+  new player to everyone else. A `J` with a code that is not in memory gets
+  `E unknown-code` (the host has not opened it yet).
 - At most 16 players in a session (eidos draws up to 16 avatars).
 - A `D` to a peer number that is not in the session (it may have just
   left), or to the sender itself, is dropped silently. A `D` to peer 0 goes
   to every other player, never back to the sender.
 
-## 5. Lobby, leaving and rejoining
+## 5. The host's save is the truth
 
-A session belongs to one multiplayer save. Its code is the save's
-permanent id: to play again later, each player picks that save, lands in its
-lobby, and the game starts when all of its players are back. Nothing is lost
-when a player leaves: the session stays, and the player can come back.
+A session belongs to one multiplayer save, and the host's copy of it is the
+source of truth, as in a Minecraft world opened to LAN. The host's save
+keeps the session's code, its roster (player ids and names) and any data
+the mods share. The relay only forwards and keeps nothing once everyone has
+gone. To play again later, the host opens the save (`R` with its code), the
+others pick their copy of it and join, and the host starts the game when
+everyone on the roster is back.
 
-- **Peer numbers are kept for the whole session.** A token keeps its
-  number for as long as the session exists. A player who leaves with `B` or
-  drops gets the same number back when they join the same code again.
-  Numbers are keyed by (code, token). If the old connection is still open,
-  the relay closes it first (no `X`, the player is the same).
-- **A drop:** a connection that closes without `B`, or sends nothing (not
-  even `K`) for 60 seconds. It counts as leaving.
-- **States:** `lobby` (a new session starts here) and `game`.
-- **The leader:** the connected player with the lowest peer number (the
-  host, while the host is there).
-- **The roster:** the first start locks the roster to the players
-  connected at that moment. Before that, new players join freely in the
-  lobby (up to 16). After it, a new token gets `E locked`, and the numbers
-  of players who joined but were not there at the first start are released.
-- **Starting:** the leader sends `G go` in the lobby. Before the roster is
-  locked, the game starts with whoever is connected and locks them. After
-  that, it starts only when every roster player is connected; otherwise the
-  relay answers the leader `L waiting <peer> <peer> ...` (the missing
-  numbers) and stays in the lobby. On a start the relay sets the state to
-  `game` and sends `G go` to every connected player, the leader included. A `G` from anyone else gets `L not-leader`, to that player only.
-  A `G` during a game is ignored.
-- **Back to the lobby:** any roster change during a game (a player leaves,
-  drops, or rejoins) sends everyone back to the lobby. The relay sends `X`
-  (leave or drop) or `P` (rejoin) as usual, then `L back` to every
-  connected player, and the state becomes `lobby`. The players start again
-  when the leader sends `G`.
-- **In the lobby,** players join and leave freely: `P` and `X` only.
-- **Joining:** a new token may join in the lobby before the roster is
-  locked, while fewer than 16 numbers are taken (kept numbers count). A
-  known token may rejoin at any time.
-- **On join,** after `W` and the `P` frames, the relay sends the state:
-  `L lobby` or `G go`.
-- `D` messages pass in both states, so mods can chat in the lobby.
-- **Persistence:** the relay keeps sessions on disk, so they survive a
-  relay restart. It stores only the code, the created and last-used times,
-  the roster (number, token, last name) and the lock. When nobody is
-  connected the session is in the lobby.
-- **Expiry:** a session ends after 365 days without any connection (a
-  setting).
+The relay makes no decisions about the game. What it does, in memory:
+
+- **Peer numbers:** a token keeps its number while the session is in
+  memory, so a rejoin gets it back. After the session leaves memory, the
+  next time it opens numbers can differ; player ids do not. Mods and the
+  host key their data by id.
+- **Joins and leaves:** it tells everyone with `P` and `X`. A drop is a
+  connection that closes without `B`, or sends nothing (not even `K`) for
+  60 seconds.
+- **Forwarding:** `D` messages, in order, to one player or to everyone else.
+- **Removing a player:** only peer 1 (the host) may send `Q <peer>`. The
+  relay sends that player `E removed`, closes the connection, and sends
+  `X <peer>` to the others. A `Q` from anyone else is ignored.
+- **Leaving memory:** a session is forgotten 10 minutes after the last
+  player disconnects. Nothing about it is written to disk.
+
+What the host's game decides (eidos), and tells the others with `D`
+messages under the port's own key:
+
+- the lobby: who is connected, who is missing from the roster;
+- the roster: set at the first start; ids not on it are removed with `Q`;
+- starting: only when every roster id is connected;
+- back to the lobby: when any player leaves, drops or rejoins during a
+  game; every game pauses until the host starts again;
+- the mods' shared data: kept in the host's save, sent to a joining player,
+  and changed only by the host, which applies the other players' requests
+  in the order it receives them, so there is one copy and no conflicts.
 
 ## 6. Limits
 
@@ -186,7 +188,8 @@ Position updates every step (about 8 per second) fit well inside them.
 | `version` | the client's protocol version is not one the relay speaks |
 | `unknown-code` | no session has that code |
 | `full` | the session has 16 players |
-| `locked` | a new player tried to join after the roster was locked |
+| `code-taken` | `R` with a code another host has open |
+| `removed` | the host removed this player |
 | `bad-frame` | a frame the relay cannot read |
 | `bad-state` | a frame that does not fit now (for example `D` before `W`) |
 | `too-big` | a frame over the size limit |
