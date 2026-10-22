@@ -132,6 +132,20 @@ The relay makes no decisions about the game. In memory only:
   `X <peer>` to the others. A `Q` from anyone else is ignored.
 - **Leaving memory:** a session is forgotten 10 minutes after the last
   player disconnects. Nothing about it is written to disk.
+- **Details:**
+  - A drop keeps the player's number; `B` and `Q` free it. A removed player
+    who joins again gets a new number.
+  - Numbers held by dropped players count toward the 16, so a session can
+    be `full` with fewer than 16 connected.
+  - On a rejoin, the name sent replaces the stored one.
+  - A `Q` naming an unknown peer, peer 1 or a peer over 16 is ignored. A
+    malformed `Q` from the host is `E bad-frame`; a `Q` before joining is
+    `E bad-state`.
+  - The per-address session cap counts sessions in memory created from that
+    address, including ones with nobody connected.
+  - Only `D` frames count toward the rate limits.
+  - After sending `E`, the relay reads and discards input for up to 1
+    second before closing, so the client receives the `E`.
 
 ## 6. Limits
 
@@ -140,7 +154,7 @@ The relay makes no decisions about the game. In memory only:
 | Frame payload | 4096 + 128 bytes | `E too-big`, close |
 | Players in a session | 16 | `E full` on `J` |
 | Sessions a connection can be in | 1 | `E bad-state` on a second `H` or `J` |
-| Messages per client | 60 per second, bursts of 120 | excess `D` frames are dropped silently |
+| Messages per client | 60 per second, bursts of 256 (a whole save in 4 KB pieces) | excess `D` frames are dropped silently |
 | Bytes per client | 512 KB per second, bursts of 1 MB | excess `D` frames are dropped silently |
 | Sustained excess | over 4 times either rate for 5 seconds | `E rate`, close |
 | Relay to a slow client: queued bytes | 2 MB | `E too-slow`, close (a drop) |
