@@ -67,7 +67,7 @@ is not a decimal number, or the length is over the limit in section 6.
 | `X` | `<peer>` | a peer left or was dropped |
 | `D` | `<peer>\n<key>\n<bytes>` | a mod's message; `peer` is the sender |
 | `G` | `go` | the game started |
-| `L` | `lobby`, `back` or `not-leader` | the session is in the lobby (`lobby`: on join; `back`: the game stopped because the roster changed; `not-leader`: a `G` from someone other than the leader) |
+| `L` | `lobby`, `back`, `not-leader` or `waiting <peer>...` | the session is in the lobby (`lobby`: on join; `back`: the game stopped because a player left, dropped or rejoined; `not-leader`: a `G` from someone other than the leader; `waiting`: a `G` while roster players are missing, with their numbers) |
 | `E` | `<reason>` | an error; the relay closes the connection after it |
 
 Every frame from the relay has a non-empty payload. Released eidos clients
@@ -105,8 +105,8 @@ payloads from clients (`B`, `K`).
   peer number. The relay answers `W`, then a `P` for each player already
   in, and sends `P` for the new player to everyone else.
 - The host has no special role after the session starts. The session lives
-  while at least one player is connected, and for 10 minutes after the last
-  one leaves or drops, so players can come back to the same code.
+  as long as section 5 says (it is kept on disk), so players can come back
+  to the same code.
 - At most 16 players in a session (eidos draws up to 16 avatars).
 - A `D` to a peer number that is not in the session (it may have just
   left), or to the sender itself, is dropped silently. A `D` to peer 0 goes
@@ -114,8 +114,10 @@ payloads from clients (`B`, `K`).
 
 ## 5. Lobby, leaving and rejoining
 
-A session is a lobby that players come and go from. Nothing is lost when a
-player leaves: the session stays, and the player can come back.
+A session belongs to one multiplayer save. Its code is the save's
+permanent id: to play again later, each player picks that save, lands in its
+lobby, and the game starts when all of its players are back. Nothing is lost
+when a player leaves: the session stays, and the player can come back.
 
 - **Peer numbers are kept for the whole session.** A token keeps its
   number for as long as the session exists. A player who leaves with `B` or
@@ -127,9 +129,16 @@ player leaves: the session stays, and the player can come back.
 - **States:** `lobby` (a new session starts here) and `game`.
 - **The leader:** the connected player with the lowest peer number (the
   host, while the host is there).
-- **Starting:** the leader sends `G go` in the lobby. The relay sets the
-  state to `game` and sends `G go` to every connected player, the leader
-  included. A `G` from anyone else gets `L not-leader`, to that player only.
+- **The roster:** the first start locks the roster to the players
+  connected at that moment. Before that, new players join freely in the
+  lobby (up to 16). After it, a new token gets `E locked`, and the numbers
+  of players who joined but were not there at the first start are released.
+- **Starting:** the leader sends `G go` in the lobby. Before the roster is
+  locked, the game starts with whoever is connected and locks them. After
+  that, it starts only when every roster player is connected; otherwise the
+  relay answers the leader `L waiting <peer> <peer> ...` (the missing
+  numbers) and stays in the lobby. On a start the relay sets the state to
+  `game` and sends `G go` to every connected player, the leader included. A `G` from anyone else gets `L not-leader`, to that player only.
   A `G` during a game is ignored.
 - **Back to the lobby:** any roster change during a game (a player leaves,
   drops, or rejoins) sends everyone back to the lobby. The relay sends `X`
@@ -137,14 +146,18 @@ player leaves: the session stays, and the player can come back.
   connected player, and the state becomes `lobby`. The players start again
   when the leader sends `G`.
 - **In the lobby,** players join and leave freely: `P` and `X` only.
-- **Joining:** a new token may join in the lobby, while fewer than 16
-  numbers are taken (kept numbers count). During a game a new token gets
-  `E in-game`; a known token may rejoin at any time.
+- **Joining:** a new token may join in the lobby before the roster is
+  locked, while fewer than 16 numbers are taken (kept numbers count). A
+  known token may rejoin at any time.
 - **On join,** after `W` and the `P` frames, the relay sends the state:
   `L lobby` or `G go`.
 - `D` messages pass in both states, so mods can chat in the lobby.
-- **Expiry:** the session ends 10 minutes after the last player
-  disconnects.
+- **Persistence:** the relay keeps sessions on disk, so they survive a
+  relay restart. It stores only the code, the created and last-used times,
+  the roster (number, token, last name) and the lock. When nobody is
+  connected the session is in the lobby.
+- **Expiry:** a session ends after 365 days without any connection (a
+  setting).
 
 ## 6. Limits
 
@@ -173,7 +186,7 @@ Position updates every step (about 8 per second) fit well inside them.
 | `version` | the client's protocol version is not one the relay speaks |
 | `unknown-code` | no session has that code |
 | `full` | the session has 16 players |
-| `in-game` | a new player tried to join during a game |
+| `locked` | a new player tried to join after the roster was locked |
 | `bad-frame` | a frame the relay cannot read |
 | `bad-state` | a frame that does not fit now (for example `D` before `W`) |
 | `too-big` | a frame over the size limit |
