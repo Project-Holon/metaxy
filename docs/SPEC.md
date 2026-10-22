@@ -1,6 +1,6 @@
 # metaxy: relay specification
 
-Status: draft for review with eidos. Protocol version 1 is the one eidos's
+Status: agreed with eidos (review of 2026-10-22). Protocol version 1 is the one eidos's
 client speaks today (`eidos-net/1`, eidos `sdk/mod_net.c` and
 `docs/mod-services.md`, "Peer sessions"). This document is the relay's side
 of it, plus the rules the client relies on and the limits the relay applies.
@@ -21,12 +21,13 @@ keep accounts, or keep message contents.
 ## 2. Transport
 
 - One TCP connection per player, kept for the whole session.
-- Public relays use TLS (TLS 1.3, certificate for the relay's domain, for
-  example from Let's Encrypt). A relay for a LAN or for testing may run
-  without TLS. The relay serves either mode, or both on two ports.
-- Default port: 443 with TLS, so school and work firewalls that allow web
-  traffic allow the relay too; 4141 without TLS. Both are settings.
-- See section 9, question 1: eidos's client speaks plain TCP today.
+- Plain TCP on port 4141 now. eidos's client speaks plain TCP, so the
+  public relay accepts it.
+- TLS later: eidos will bundle mbedTLS 3.6 with the Let's Encrypt roots
+  built in. Then the public relay also serves TLS 1.3 on port 443 (so
+  school and work firewalls that allow web traffic allow the relay), with a
+  certificate for its domain. Protocol 1 does not change, only the port and
+  the transport. The relay serves either mode, or both on two ports.
 
 ## 3. Frames
 
@@ -53,6 +54,7 @@ is not a decimal number, or the length is over the limit in section 6.
 | `J` | `<version> <token> <code> <name>` | join a session |
 | `D` | `<peer>\n<key>\n<bytes>` | a mod's message: to one peer, or to every other peer when `peer` is 0 |
 | `B` | empty | leave the session |
+| `K` | empty | keep-alive: sent after 20 seconds without any other frame; the relay never answers it |
 
 ### Relay to client
 
@@ -65,12 +67,19 @@ is not a decimal number, or the length is over the limit in section 6.
 | `D` | `<peer>\n<key>\n<bytes>` | a mod's message; `peer` is the sender |
 | `E` | `<reason>` | an error; the relay closes the connection after it |
 
+Every frame from the relay has a non-empty payload. Released eidos clients
+treat a 0-length frame as a broken stream. The relay accepts 0-length
+payloads from clients (`B`, `K`).
+
 ### Fields
 
-- `version`: the protocol version, the decimal `1`. The relay refuses any
-  other with `E version`.
-- `token`: the client's identity for this session, 16 to 64 characters of
-  `[0-9a-f]`. It lets a dropped player rejoin as the same peer.
+- `version`: the protocol's name and version, exactly `eidos-net/1`. The
+  relay refuses any other with `E version`.
+- `token`: the client's identity in one session, 16 to 64 characters of
+  `[0-9a-f]`. It lets a dropped player rejoin as the same peer. eidos makes
+  32 hex digits from the OS random source, one per session code, kept in
+  its settings, so the relay cannot link a player across sessions and a
+  restarted game rejoins as the same peer.
 - `name`: the display name, the rest of the payload after the fields before
   it, so it may contain spaces. 1 to 64 bytes of UTF-8, no control
   characters. The relay trims it to 64 bytes on a character boundary.
@@ -79,7 +88,7 @@ is not a decimal number, or the length is over the limit in section 6.
   client's `D` and never names a player.
 - `key`: the mod's namespace, 1 to 96 bytes, no newline. The relay forwards
   it unchanged; the client delivers a message only to the mod with the same
-  key.
+  key. An empty key is `E bad-frame`.
 - `bytes`: the mod's message, 0 to 4096 bytes.
 
 ## 4. Sessions and codes
@@ -96,20 +105,22 @@ is not a decimal number, or the length is over the limit in section 6.
   while at least one player is connected, and for 10 minutes after the last
   one leaves or drops, so players can come back to the same code.
 - At most 16 players in a session (eidos draws up to 16 avatars).
+- A `D` to a peer number that is not in the session (it may have just
+  left), or to the sender itself, is dropped silently. A `D` to peer 0 goes
+  to every other player, never back to the sender.
 
 ## 5. Leaving, drops and rejoining
 
 - `B` from a client: the relay sends `X <peer>` to the others and closes the
   connection. The peer number is freed.
-- A connection that closes without `B`, or sends nothing for 60 seconds:
-  a drop. The relay sends `X <peer>` to the others and keeps the peer
+- A connection that closes without `B`, or sends nothing (not even `K`)
+  for 60 seconds: a drop. The relay sends `X <peer>` to the others and keeps the peer
   number reserved for that token for 10 minutes.
 - A `J` with the same code and the same token within those 10 minutes gets
-  the same peer number back. If the old connection is still open, the relay
+  the same peer number back. Reservations are keyed by (code, token). If the old connection is still open, the relay
   closes it first (no `X`, the player is the same).
 - After 10 minutes the reserved number is freed.
 
-Keeping a connection alive: see section 9, question 2.
 
 ## 6. Limits
 
@@ -118,8 +129,9 @@ Keeping a connection alive: see section 9, question 2.
 | Frame payload | 4096 + 128 bytes | `E too-big`, close |
 | Players in a session | 16 | `E full` on `J` |
 | Sessions a connection can be in | 1 | `E bad-state` on a second `H` or `J` |
-| Messages per client | 60 per second, bursts of 120 | `E rate`, close |
-| Bytes per client | 256 KB per second | `E rate`, close |
+| Messages per client | 60 per second, bursts of 120 | excess `D` frames are dropped silently |
+| Bytes per client | 256 KB per second | excess `D` frames are dropped silently |
+| Sustained excess | over 4 times either rate for 5 seconds | `E rate`, close |
 | Relay to a slow client: queued bytes | 1 MB | `E too-slow`, close (a drop) |
 | New connections per IP address | 10 per minute | the TCP connection is refused |
 | Open sessions per IP address | 4 | `E busy` on `H` |
@@ -158,29 +170,19 @@ Position updates every step (about 8 per second) fit well inside them.
   flags: bind address, ports, TLS certificate paths or automatic
   certificates for a domain, and the limits in section 6.
 
-## 9. Open questions for eidos
+## 9. Decisions with eidos (2026-10-22)
 
-1. **TLS in the client.** eidos's transport is plain TCP. Options: (a) the
-   client gains TLS through the OS (Schannel on Windows, Secure Transport on
-   macOS, OpenSSL or GnuTLS on Linux); (b) a bundled small TLS library
-   (mbedTLS); (c) protocol 1 stays plain and the public relay accepts it
-   until (a) or (b) lands. The relay supports all three.
-2. **Keep-alive.** Protocol 1 has no ping. A quiet player (standing still,
-   no mod messages) would hit the 60 second idle drop. Proposal: version 1
-   adds an optional frame `K` with an empty payload, sent by the client
-   every 20 seconds when it has sent nothing else; the relay answers
-   nothing and resets the idle timer. A relay ignores the idle limit for
-   clients that never send `K` only if configured to.
-3. **The token.** eidos makes it once per process from the clock (16 hex
-   digits), so a player who restarts the game cannot rejoin as the same
-   peer, and the token is guessable. Proposal: 32 hex digits from the OS
-   random source, kept in the port's settings per session code, so a
-   restart rejoins as the same peer.
-4. **Watching without playing.** The user wants "every player's game events
-   at once". Mods can forward events as `D` messages today. A spectator
-   (for example a web page showing every player's events) would need a
-   join that takes no peer number and receives every `D`. Proposal: a later
-   version adds `S <version> <code>` for a read-only spectator, off unless
-   the host allows it.
-5. **Peer 0 echo.** A `D` to peer 0 goes to every other player, not back to
-   the sender. Confirm the client expects no echo.
+1. TLS: plain TCP now; eidos bundles mbedTLS 3.6 (hash-checked, Let's
+   Encrypt ISRG Root X1 and X2 built in, optional system store) later.
+2. Keep-alive: `K`, empty, client to relay only, after 20 seconds of client
+   silence; part of version 1 because no relay had shipped.
+3. Token: 32 hex digits from the OS random source, per session code.
+4. Spectators: a later `eidos-net/2` adds `S eidos-net/2 <code>`, a
+   read-only join with no peer number that receives every `D` with the
+   sender's number, off unless the host allows it. Until then a mod
+   forwards events with `D`.
+5. Peer 0 is every other player, never the sender.
+
+eidos's client changes for this spec: accept 0-length frames, send `K`,
+the random per-code token, refuse an empty key, and clean up typed codes
+(strip spaces and dashes, upper-case).
