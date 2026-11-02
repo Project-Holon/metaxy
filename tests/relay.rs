@@ -1157,3 +1157,58 @@ async fn refusals_and_closes_are_logged_with_their_cause() {
         assert!(t.contains(want), "log lacks {want}:\n{t}");
     }
 }
+
+/// `A`: players of the same key share a public room, another key is
+/// another room, a full room opens a new one, and a player moves rooms
+/// with a new `A`.
+#[tokio::test]
+async fn air_rooms() {
+    let (_s, a) = start(Config {
+        air_room: 2,
+        ..cfg()
+    })
+    .await;
+    async fn air(a: SocketAddr, tok: &str, key: &str, name: &str) -> (Client, String) {
+        let mut c = Client::connect(a).await;
+        c.send('A', format!("eidos-net/1 {tok} {key} {name}").as_bytes())
+            .await;
+        let Got::Frame('C', code) = c.read(Duration::from_secs(3)).await else {
+            panic!("no room code");
+        };
+        (c, String::from_utf8(code).unwrap())
+    }
+    let (mut p1, r1) = air(a, TOK1, "bw:0.2.0:union", "Ann").await;
+    p1.expect('W', "1 Ann").await;
+    let (mut p2, r2) = air(a, TOK2, "bw:0.2.0:union", "Bob").await;
+    assert_eq!(r1, r2);
+    p2.expect('W', "2 Bob").await;
+    p2.expect('P', "1 Ann").await;
+    p1.expect('P', "2 Bob").await;
+    // they hear each other
+    p1.send('D', &data(0, "eidos:link", b"beacon")).await;
+    p2.expect('D', "1\neidos:link\nbeacon").await;
+    // the room is full (2): a third player of the key gets a new room
+    let (mut p3, r3) = air(a, TOK3, "bw:0.2.0:union", "Cy").await;
+    assert_ne!(r3, r1);
+    p3.expect('W', "1 Cy").await;
+    // another key, another room
+    let (_p4, r4) = air(a, TOK4, "bw:0.2.0:field", "Dee").await;
+    assert_ne!(r4, r1);
+    assert_ne!(r4, r3);
+    // Bob moves to the field: Ann sees him go, Dee sees him come
+    p2.send(
+        'A',
+        format!("eidos-net/1 {TOK2} bw:0.2.0:field Bob").as_bytes(),
+    )
+    .await;
+    p1.expect('X', "2").await;
+    p2.expect('C', &r4).await;
+    // a bad key is refused
+    let mut bad = Client::connect(a).await;
+    bad.send('A', format!("eidos-net/1 {TOK1} no/slash Ann").as_bytes())
+        .await;
+    bad.expect_error(
+        "bad-frame A key \"no/slash\" must be 1 to 64 characters of A-Z a-z 0-9 . : _ -",
+    )
+    .await;
+}

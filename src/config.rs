@@ -50,6 +50,7 @@ settings! {
     tls_port: u16 = 443, "TLS port";
     max_payload: usize = 4096 + 128, "Largest frame payload in bytes";
     max_players: usize = 16, "Players in a session (1 to 16)";
+    air_room: usize = 8, "Players in one public room (the shared air, A frames; 2 to 16)";
     msg_rate: f64 = 60.0, "D frames per second per client";
     msg_burst: f64 = 256.0, "D frame burst per client";
     byte_rate: f64 = 524_288.0, "D payload bytes per second per client";
@@ -88,6 +89,9 @@ impl Config {
         }
         if !self.plain && !self.tls_enabled() {
             return Err("no listener: plain is off and TLS is not set".into());
+        }
+        if !(2..=16).contains(&self.air_room) {
+            return Err("air_room must be 2 to 16".into());
         }
         if !(1..=16).contains(&self.max_players) {
             return Err("max_players must be 1 to 16".into());

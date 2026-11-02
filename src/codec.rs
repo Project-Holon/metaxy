@@ -12,7 +12,7 @@ pub const PROTO: &str = "eidos-net/1";
 pub const MAX_NAME: usize = 64;
 
 /// Frame types a client may send.
-const CLIENT_TYPES: &[u8] = b"HJDBKQ";
+const CLIENT_TYPES: &[u8] = b"HJADBKQ";
 
 /// One frame.
 #[derive(Debug, Clone, PartialEq, Eq)]
@@ -225,6 +225,38 @@ fn trim_name(name: &str) -> &str {
 
 fn valid_token(t: &[u8]) -> bool {
     (16..=64).contains(&t.len()) && t.iter().all(|b| matches!(b, b'0'..=b'9' | b'a'..=b'f'))
+}
+
+/// Parse the payload of `A`: `<version> <token> <key> <name>`, the fields
+/// of `J` with a public room's key where the code goes. The key is 1 to 64
+/// characters of `A-Z a-z 0-9 . : _ -`, kept as sent.
+pub fn parse_air(payload: &[u8]) -> Result<Hello, Reject> {
+    let mut parts = payload.splitn(4, |&b| b == b' ');
+    let version = parts.next().unwrap_or(&[]);
+    let token = parts.next().unwrap_or(&[]);
+    let key = parts.next().unwrap_or(&[]);
+    let name = parts.next().unwrap_or(&[]);
+    if key.is_empty()
+        || key.len() > 64
+        || !key
+            .iter()
+            .all(|b| b.is_ascii_alphanumeric() || matches!(b, b'.' | b':' | b'_' | b'-'))
+    {
+        return Err(Reject::BadFrame(format!(
+            "A key \"{}\" must be 1 to 64 characters of A-Z a-z 0-9 . : _ -",
+            show(key, 64)
+        )));
+    }
+    let mut j = Vec::with_capacity(payload.len());
+    for (i, f) in [version, token, b"X".as_slice(), name].iter().enumerate() {
+        if i > 0 {
+            j.push(b' ');
+        }
+        j.extend_from_slice(f);
+    }
+    let mut h = parse_hello(&j, true)?;
+    h.code = String::from_utf8_lossy(key).into_owned();
+    Ok(h)
 }
 
 /// Parse the payload of `H` (`join` false) or `J` (`join` true).

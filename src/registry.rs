@@ -50,6 +50,9 @@ struct Slot {
 #[derive(Debug)]
 struct Session {
     slots: BTreeMap<u8, Slot>,
+    /// A public room of the shared air: its key (`A` frames place players
+    /// in it). Its players come and go; nobody hosts it.
+    air: Option<String>,
     host_ip: Option<IpAddr>,
     /// Set while no player is connected.
     empty_since: Option<Instant>,
@@ -438,6 +441,29 @@ impl Registry {
                     Err(e) => Outcome::Error(e),
                 }
             }
+            b'A' => {
+                let h = match codec::parse_air(&f.payload) {
+                    Ok(h) => h,
+                    Err(r) => return Outcome::Error(r.into()),
+                };
+                if in_session {
+                    // A player of the air moves to another room (a new
+                    // activity); a player of a hosted session cannot.
+                    let public = self.conns[&id]
+                        .session
+                        .as_ref()
+                        .and_then(|(c, _)| self.sessions.get(c))
+                        .is_some_and(|s| s.air.is_some());
+                    if !public {
+                        return Outcome::Error(Fail::new("bad-state", "A in a hosted session"));
+                    }
+                    self.leave(id, false, "A");
+                }
+                match self.air(id, h) {
+                    Ok(()) => Outcome::Joined,
+                    Err(e) => Outcome::Error(e),
+                }
+            }
             b'B' => {
                 self.leave(id, false, "B");
                 Outcome::Bye
@@ -518,6 +544,7 @@ impl Registry {
             code.clone(),
             Session {
                 slots,
+                air: None,
                 host_ip: Some(ip),
                 empty_since: None,
                 created: Instant::now(),
@@ -539,6 +566,49 @@ impl Registry {
             "session created"
         );
         Ok(())
+    }
+
+    /// `A <version> <token> <key> <name>`: a player of the shared air. It
+    /// goes into the fullest public room of that key with a free place, or
+    /// a new one, and from there on is a session player like any other
+    /// (`C` with the room's code, `W`, `P` for the others).
+    fn air(&mut self, id: u64, mut h: codec::Hello) -> Result<(), Fail> {
+        let room = self.cfg.air_room;
+        let key = h.code.clone();
+        let best = self
+            .sessions
+            .iter()
+            .filter(|(_, s)| s.air.as_deref() == Some(key.as_str()) && s.slots.len() < room)
+            .max_by_key(|(_, s)| s.connected().len())
+            .map(|(c, _)| c.clone());
+        let code = match best {
+            Some(c) => c,
+            None => {
+                if self.sessions.len() >= self.cfg.max_sessions {
+                    return Err(Fail::new(
+                        "busy",
+                        format!("the relay holds {} sessions", self.sessions.len()),
+                    ));
+                }
+                let code = self.new_code();
+                self.sessions.insert(
+                    code.clone(),
+                    Session {
+                        slots: BTreeMap::new(),
+                        air: Some(key.clone()),
+                        host_ip: None,
+                        empty_since: None,
+                        created: Instant::now(),
+                    },
+                );
+                info!(conn = id, code = %code, key = %key, "air room created");
+                code
+            }
+        };
+        let cap = self.cfg.queue_cap;
+        tell(&self.conns, cap, id, &encode(b'C', code.as_bytes()));
+        h.code = code;
+        self.join(id, h)
     }
 
     fn join(&mut self, id: u64, h: codec::Hello) -> Result<(), Fail> {
@@ -649,11 +719,12 @@ impl Registry {
             .get(&peer)
             .map(|s| s.name.clone())
             .unwrap_or_default();
-        if keep {
+        if keep && sess.air.is_none() {
             if let Some(s) = sess.slots.get_mut(&peer) {
                 s.conn = None;
             }
         } else {
+            // a public room keeps no places: a player who drops is gone
             sess.slots.remove(&peer);
         }
         let others = sess.connected();

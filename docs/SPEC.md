@@ -56,6 +56,7 @@ is not a decimal number, or the length is over the limit in section 6.
 |---|---|---|
 | `H` | `<version> <token> <name>` | host a new session |
 | `J` | `<version> <token> <code> <name>` | join a session |
+| `A` | `<version> <token> <key> <name>` | join the shared air: a public room of `key` (section 4a) |
 | `D` | `<peer>\n<key>\n<bytes>` | a message: to one peer, or to every other peer when `peer` is 0 |
 | `B` | empty | leave the session |
 | `K` | empty | keep-alive: sent after 20 seconds without any other frame; the relay never answers it |
@@ -114,6 +115,27 @@ payloads from clients (`B`, `K`).
 - A `D` to a peer number that is not in the session (it may have just
   left), or to the sender itself, is dropped silently. A `D` to peer 0 goes
   to every other player, never back to the sender.
+
+## 4a. The shared air (public rooms)
+
+eidos's Link play (the DS's local wireless: the C-Gear, the Union Room, the
+Entralink) works like a DS's radio, with no codes: every game whose radio is
+on is in the air, and metaxy stands for the range of the radio.
+
+- `A <version> <token> <key> <name>` puts the player in a public room of
+  `key`: the fullest room of that key with a free place, or a new one. A
+  room holds `air_room` players (default 8), which stands for the radio's
+  range. `key` is 1 to 64 characters of `A-Z a-z 0-9 . : _ -`; eidos sends
+  its version and the activity (`bw:<version>:<activity>`), so players meet
+  others on a compatible version doing the same thing.
+- The answers are a join's: `C <room code>`, `W`, a `P` for each player in
+  the room, and `P` to the others. From there on the room is a session:
+  `D`, `B` and `K` work as in any session. Nobody hosts a room and `Q` does
+  nothing in it.
+- A player of the air sends `A` again to move to another room (another
+  activity): the old room sees `X`, the new one `P`.
+- A room keeps no places: a player who drops is gone, and a room with no
+  players is forgotten like an empty session.
 
 ## 5. What the relay does in a session
 
