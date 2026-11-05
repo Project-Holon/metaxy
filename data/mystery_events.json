@@ -1,0 +1,5115 @@
+{
+ "format": 1,
+ "about": "Black and White Mystery Gift events as they were given out, per cartridge language. Dates from Bulbapedia; card files in Project Pokemon EventsGallery (not included here).",
+ "card_source": {
+  "repository": "https://github.com/projectpokemon/EventsGallery",
+  "ref": "master",
+  "raw": "https://raw.githubusercontent.com/projectpokemon/EventsGallery/master/"
+ },
+ "events": [
+  {
+   "language": "en",
+   "method": "wfc",
+   "title": "Liberty Pass",
+   "gifts": [
+    "Liberty Pass"
+   ],
+   "games": [
+    "black",
+    "white"
+   ],
+   "runs": [
+    {
+     "start": "2011-03-06",
+     "end": "2011-04-27"
+    }
+   ],
+   "cards": [
+    {
+     "path": "Released/Gen 5/Wondercards/ENG/2046 BW - Item Liberty Pass (ENG).pgf",
+     "size": 204,
+     "sha256": "c62055f4759e92b5b7b8718f32b404dd0f806bc4e5544de2a3b27b7682e85d7b"
+    }
+   ]
+  },
+  {
+   "language": "en",
+   "method": "wireless",
+   "title": "Secret Eggs",
+   "gifts": [
+    "Pansage",
+    "Pidove",
+    "Axew"
+   ],
+   "games": [
+    "black",
+    "white"
+   ],
+   "runs": [
+    {
+     "start": "2011-04-27",
+     "end": "2011-05-31"
+    }
+   ],
+   "cards": [
+    {
+     "path": "Released/Gen 5/Wondercards/ENG/0029 BW - (Trainer) Axew Egg (ENG).pgf",
+     "size": 204,
+     "sha256": "305686deb4fea2c4e6fffa99f8df27bbca92ca032c8a1521c06ff30d934c4a7a"
+    },
+    {
+     "path": "Released/Gen 5/Wondercards/ENG/0029 BW - (Trainer) Pansage Egg (ENG).pgf",
+     "size": 204,
+     "sha256": "5316c23330ba0ddcca9e7743251d4e5e91e6f41bdba7261e5c198e46bf2402a4"
+    },
+    {
+     "path": "Released/Gen 5/Wondercards/ENG/0029 BW - (Trainer) Pidove Egg (ENG).pgf",
+     "size": 204,
+     "sha256": "6c20983a0184798a110b3da25ff2eb0bd2eea91953a4a472ee2507b9fd40521e"
+    }
+   ]
+  },
+  {
+   "language": "en",
+   "method": "wireless",
+   "title": "Summer 2011 Zoroark",
+   "gifts": [
+    "Zoroark"
+   ],
+   "games": [
+    "black",
+    "white"
+   ],
+   "runs": [
+    {
+     "start": "2011-06-11",
+     "end": "2011-06-18"
+    }
+   ],
+   "cards": [
+    {
+     "path": "Released/Gen 5/Wondercards/ENG/0030 BW - SMR2011 Zoroark (ENG).pgf",
+     "size": 204,
+     "sha256": "e7d70f078b25d636e2849c5771e10ab79f3a791904a9ea550f1836dd94190e5c"
+    }
+   ]
+  },
+  {
+   "language": "en",
+   "method": "wireless",
+   "title": "Summer 2011 Pokémon",
+   "gifts": [
+    "Karrablast",
+    "Shelmet"
+   ],
+   "games": [
+    "black",
+    "white"
+   ],
+   "runs": [
+    {
+     "start": "2011-06-11",
+     "end": "2011-06-18"
+    }
+   ],
+   "cards": [
+    {
+     "path": "Released/Gen 5/Wondercards/ENG/0002 BW - SMR2011 Karrablast (ENG).pgf",
+     "size": 204,
+     "sha256": "b9aa0b3ff23e5a7ed35bf6512dc68282c982d7ef9b5707c7f12d870e6084e3db"
+    },
+    {
+     "path": "Released/Gen 5/Wondercards/ENG/0003 BW - SMR2011 Shelmet (ENG).pgf",
+     "size": 204,
+     "sha256": "65c67057cbdb9cbb11afdbbf4abc10874621f001ac62869269052a8689ff159d"
+    }
+   ]
+  },
+  {
+   "language": "en",
+   "method": "wireless",
+   "title": "2011 World Championships Scrafty",
+   "gifts": [
+    "Scrafty"
+   ],
+   "games": [
+    "black",
+    "white"
+   ],
+   "runs": [
+    {
+     "start": "2011-08-14",
+     "end": "2011-08-14"
+    }
+   ],
+   "cards": [
+    {
+     "path": "Released/Gen 5/Wondercards/ENG/0037 BW - WORLD11 Scrafty (ENG).pgf",
+     "size": 204,
+     "sha256": "cfd1fb7a6dcd6a20ade1c988e4099d05685387220ba5b4847c241699194e01dc"
+    }
+   ]
+  },
+  {
+   "language": "en",
+   "method": "wireless",
+   "title": "Zoroark Month Zoroark",
+   "gifts": [
+    "Zoroark"
+   ],
+   "games": [
+    "black",
+    "white"
+   ],
+   "runs": [
+    {
+     "start": "2011-09-18",
+     "end": "2011-09-25"
+    }
+   ],
+   "cards": [
+    {
+     "path": "Released/Gen 5/Wondercards/ENG/0030 BW - Event11 Zoroark (ENG).pgf",
+     "size": 204,
+     "sha256": "2d151d3ebce0f7d54b9183a57d209c6c01033fb5a56e69a32b67d596c21f9da1"
+    }
+   ]
+  },
+  {
+   "language": "en",
+   "method": "wireless",
+   "title": "Winter 2011 Darkrai",
+   "gifts": [
+    "Darkrai"
+   ],
+   "games": [
+    "black",
+    "white"
+   ],
+   "runs": [
+    {
+     "start": "2011-11-14",
+     "end": "2011-11-26"
+    }
+   ],
+   "cards": [
+    {
+     "path": "Released/Gen 5/Wondercards/ENG/0028 BW - 2011WIN Darkrai (ENG).pgf",
+     "size": 204,
+     "sha256": "f4e0c769081ad7ca118da16f1cbfc6644932014bf5c8c1bc0465e190920703cd"
+    }
+   ]
+  },
+  {
+   "language": "en",
+   "method": "wfc",
+   "title": "Movie 14 Victini",
+   "gifts": [
+    "Victini"
+   ],
+   "games": [
+    "black",
+    "white"
+   ],
+   "runs": [
+    {
+     "start": "2011-12-03",
+     "end": "2012-01-14"
+    },
+    {
+     "start": "2012-06-12",
+     "end": "2012-06-26"
+    }
+   ],
+   "cards": [
+    {
+     "path": "Released/Gen 5/Wondercards/ENG/0032 BW - Movie14 Victini (ENG).pgf",
+     "size": 204,
+     "sha256": "c36f8edbb4c585b479a9234fa0a51cdf6b3c853c0c3238f35efa98ffa9cdc868"
+    }
+   ]
+  },
+  {
+   "language": "en",
+   "method": "wfc",
+   "title": "February 2012 Mewtwo",
+   "gifts": [
+    "Mewtwo"
+   ],
+   "games": [
+    "black",
+    "white"
+   ],
+   "runs": [
+    {
+     "start": "2012-02-12",
+     "end": "2012-02-26"
+    }
+   ],
+   "cards": [
+    {
+     "path": "Released/Gen 5/Wondercards/ENG/0048 BW - FEB2012 Mewtwo (ENG).pgf",
+     "size": 204,
+     "sha256": "7065bb2ca133a0fe247a0ab5fe35a16c6e12f55956fb2a50a6823e172cdd8e43"
+    }
+   ]
+  },
+  {
+   "language": "en",
+   "method": "wireless",
+   "title": "Dutch Spring 2012 Pokémon",
+   "gifts": [
+    "Reshiram",
+    "Zekrom"
+   ],
+   "games": [
+    "black",
+    "white"
+   ],
+   "runs": [
+    {
+     "start": "2012-02-18",
+     "end": "2012-02-18"
+    }
+   ],
+   "cards": [
+    {
+     "path": "Released/Gen 5/Wondercards/ENG/0033 B - SPR2012 Zekrom (ENG).pgf",
+     "size": 204,
+     "sha256": "713344395aee78c7131525a6a1888477133c262636d383a17b29599a5565d7a6"
+    },
+    {
+     "path": "Released/Gen 5/Wondercards/ENG/0033 B [LW] - SPR2012 Zekrom (ENG).pgf",
+     "size": 204,
+     "sha256": "e549b7290c2317ebc7bdc1ab4e96573ae718af21655a49ba909abf47ed8e93e5"
+    },
+    {
+     "path": "Released/Gen 5/Wondercards/ENG/0033 W - SPR2012 Reshiram (ENG).pgf",
+     "size": 204,
+     "sha256": "d609dcd3bea3b844a8a3dba55903422054d72feccfa60e21c96574bb5d7b195a"
+    },
+    {
+     "path": "Released/Gen 5/Wondercards/ENG/0033 W [LW] - SPR2012 Reshiram (ENG).pgf",
+     "size": 204,
+     "sha256": "55319245eb4a701d5c46c5e3357aeeb23b3b1d12284c5c7b2937d56b7c9e741f"
+    }
+   ]
+  },
+  {
+   "language": "en",
+   "method": "wfc",
+   "title": "Spring 2012 Pokémon",
+   "gifts": [
+    "Reshiram",
+    "Zekrom"
+   ],
+   "games": [
+    "black",
+    "white"
+   ],
+   "runs": [
+    {
+     "start": "2012-03-10",
+     "end": "2012-04-08"
+    }
+   ],
+   "cards": [
+    {
+     "path": "Released/Gen 5/Wondercards/ENG/0033 B - SPR2012 Zekrom (ENG).pgf",
+     "size": 204,
+     "sha256": "713344395aee78c7131525a6a1888477133c262636d383a17b29599a5565d7a6"
+    },
+    {
+     "path": "Released/Gen 5/Wondercards/ENG/0033 B [LW] - SPR2012 Zekrom (ENG).pgf",
+     "size": 204,
+     "sha256": "e549b7290c2317ebc7bdc1ab4e96573ae718af21655a49ba909abf47ed8e93e5"
+    },
+    {
+     "path": "Released/Gen 5/Wondercards/ENG/0033 W - SPR2012 Reshiram (ENG).pgf",
+     "size": 204,
+     "sha256": "d609dcd3bea3b844a8a3dba55903422054d72feccfa60e21c96574bb5d7b195a"
+    },
+    {
+     "path": "Released/Gen 5/Wondercards/ENG/0033 W [LW] - SPR2012 Reshiram (ENG).pgf",
+     "size": 204,
+     "sha256": "55319245eb4a701d5c46c5e3357aeeb23b3b1d12284c5c7b2937d56b7c9e741f"
+    }
+   ]
+  },
+  {
+   "language": "en",
+   "method": "wfc",
+   "title": "May 2012 Darkrai",
+   "gifts": [
+    "Darkrai"
+   ],
+   "games": [
+    "black",
+    "white"
+   ],
+   "runs": [
+    {
+     "start": "2012-05-09",
+     "end": "2012-06-10"
+    }
+   ],
+   "cards": [
+    {
+     "path": "Released/Gen 5/Wondercards/ENG/0028 BW - 2012MAY Darkrai (ENG).pgf",
+     "size": 204,
+     "sha256": "b1bfcf26609f63f437bb4a2c864d66501efac6666199bffb1f63746506cd4ed7"
+    }
+   ]
+  },
+  {
+   "language": "en",
+   "method": "wireless",
+   "title": "Pika Pika Carnival Pikachu",
+   "gifts": [
+    "Pikachu"
+   ],
+   "games": [
+    "black",
+    "white"
+   ],
+   "runs": [
+    {
+     "start": "2012-05-11",
+     "end": "2012-05-20"
+    }
+   ],
+   "cards": [
+    {
+     "path": "Released/Gen 5/Wondercards/ENG/0096 BW - Fes Pikachu (ENG).pgf",
+     "size": 204,
+     "sha256": "22f747df1acc48031b3df4218ced7d9d3da812d5ee743b471aab344c36ed5571"
+    }
+   ]
+  },
+  {
+   "language": "en",
+   "method": "wireless",
+   "title": "Video Game Championships 2012 Larvitar",
+   "gifts": [
+    "Larvitar"
+   ],
+   "games": [
+    "black",
+    "white"
+   ],
+   "runs": [
+    {
+     "start": "2012-06-30",
+     "end": "2012-07-01"
+    }
+   ],
+   "cards": [
+    {
+     "path": "Released/Gen 5/Wondercards/ENG/0061 BW - VGC12 Larvitar (ENG).pgf",
+     "size": 204,
+     "sha256": "106ac802a85478732087c18e16f638498f1f80267303ce70bb1b0eef88570a5a"
+    }
+   ]
+  },
+  {
+   "language": "en",
+   "method": "wireless",
+   "title": "Summer 2012 Pikachu",
+   "gifts": [
+    "Pikachu"
+   ],
+   "games": [
+    "black",
+    "white"
+   ],
+   "runs": [
+    {
+     "start": "2012-07-05",
+     "end": "2012-07-08"
+    }
+   ],
+   "cards": [
+    {
+     "path": "Released/Gen 5/Wondercards/ENG/0071 BW - SMR2012 Pikachu (ENG).pgf",
+     "size": 204,
+     "sha256": "44580ade66718d3a131aa4c60c5201db4aabc4608ee56d78a24168eeb93c356c"
+    }
+   ]
+  },
+  {
+   "language": "en",
+   "method": "wireless",
+   "title": "2012 World Championships Pikachu",
+   "gifts": [
+    "Pikachu"
+   ],
+   "games": [
+    "black",
+    "white"
+   ],
+   "runs": [
+    {
+     "start": "2012-08-12",
+     "end": "2012-08-12"
+    }
+   ],
+   "cards": [
+    {
+     "path": "Released/Gen 5/Wondercards/ENG/0100 BW - WORLD12 Pikachu (ENG).pgf",
+     "size": 204,
+     "sha256": "56ad66590e093aa2391bfec009ac379e4da4d07a43eded8472600caec3bf2531"
+    }
+   ]
+  },
+  {
+   "language": "en",
+   "method": "wireless",
+   "title": "Summer 2012 Keldeo",
+   "gifts": [
+    "Keldeo"
+   ],
+   "games": [
+    "black",
+    "white"
+   ],
+   "runs": [
+    {
+     "start": "2012-08-27",
+     "end": "2012-10-06"
+    }
+   ],
+   "cards": [
+    {
+     "path": "Released/Gen 5/Wondercards/ENG/0069 BW - SMR2012 Keldeo (ENG).pgf",
+     "size": 204,
+     "sha256": "26f5906c8f5fef8e21c8723eb7ff3af112f79e4e7550ed9a30424bb90cabb3eb"
+    }
+   ]
+  },
+  {
+   "language": "en",
+   "method": "wireless",
+   "title": "Abram Burrows's Cloyster",
+   "gifts": [
+    "Cloyster"
+   ],
+   "games": [
+    "black",
+    "white"
+   ],
+   "runs": [
+    {
+     "start": "2013-01-20",
+     "end": "2013-01-20"
+    }
+   ],
+   "cards": [
+    {
+     "path": "Released/Gen 5/Wondercards/ENG/0130 BWB2W2 - Abram Cloyster (ENG).pgf",
+     "size": 204,
+     "sha256": "b0044f0d17ced9a04be701e0b1b421c97032e0c30698ac81a70304a3be210bd8"
+    }
+   ]
+  },
+  {
+   "language": "en",
+   "method": "wireless",
+   "title": "Spring 2013 Meloetta",
+   "gifts": [
+    "Meloetta"
+   ],
+   "games": [
+    "black",
+    "white"
+   ],
+   "runs": [
+    {
+     "start": "2013-03-04",
+     "end": "2013-03-24"
+    }
+   ],
+   "cards": [
+    {
+     "path": "Released/Gen 5/Wondercards/ENG/0129 BWB2W2 - SPR2013 Meloetta (ENG).pgf",
+     "size": 204,
+     "sha256": "690a03c07f48ed941da53bd845e52a260d5ac7534af9b17800dcb6973038abb8"
+    }
+   ]
+  },
+  {
+   "language": "en",
+   "method": "wireless",
+   "title": "Toler Webb's Ludicolo",
+   "gifts": [
+    "Ludicolo"
+   ],
+   "games": [
+    "black",
+    "white"
+   ],
+   "runs": [
+    {
+     "start": "2013-04-14",
+     "end": "2013-04-14"
+    }
+   ],
+   "cards": [
+    {
+     "path": "Released/Gen 5/Wondercards/ENG/0131 BWB2W2 - Toler Ludicolo (ENG).pgf",
+     "size": 204,
+     "sha256": "0131d6bbb12d31e10323e26403ac547d65ba755f37ebe56c033d034dae478bd1"
+    }
+   ]
+  },
+  {
+   "language": "en",
+   "method": "wireless",
+   "title": "Ray Rizzo's Metagross",
+   "gifts": [
+    "Metagross"
+   ],
+   "games": [
+    "black",
+    "white"
+   ],
+   "runs": [
+    {
+     "start": "2013-07-05",
+     "end": "2013-07-07"
+    }
+   ],
+   "cards": [
+    {
+     "path": "Released/Gen 5/Wondercards/ENG/0132 BWB2W2 - Ray Metagross (ENG).pgf",
+     "size": 204,
+     "sha256": "48e1007d0b3413bd8a6759b33b478d2ccad2170bada2099dde48fbb595e432b8"
+    }
+   ]
+  },
+  {
+   "language": "en",
+   "method": "wireless",
+   "title": "2013 World Championships Smeargle",
+   "gifts": [
+    "Smeargle"
+   ],
+   "games": [
+    "black",
+    "white"
+   ],
+   "runs": [
+    {
+     "start": "2013-08-10",
+     "end": "2013-08-11"
+    }
+   ],
+   "cards": [
+    {
+     "path": "Released/Gen 5/Wondercards/ENG/0155 BWB2W2 - WORLD13 Smeargle (ENG).pgf",
+     "size": 204,
+     "sha256": "6d05dd9f3bb32ad55bf301211762112d30abcc9f7a3d8a3bc8ac009214825cb0"
+    }
+   ]
+  },
+  {
+   "language": "en",
+   "method": "wireless",
+   "title": "International Summer 2013 Shiny Pokémon of myth",
+   "gifts": [
+    "Giratina",
+    "Palkia",
+    "Dialga"
+   ],
+   "games": [
+    "black",
+    "white"
+   ],
+   "runs": [
+    {
+     "start": "2013-09-27",
+     "end": "2013-10-11"
+    }
+   ],
+   "cards": [
+    {
+     "path": "Released/Gen 5/Wondercards/ENG/0148 BWB2W2 - (08193) SUM2013 Shiny Dialga (ENG).pgf",
+     "size": 204,
+     "sha256": "796cc6754352c9753fd3358d97f974d45b49f5dcaafa144c7bfccd27218e3445"
+    },
+    {
+     "path": "Released/Gen 5/Wondercards/ENG/0148 BWB2W2 - (08303) SUM2013 Shiny Dialga (ENG).pgf",
+     "size": 204,
+     "sha256": "a7858c64c3a6ca7ff64afb6b2db4872a91b96e047c9ddc0cf46c48f5043adb78"
+    },
+    {
+     "path": "Released/Gen 5/Wondercards/ENG/0149 BWB2W2 - (09093) SUM2013 Shiny Palkia (ENG).pgf",
+     "size": 204,
+     "sha256": "dd7a2a5f091b5181a8f8d5f70631d2a65b9a912a72bdda78288e235c19633477"
+    },
+    {
+     "path": "Released/Gen 5/Wondercards/ENG/0149 BWB2W2 - (09133) SUM2013 Shiny Palkia (ENG).pgf",
+     "size": 204,
+     "sha256": "28fa4e9674bc56297da41908c9e1066090f21c5901567aed428a1e34c57c585a"
+    },
+    {
+     "path": "Released/Gen 5/Wondercards/ENG/0150 BWB2W2 - (09273) SUM2013 Shiny Giratina (ENG).pgf",
+     "size": 204,
+     "sha256": "34010b0ae9c7fc4206106b7ff83b23dc3cae788f8edc5b3e32c0dd78767c5f3d"
+    },
+    {
+     "path": "Released/Gen 5/Wondercards/ENG/0150 BWB2W2 - (09303) SUM2013 Shiny Giratina (ENG).pgf",
+     "size": 204,
+     "sha256": "2fdbe360f541b630afce7b5a34fc7dccaee0ad33c2b54c9b030626efe2a8e089"
+    }
+   ]
+  },
+  {
+   "language": "en",
+   "method": "wireless",
+   "title": "United States Summer 2013 Shiny Pokémon of myth",
+   "gifts": [
+    "Giratina",
+    "Palkia",
+    "Dialga"
+   ],
+   "games": [
+    "black",
+    "white"
+   ],
+   "runs": [
+    {
+     "start": "2013-09-30",
+     "end": "2013-10-20"
+    }
+   ],
+   "cards": [
+    {
+     "path": "Released/Gen 5/Wondercards/ENG/0148 BWB2W2 - (08193) SUM2013 Shiny Dialga (ENG).pgf",
+     "size": 204,
+     "sha256": "796cc6754352c9753fd3358d97f974d45b49f5dcaafa144c7bfccd27218e3445"
+    },
+    {
+     "path": "Released/Gen 5/Wondercards/ENG/0148 BWB2W2 - (08303) SUM2013 Shiny Dialga (ENG).pgf",
+     "size": 204,
+     "sha256": "a7858c64c3a6ca7ff64afb6b2db4872a91b96e047c9ddc0cf46c48f5043adb78"
+    },
+    {
+     "path": "Released/Gen 5/Wondercards/ENG/0149 BWB2W2 - (09093) SUM2013 Shiny Palkia (ENG).pgf",
+     "size": 204,
+     "sha256": "dd7a2a5f091b5181a8f8d5f70631d2a65b9a912a72bdda78288e235c19633477"
+    },
+    {
+     "path": "Released/Gen 5/Wondercards/ENG/0149 BWB2W2 - (09133) SUM2013 Shiny Palkia (ENG).pgf",
+     "size": 204,
+     "sha256": "28fa4e9674bc56297da41908c9e1066090f21c5901567aed428a1e34c57c585a"
+    },
+    {
+     "path": "Released/Gen 5/Wondercards/ENG/0150 BWB2W2 - (09273) SUM2013 Shiny Giratina (ENG).pgf",
+     "size": 204,
+     "sha256": "34010b0ae9c7fc4206106b7ff83b23dc3cae788f8edc5b3e32c0dd78767c5f3d"
+    },
+    {
+     "path": "Released/Gen 5/Wondercards/ENG/0150 BWB2W2 - (09303) SUM2013 Shiny Giratina (ENG).pgf",
+     "size": 204,
+     "sha256": "2fdbe360f541b630afce7b5a34fc7dccaee0ad33c2b54c9b030626efe2a8e089"
+    }
+   ]
+  },
+  {
+   "language": "en",
+   "method": "wireless",
+   "title": "Pokémon Hills Mewtwo",
+   "gifts": [
+    "Mewtwo"
+   ],
+   "games": [
+    "black",
+    "white"
+   ],
+   "runs": [
+    {
+     "start": "2013-11-02",
+     "end": "2013-11-09"
+    }
+   ],
+   "cards": [
+    {
+     "path": "Released/Gen 5/Wondercards/ENG/0135 BWB2W2 - Ｐヒルズ Mewtwo (ENG).pgf",
+     "size": 204,
+     "sha256": "222e68430921ae7b1d8c86b121509a55a97dd3d6f4f2888e92017e5975508a5f"
+    }
+   ]
+  },
+  {
+   "language": "fr",
+   "method": "wfc",
+   "title": "Liberty Pass",
+   "gifts": [
+    "Liberty Pass"
+   ],
+   "games": [
+    "black",
+    "white"
+   ],
+   "runs": [
+    {
+     "start": "2011-03-04",
+     "end": "2011-04-27"
+    }
+   ],
+   "cards": [
+    {
+     "path": "Released/Gen 5/Wondercards/FRE/2046 BW - Item Liberty Pass (FRE).pgf",
+     "size": 204,
+     "sha256": "42664f35bab67e1f911d5836ec8bb75d5ad0dbe2baa295f92b41bb4eb08ac5c9"
+    }
+   ]
+  },
+  {
+   "language": "fr",
+   "method": "wireless",
+   "title": "Summer 2011 Zoroark",
+   "gifts": [
+    "Zoroark"
+   ],
+   "games": [
+    "black",
+    "white"
+   ],
+   "runs": [
+    {
+     "start": "2011-06-20",
+     "end": "2011-08-20"
+    }
+   ],
+   "cards": [
+    {
+     "path": "Released/Gen 5/Wondercards/FRE/0030 BW - ÉTÉ2011 Zoroark (FRE).pgf",
+     "size": 204,
+     "sha256": "582af93a0d042ba8d80dbda059d14622d710de7b8678c4f93bfa4e4c3e1ee3c9"
+    }
+   ]
+  },
+  {
+   "language": "fr",
+   "method": "wireless",
+   "title": "Summer 2011 Pokémon",
+   "gifts": [
+    "Karrablast",
+    "Shelmet"
+   ],
+   "games": [
+    "black",
+    "white"
+   ],
+   "runs": [
+    {
+     "start": "2011-06-30",
+     "end": "2011-07-03"
+    }
+   ],
+   "cards": [
+    {
+     "path": "Released/Gen 5/Wondercards/FRE/0002 BW - ÉTÉ2011 Karrablast (FRE).pgf",
+     "size": 204,
+     "sha256": "59ace7d321c9ccf1c11e4c80ffc7ec4921fec107e8dd65cc2a2104a71855f2ef"
+    },
+    {
+     "path": "Released/Gen 5/Wondercards/FRE/0003 BW - ÉTÉ2011 Shelmet (FRE).pgf",
+     "size": 204,
+     "sha256": "21148ff3e590c20aba97c6aaf6a687cd4ab7b51c865959a3996cffb48acd64c6"
+    }
+   ]
+  },
+  {
+   "language": "fr",
+   "method": "wireless",
+   "title": "2011 World Championships Scrafty",
+   "gifts": [
+    "Scrafty"
+   ],
+   "games": [
+    "black",
+    "white"
+   ],
+   "runs": [
+    {
+     "start": "2011-08-14",
+     "end": "2011-08-14"
+    }
+   ],
+   "cards": [
+    {
+     "path": "Released/Gen 5/Wondercards/FRE/0037 BW - WORLD11 Scrafty (FRE).pgf",
+     "size": 204,
+     "sha256": "39ff7cfca7111bd41c586f03068b69487b1b829d856e885f7f125f549036ff1e"
+    }
+   ]
+  },
+  {
+   "language": "fr",
+   "method": "wireless",
+   "title": "Zoroark Month Zoroark",
+   "gifts": [
+    "Zoroark"
+   ],
+   "games": [
+    "black",
+    "white"
+   ],
+   "runs": [
+    {
+     "start": "2011-09-16",
+     "end": "2011-10-16"
+    }
+   ],
+   "cards": [
+    {
+     "path": "Released/Gen 5/Wondercards/FRE/0030 BW - ÉVNMT11 Zoroark (FRE).pgf",
+     "size": 204,
+     "sha256": "8b122b046668d48426d4a6fe75c6881dd6d200399731660ed3135ee7b4bee937"
+    }
+   ]
+  },
+  {
+   "language": "fr",
+   "method": "wireless",
+   "title": "Winter 2011 Darkrai",
+   "gifts": [
+    "Darkrai"
+   ],
+   "games": [
+    "black",
+    "white"
+   ],
+   "runs": [
+    {
+     "start": "2011-11-14",
+     "end": "2011-11-26"
+    }
+   ],
+   "cards": [
+    {
+     "path": "Released/Gen 5/Wondercards/FRE/0028 BW - 2011HVR Darkrai (FRE).pgf",
+     "size": 204,
+     "sha256": "c4573f5735d3731cd7e4d931a7a83d6d935cfed5dd602b1e70e04623f61b7d44"
+    }
+   ]
+  },
+  {
+   "language": "fr",
+   "method": "wfc",
+   "title": "Spring 2012 Pokémon",
+   "gifts": [
+    "Reshiram",
+    "Zekrom"
+   ],
+   "games": [
+    "black",
+    "white"
+   ],
+   "runs": [
+    {
+     "start": "2012-03-10",
+     "end": "2012-03-25"
+    }
+   ],
+   "cards": [
+    {
+     "path": "Released/Gen 5/Wondercards/FRE/0033 B - PRI2012 Zekrom (FRE).pgf",
+     "size": 204,
+     "sha256": "efe3390a2386cf74aee69fe6287006a22f7765e862ba6e38304d9ff71ae23941"
+    },
+    {
+     "path": "Released/Gen 5/Wondercards/FRE/0033 W - PRI2012 Reshiram (FRE).pgf",
+     "size": 204,
+     "sha256": "f760bf3ab4b572fd6dbe0acf70f25693baedc9b0da7c65bca1415ba9e959f7e4"
+    }
+   ]
+  },
+  {
+   "language": "fr",
+   "method": "wireless",
+   "title": "Video Game Championships 2012 Larvitar",
+   "gifts": [
+    "Larvitar"
+   ],
+   "games": [
+    "black",
+    "white"
+   ],
+   "runs": [
+    {
+     "start": "2012-03-17",
+     "end": "2012-03-17"
+    }
+   ],
+   "cards": [
+    {
+     "path": "Released/Gen 5/Wondercards/FRE/0061 BW - VGC12 Larvitar (FRE).pgf",
+     "size": 204,
+     "sha256": "bf4a07ee0a443fdc0a6997b47c37f2f2896e2e3ea1a0ecada4e8cc0444e78594"
+    }
+   ]
+  },
+  {
+   "language": "fr",
+   "method": "wfc",
+   "title": "Spring 2012 Mewtwo",
+   "gifts": [
+    "Mewtwo"
+   ],
+   "games": [
+    "black",
+    "white"
+   ],
+   "runs": [
+    {
+     "start": "2012-03-26",
+     "end": "2012-05-01"
+    }
+   ],
+   "cards": [
+    {
+     "path": "Released/Gen 5/Wondercards/FRE/0048 BW - PRI2012 Mewtwo (FRE).pgf",
+     "size": 204,
+     "sha256": "0509a5eacb420df3edd5c1f16960f45eb2f03a9233b255ce19aec98d55b2c3d8"
+    }
+   ]
+  },
+  {
+   "language": "fr",
+   "method": "wfc",
+   "title": "Movie 14 Victini",
+   "gifts": [
+    "Victini"
+   ],
+   "games": [
+    "black",
+    "white"
+   ],
+   "runs": [
+    {
+     "start": "2012-06-01",
+     "end": "2012-06-30"
+    }
+   ],
+   "cards": [
+    {
+     "path": "Released/Gen 5/Wondercards/FRE/0032 BW - FILM14 Victini (FRE).pgf",
+     "size": 204,
+     "sha256": "5b10646c7268be193ef0cc03876e90324adc51aec2a993b3b421c02e4845372d"
+    }
+   ]
+  },
+  {
+   "language": "fr",
+   "method": "wireless",
+   "title": "Summer 2012 Pikachu",
+   "gifts": [
+    "Pikachu"
+   ],
+   "games": [
+    "black",
+    "white"
+   ],
+   "runs": [
+    {
+     "start": "2012-07-05",
+     "end": "2012-07-08"
+    }
+   ],
+   "cards": [
+    {
+     "path": "Released/Gen 5/Wondercards/FRE/0071 BW - ÉTÉ2012 Pikachu (FRE).pgf",
+     "size": 204,
+     "sha256": "8c89afa7f04feb429ca2ddbf30f05882f51de8e35fb0a589fb58b6a1bfca15ab"
+    }
+   ]
+  },
+  {
+   "language": "fr",
+   "method": "wireless",
+   "title": "2012 World Championships Pikachu",
+   "gifts": [
+    "Pikachu"
+   ],
+   "games": [
+    "black",
+    "white"
+   ],
+   "runs": [
+    {
+     "start": "2012-08-12",
+     "end": "2012-08-12"
+    }
+   ],
+   "cards": [
+    {
+     "path": "Released/Gen 5/Wondercards/FRE/0100 BW - WORLD12 Pikachu (FRE).pgf",
+     "size": 204,
+     "sha256": "7622697dfb65858ec30b35f16955927a8b774a5eed3f126b42fa968efed583f2"
+    }
+   ]
+  },
+  {
+   "language": "fr",
+   "method": "wireless",
+   "title": "Summer 2012 Keldeo",
+   "gifts": [
+    "Keldeo"
+   ],
+   "games": [
+    "black",
+    "white"
+   ],
+   "runs": [
+    {
+     "start": "2012-09-01",
+     "end": "2012-10-11"
+    }
+   ],
+   "cards": [
+    {
+     "path": "Released/Gen 5/Wondercards/FRE/0069 BW - ÉTÉ2012 Keldeo (FRE).pgf",
+     "size": 204,
+     "sha256": "3b398d7becb2203eb0c663c789f0ba40ba1f6bfc36f9e5aa3a2c4d19f936e99d"
+    }
+   ]
+  },
+  {
+   "language": "fr",
+   "method": "wireless",
+   "title": "Spring 2013 Meloetta",
+   "gifts": [
+    "Meloetta"
+   ],
+   "games": [
+    "black",
+    "white"
+   ],
+   "runs": [
+    {
+     "start": "2013-03-22",
+     "end": "2013-04-19"
+    }
+   ],
+   "cards": [
+    {
+     "path": "Released/Gen 5/Wondercards/FRE/0129 BWB2W2 - PRI2013 Meloetta (FRE).pgf",
+     "size": 204,
+     "sha256": "5cf28e279426d114a344a8d4798f8382fd5fb5d342b17f4f5b98abeb13790b6d"
+    }
+   ]
+  },
+  {
+   "language": "fr",
+   "method": "wireless",
+   "title": "Video Game Championships 2013 Metagross",
+   "gifts": [
+    "Metagross"
+   ],
+   "games": [
+    "black",
+    "white"
+   ],
+   "runs": [
+    {
+     "start": "2013-05-12",
+     "end": "2013-05-12"
+    }
+   ],
+   "cards": [
+    {
+     "path": "Released/Gen 5/Wondercards/FRE/0132 BWB2W2 - Ray Metagross (FRE).pgf",
+     "size": 204,
+     "sha256": "2e576056ec96900bdc8ad25fd058ad10970c10041b8fe9c2c50053133ed1235f"
+    }
+   ]
+  },
+  {
+   "language": "fr",
+   "method": "wireless",
+   "title": "2013 World Championships Smeargle",
+   "gifts": [
+    "Smeargle"
+   ],
+   "games": [
+    "black",
+    "white"
+   ],
+   "runs": [
+    {
+     "start": "2013-08-10",
+     "end": "2013-08-11"
+    }
+   ],
+   "cards": [
+    {
+     "path": "Released/Gen 5/Wondercards/FRE/0155 BWB2W2 - WORLD13 Smeargle (FRE).pgf",
+     "size": 204,
+     "sha256": "741d5411d7823656bea0c76ea1c3089720ae8ee0662362f16ea6f28c143a27d0"
+    }
+   ]
+  },
+  {
+   "language": "fr",
+   "method": "wireless",
+   "title": "International Summer 2013 Pokémon of myth",
+   "gifts": [
+    "Giratina",
+    "Palkia",
+    "Dialga"
+   ],
+   "games": [
+    "black",
+    "white"
+   ],
+   "runs": [
+    {
+     "start": "2013-09-27",
+     "end": "2013-10-11"
+    }
+   ],
+   "cards": [
+    {
+     "path": "Released/Gen 5/Wondercards/FRE/0148 BWB2W2 - ÉTÉ2013 Shiny Dialga (FRE).pgf",
+     "size": 204,
+     "sha256": "9c57dcd610768d7c601e708753efe1fb33e4f19e327d618136d0dabf4e4c33e0"
+    },
+    {
+     "path": "Released/Gen 5/Wondercards/FRE/0149 BWB2W2 - ÉTÉ2013 Shiny Palkia (FRE).pgf",
+     "size": 204,
+     "sha256": "90db058f5d0edce73b9818e8c33abb104427952fcfd0e97921db8928699a37dd"
+    },
+    {
+     "path": "Released/Gen 5/Wondercards/FRE/0150 BWB2W2 - ÉTÉ2013 Shiny Giratina (FRE).pgf",
+     "size": 204,
+     "sha256": "1ac19f41f75836f08c0113285f219379ac418af1abd6480ffbe0b6138eb412f5"
+    }
+   ]
+  },
+  {
+   "language": "de",
+   "method": "wfc",
+   "title": "Liberty Pass",
+   "gifts": [
+    "Liberty Pass"
+   ],
+   "games": [
+    "black",
+    "white"
+   ],
+   "runs": [
+    {
+     "start": "2011-03-04",
+     "end": "2011-04-27"
+    }
+   ],
+   "cards": [
+    {
+     "path": "Released/Gen 5/Wondercards/GER/2046 BW - Item Liberty Pass (GER).pgf",
+     "size": 204,
+     "sha256": "830e21d48746edb5a5ee9bbc38219b94d415e6afa57be805df17fe1e2c4c21f9"
+    }
+   ]
+  },
+  {
+   "language": "de",
+   "method": "wireless",
+   "title": "Summer 2011 Pokémon",
+   "gifts": [
+    "Karrablast",
+    "Shelmet"
+   ],
+   "games": [
+    "black",
+    "white"
+   ],
+   "runs": [
+    {
+     "start": "2011-06-24",
+     "end": "2011-08-27"
+    }
+   ],
+   "cards": [
+    {
+     "path": "Released/Gen 5/Wondercards/GER/0002 BW - SMR2011 Karrablast (GER).pgf",
+     "size": 204,
+     "sha256": "b79fc49e2fe3f418ed22bcae580803ce81d8b62b0d38e67599263aea170c03aa"
+    },
+    {
+     "path": "Released/Gen 5/Wondercards/GER/0003 BW - SMR2011 Shelmet (GER).pgf",
+     "size": 204,
+     "sha256": "839e20eabf9db926b7489dd18aa38031e0a65c900ae47c3f51c0e4656c7f67a1"
+    }
+   ]
+  },
+  {
+   "language": "de",
+   "method": "wireless",
+   "title": "2011 World Championships Scrafty",
+   "gifts": [
+    "Scrafty"
+   ],
+   "games": [
+    "black",
+    "white"
+   ],
+   "runs": [
+    {
+     "start": "2011-08-14",
+     "end": "2011-08-14"
+    }
+   ],
+   "cards": [
+    {
+     "path": "Released/Gen 5/Wondercards/GER/0037 BW - WORLD11 Scrafty (GER).pgf",
+     "size": 204,
+     "sha256": "10cb3a2aeab02c5d69bbf233c846a1d965278b837f295528087384774f69ca4c"
+    }
+   ]
+  },
+  {
+   "language": "de",
+   "method": "wireless",
+   "title": "Summer 2011 Zoroark",
+   "gifts": [
+    "Zoroark"
+   ],
+   "games": [
+    "black",
+    "white"
+   ],
+   "runs": [
+    {
+     "start": "2011-08-27",
+     "end": "2011-10-01"
+    }
+   ],
+   "cards": [
+    {
+     "path": "Released/Gen 5/Wondercards/GER/0030 BW - SMR2011 Zoroark (GER).pgf",
+     "size": 204,
+     "sha256": "efc81e761d303d60fb4f0f74e99e4a2a0b4b842fcd7af8aad24dc1379fad0ba8"
+    }
+   ]
+  },
+  {
+   "language": "de",
+   "method": "wireless",
+   "title": "Winter 2011 Darkrai",
+   "gifts": [
+    "Darkrai"
+   ],
+   "games": [
+    "black",
+    "white"
+   ],
+   "runs": [
+    {
+     "start": "2011-11-16",
+     "end": "2012-01-31"
+    }
+   ],
+   "cards": [
+    {
+     "path": "Released/Gen 5/Wondercards/GER/0028 BW - 2011WIN Darkrai (GER).pgf",
+     "size": 204,
+     "sha256": "c093cb3ae45bf22d602a610be6ae7078ea3be033398caa6db235b4c3a9f2a6c1"
+    }
+   ]
+  },
+  {
+   "language": "de",
+   "method": "wfc",
+   "title": "Spring 2012 Pokémon",
+   "gifts": [
+    "Reshiram",
+    "Zekrom"
+   ],
+   "games": [
+    "black",
+    "white"
+   ],
+   "runs": [
+    {
+     "start": "2012-03-10",
+     "end": "2012-04-08"
+    }
+   ],
+   "cards": [
+    {
+     "path": "Released/Gen 5/Wondercards/GER/0033 B - FRÜ2012 Zekrom (GER).pgf",
+     "size": 204,
+     "sha256": "a8869163825bd0f1ca32e0ca31c560de569dec7f95172f74d9939b8df7f5b5fc"
+    },
+    {
+     "path": "Released/Gen 5/Wondercards/GER/0033 W - FRÜ2012 Reshiram (GER).pgf",
+     "size": 204,
+     "sha256": "fd658c41ed0bf5890df25f296f0dcbb286f15d5e13aa95ecbf50298450adf143"
+    }
+   ]
+  },
+  {
+   "language": "de",
+   "method": "wireless",
+   "title": "Video Game Championships 2012 Larvitar",
+   "gifts": [
+    "Larvitar"
+   ],
+   "games": [
+    "black",
+    "white"
+   ],
+   "runs": [
+    {
+     "start": "2012-03-10",
+     "end": "2012-03-10"
+    }
+   ],
+   "cards": [
+    {
+     "path": "Released/Gen 5/Wondercards/GER/0061 BW - VGC12 Larvitar (GER).pgf",
+     "size": 204,
+     "sha256": "3b3e66f6d78938b61ec21932fde7b8f7f5919a0064dee90aabd3ca82f1b6cffe"
+    }
+   ]
+  },
+  {
+   "language": "de",
+   "method": "wfc",
+   "title": "Movie 14 Victini",
+   "gifts": [
+    "Victini"
+   ],
+   "games": [
+    "black",
+    "white"
+   ],
+   "runs": [
+    {
+     "start": "2012-04-10",
+     "end": "2012-04-30"
+    }
+   ],
+   "cards": [
+    {
+     "path": "Released/Gen 5/Wondercards/GER/0032 BW - FILM14 Victini (GER).pgf",
+     "size": 204,
+     "sha256": "922562c246bb19b5817d70acefdfa7547d46ddca8786fdc0b1fb405335d2392d"
+    }
+   ]
+  },
+  {
+   "language": "de",
+   "method": "wfc",
+   "title": "Spring 2012 Mewtwo",
+   "gifts": [
+    "Mewtwo"
+   ],
+   "games": [
+    "black",
+    "white"
+   ],
+   "runs": [
+    {
+     "start": "2012-05-01",
+     "end": "2012-05-31"
+    }
+   ],
+   "cards": [
+    {
+     "path": "Released/Gen 5/Wondercards/GER/0048 BW - FRÜ2012 Mewtwo (GER).pgf",
+     "size": 204,
+     "sha256": "6437cc54a1d3fc66ad570ce69c8ece66db3bdc9e8e153e5222577ee2d1876f35"
+    }
+   ]
+  },
+  {
+   "language": "de",
+   "method": "wireless",
+   "title": "2012 World Championships Pikachu",
+   "gifts": [
+    "Pikachu"
+   ],
+   "games": [
+    "black",
+    "white"
+   ],
+   "runs": [
+    {
+     "start": "2012-08-12",
+     "end": "2012-08-12"
+    }
+   ],
+   "cards": [
+    {
+     "path": "Released/Gen 5/Wondercards/GER/0100 BW - WORLD12 Pikachu (GER).pgf",
+     "size": 204,
+     "sha256": "6877bfb4bfc9a9d6261d0f4891972441e30538e05d2506b9c3f5cbe81165f310"
+    }
+   ]
+  },
+  {
+   "language": "de",
+   "method": "wireless",
+   "title": "Summer 2012 Pikachu",
+   "gifts": [
+    "Pikachu"
+   ],
+   "games": [
+    "black",
+    "white"
+   ],
+   "runs": [
+    {
+     "start": "2012-08-18",
+     "end": "2012-09-29"
+    }
+   ],
+   "cards": [
+    {
+     "path": "Released/Gen 5/Wondercards/GER/0071 BW - SMR2012 Pikachu (GER).pgf",
+     "size": 204,
+     "sha256": "5c55b53d5d16c6b9d7f2a3725de889933638fe8374d15f1537e93d31bf79f0ff"
+    }
+   ]
+  },
+  {
+   "language": "de",
+   "method": "wireless",
+   "title": "Summer 2012 Keldeo",
+   "gifts": [
+    "Keldeo"
+   ],
+   "games": [
+    "black",
+    "white"
+   ],
+   "runs": [
+    {
+     "start": "2012-09-01",
+     "end": "2012-10-11"
+    }
+   ],
+   "cards": [
+    {
+     "path": "Released/Gen 5/Wondercards/GER/0069 BW - SMR2012 Keldeo (GER).pgf",
+     "size": 204,
+     "sha256": "6e0294109774523ddd81c8419ead1f7bd25d3c5c9428b6d352e0fa8b0cf42835"
+    }
+   ]
+  },
+  {
+   "language": "de",
+   "method": "wireless",
+   "title": "Spring 2013 Meloetta",
+   "gifts": [
+    "Meloetta"
+   ],
+   "games": [
+    "black",
+    "white"
+   ],
+   "runs": [
+    {
+     "start": "2013-03-22",
+     "end": "2013-04-19"
+    }
+   ],
+   "cards": [
+    {
+     "path": "Released/Gen 5/Wondercards/GER/0129 BWB2W2 - FRÜ2013 Meloetta (GER).pgf",
+     "size": 204,
+     "sha256": "00a8d9144920e66b2f333e7e04d880cda68661c423cd09c6f2b33e66a5559645"
+    }
+   ]
+  },
+  {
+   "language": "de",
+   "method": "wireless",
+   "title": "Video Game Championships 2013 Metagross",
+   "gifts": [
+    "Metagross"
+   ],
+   "games": [
+    "black",
+    "white"
+   ],
+   "runs": [
+    {
+     "start": "2013-05-26",
+     "end": "2013-05-26"
+    }
+   ],
+   "cards": [
+    {
+     "path": "Released/Gen 5/Wondercards/GER/0132 BWB2W2 - Ray Metagross (GER).pgf",
+     "size": 204,
+     "sha256": "7bae324c18ac7a445a91995ae8fa05f4c82fe21d7c21dd292b9704b21849adc0"
+    }
+   ]
+  },
+  {
+   "language": "de",
+   "method": "wireless",
+   "title": "2013 World Championships Smeargle",
+   "gifts": [
+    "Smeargle"
+   ],
+   "games": [
+    "black",
+    "white"
+   ],
+   "runs": [
+    {
+     "start": "2013-08-10",
+     "end": "2013-08-11"
+    }
+   ],
+   "cards": [
+    {
+     "path": "Released/Gen 5/Wondercards/GER/0155 BWB2W2 - WORLD13 Smeargle (GER).pgf",
+     "size": 204,
+     "sha256": "3c2706ab8cd75cd29b7cd3948180191ceb26eaf7c57f960350eb0d1b6be9ac97"
+    }
+   ]
+  },
+  {
+   "language": "de",
+   "method": "wireless",
+   "title": "International Summer 2013 Shiny Pokémon of myth",
+   "gifts": [
+    "Giratina",
+    "Palkia",
+    "Dialga"
+   ],
+   "games": [
+    "black",
+    "white"
+   ],
+   "runs": [
+    {
+     "start": "2013-09-27",
+     "end": "2013-10-12"
+    }
+   ],
+   "cards": [
+    {
+     "path": "Released/Gen 5/Wondercards/GER/0148 BWB2W2 - SOM2013 Shiny Dialga (GER).pgf",
+     "size": 204,
+     "sha256": "ff4ccfe024c3a99a7a56ab700017f4f8f84751cd1a48bdc97824e142572e28ce"
+    },
+    {
+     "path": "Released/Gen 5/Wondercards/GER/0149 BWB2W2 - SOM2013 Shiny Palkia (GER).pgf",
+     "size": 204,
+     "sha256": "53a5544a56ca2928aa526e8099705d4fd91c7acfdf17db44cc56dcd6cd2cce4a"
+    },
+    {
+     "path": "Released/Gen 5/Wondercards/GER/0150 BWB2W2 - SOM2013 Shiny Giratina (GER).pgf",
+     "size": 204,
+     "sha256": "4009c3142dc3458fe4c82057e929903845902047410659835af11a7c1f1ce1bf"
+    }
+   ]
+  },
+  {
+   "language": "it",
+   "method": "wfc",
+   "title": "Liberty Pass",
+   "gifts": [
+    "Liberty Pass"
+   ],
+   "games": [
+    "black",
+    "white"
+   ],
+   "runs": [
+    {
+     "start": "2011-03-04",
+     "end": "2011-04-27"
+    }
+   ],
+   "cards": [
+    {
+     "path": "Released/Gen 5/Wondercards/ITA/2046 BW - Item Liberty Pass (ITA).pgf",
+     "size": 204,
+     "sha256": "3708018a68a60a228b18f1f39e89a894ac7baf1725968e19494efac692a74ac5"
+    }
+   ]
+  },
+  {
+   "language": "it",
+   "method": "wireless",
+   "title": "Summer 2011 Zoroark",
+   "gifts": [
+    "Zoroark"
+   ],
+   "games": [
+    "black",
+    "white"
+   ],
+   "runs": [
+    {
+     "start": "2011-06-18",
+     "end": "2011-06-19"
+    },
+    {
+     "start": "2011-07-20",
+     "end": "2011-10-23"
+    }
+   ],
+   "cards": [
+    {
+     "path": "Released/Gen 5/Wondercards/ITA/0030 BW - EST2011 Zoroark (ITA).pgf",
+     "size": 204,
+     "sha256": "111481c6e6cd8bae72545d764646c6c6a7d59ef57c02493eb2ca14780aa9547d"
+    }
+   ]
+  },
+  {
+   "language": "it",
+   "method": "wireless",
+   "title": "Summer 2011 Pokémon",
+   "gifts": [
+    "Karrablast",
+    "Shelmet"
+   ],
+   "games": [
+    "black",
+    "white"
+   ],
+   "runs": [
+    {
+     "start": "2011-07-20",
+     "end": "2011-10-23"
+    }
+   ],
+   "cards": [
+    {
+     "path": "Released/Gen 5/Wondercards/ITA/0002 BW - EST2011 Karrablast (ITA).pgf",
+     "size": 204,
+     "sha256": "492fc53cd34afd24f321c2c7576928369fbd9503a5652ca154707ae1134c6f3e"
+    },
+    {
+     "path": "Released/Gen 5/Wondercards/ITA/0003 BW - EST2011 Shelmet (ITA).pgf",
+     "size": 204,
+     "sha256": "2a65e18e0e1fd2048f5f2e8b05bb251822f645bb6e89f4e35ed5caa2a16b4598"
+    }
+   ]
+  },
+  {
+   "language": "it",
+   "method": "wireless",
+   "title": "2011 World Championships Scrafty",
+   "gifts": [
+    "Scrafty"
+   ],
+   "games": [
+    "black",
+    "white"
+   ],
+   "runs": [
+    {
+     "start": "2011-08-14",
+     "end": "2011-08-14"
+    }
+   ],
+   "cards": [
+    {
+     "path": "Released/Gen 5/Wondercards/ITA/0037 BW - WORLD11 Scrafty (ITA).pgf",
+     "size": 204,
+     "sha256": "a0045d6d4935d6d563ee1ea26a7850252e4474be2997e2c10e9b944b6cddbe4b"
+    }
+   ]
+  },
+  {
+   "language": "it",
+   "method": "wireless",
+   "title": "Winter 2011 Darkrai",
+   "gifts": [
+    "Darkrai"
+   ],
+   "games": [
+    "black",
+    "white"
+   ],
+   "runs": [
+    {
+     "start": "2011-11-19",
+     "end": "2011-12-18"
+    }
+   ],
+   "cards": [
+    {
+     "path": "Released/Gen 5/Wondercards/ITA/0028 BW - 2011INV Darkrai (ITA).pgf",
+     "size": 204,
+     "sha256": "8337b9ee7ba379b4d27f76ccf73c0ce91bab9f56b382decef412f064a89b1783"
+    }
+   ]
+  },
+  {
+   "language": "it",
+   "method": "wfc",
+   "title": "Spring 2012 Pokémon",
+   "gifts": [
+    "Reshiram",
+    "Zekrom"
+   ],
+   "games": [
+    "black",
+    "white"
+   ],
+   "runs": [
+    {
+     "start": "2012-03-10",
+     "end": "2012-04-08"
+    }
+   ],
+   "cards": [
+    {
+     "path": "Released/Gen 5/Wondercards/ITA/0033 B - PRI2012 Zekrom (ITA).pgf",
+     "size": 204,
+     "sha256": "b148629740ad6731d09a1d3403b67e448f023487a2d9c65142ab65bfe09fc219"
+    },
+    {
+     "path": "Released/Gen 5/Wondercards/ITA/0033 W - PRI2012 Reshiram (ITA).pgf",
+     "size": 204,
+     "sha256": "701a658956396e824ffceca2c04b6376ce4deef7a955517192217b080fe1c7f5"
+    }
+   ]
+  },
+  {
+   "language": "it",
+   "method": "wireless",
+   "title": "Video Game Championships 2012 Larvitar",
+   "gifts": [
+    "Larvitar"
+   ],
+   "games": [
+    "black",
+    "white"
+   ],
+   "runs": [
+    {
+     "start": "2012-04-01",
+     "end": "2012-04-01"
+    }
+   ],
+   "cards": [
+    {
+     "path": "Released/Gen 5/Wondercards/ITA/0061 BW - VGC12 Larvitar (ITA).pgf",
+     "size": 204,
+     "sha256": "61f49c2fee79fdb754c1fb43080c7fbc002a833749432a6d410f2b83e4337741"
+    }
+   ]
+  },
+  {
+   "language": "it",
+   "method": "wfc",
+   "title": "Movie 14 Victini",
+   "gifts": [
+    "Victini"
+   ],
+   "games": [
+    "black",
+    "white"
+   ],
+   "runs": [
+    {
+     "start": "2012-04-10",
+     "end": "2012-04-30"
+    }
+   ],
+   "cards": [
+    {
+     "path": "Released/Gen 5/Wondercards/ITA/0032 BW - FILM14 Victini (ITA).pgf",
+     "size": 204,
+     "sha256": "118714ee47828af233ecad072138ea7fe6a83eb0dee5873ac9c7c92edd96f453"
+    }
+   ]
+  },
+  {
+   "language": "it",
+   "method": "wfc",
+   "title": "Spring 2012 Mewtwo",
+   "gifts": [
+    "Mewtwo"
+   ],
+   "games": [
+    "black",
+    "white"
+   ],
+   "runs": [
+    {
+     "start": "2012-05-01",
+     "end": "2012-05-31"
+    }
+   ],
+   "cards": [
+    {
+     "path": "Released/Gen 5/Wondercards/ITA/0048 BW - PRI2012 Mewtwo (ITA).pgf",
+     "size": 204,
+     "sha256": "3fa691e889115d68ea49f74a8007811be66b94ee0753f4cf8b00f0362fa83bc3"
+    }
+   ]
+  },
+  {
+   "language": "it",
+   "method": "wireless",
+   "title": "Summer 2012 Pikachu",
+   "gifts": [
+    "Pikachu"
+   ],
+   "games": [
+    "black",
+    "white"
+   ],
+   "runs": [
+    {
+     "start": "2012-07-14",
+     "end": "2012-07-15"
+    }
+   ],
+   "cards": [
+    {
+     "path": "Released/Gen 5/Wondercards/ITA/0071 BW - EST2012 Pikachu (ITA).pgf",
+     "size": 204,
+     "sha256": "57fc7af416fa3a30e671080209ede5f90debe8a7f8f56f956173ffa065fed5b6"
+    }
+   ]
+  },
+  {
+   "language": "it",
+   "method": "wireless",
+   "title": "2012 World Championships Pikachu",
+   "gifts": [
+    "Pikachu"
+   ],
+   "games": [
+    "black",
+    "white"
+   ],
+   "runs": [
+    {
+     "start": "2012-08-12",
+     "end": "2012-08-12"
+    }
+   ],
+   "cards": [
+    {
+     "path": "Released/Gen 5/Wondercards/ITA/0100 BW - WORLD12 Pikachu (ITA).pgf",
+     "size": 204,
+     "sha256": "5b2fc7622298ee941c74e5fb7a307cc570b004b9501af02b45c01e709a07c2a8"
+    }
+   ]
+  },
+  {
+   "language": "it",
+   "method": "wireless",
+   "title": "Summer 2012 Keldeo",
+   "gifts": [
+    "Keldeo"
+   ],
+   "games": [
+    "black",
+    "white"
+   ],
+   "runs": [
+    {
+     "start": "2012-09-15",
+     "end": "2012-10-11"
+    }
+   ],
+   "cards": [
+    {
+     "path": "Released/Gen 5/Wondercards/ITA/0069 BW - EST2012 Keldeo (ITA).pgf",
+     "size": 204,
+     "sha256": "c2bfe984d6f42af1e17982f67c42f2f2f1b2e7f26bfbaa191736acea291eb057"
+    }
+   ]
+  },
+  {
+   "language": "it",
+   "method": "wireless",
+   "title": "Spring 2013 Meloetta",
+   "gifts": [
+    "Meloetta"
+   ],
+   "games": [
+    "black",
+    "white"
+   ],
+   "runs": [
+    {
+     "start": "2013-03-22",
+     "end": "2013-04-19"
+    }
+   ],
+   "cards": [
+    {
+     "path": "Released/Gen 5/Wondercards/ITA/0129 BWB2W2 - PRI2013 Meloetta (ITA).pgf",
+     "size": 204,
+     "sha256": "810d651a91e3015b9868a97ab1fbc101e9656f2fb525f94b19b7064482a3e032"
+    }
+   ]
+  },
+  {
+   "language": "it",
+   "method": "wireless",
+   "title": "Video Game Championships 2013 Metagross",
+   "gifts": [
+    "Metagross"
+   ],
+   "games": [
+    "black",
+    "white"
+   ],
+   "runs": [
+    {
+     "start": "2013-05-12",
+     "end": "2013-05-12"
+    }
+   ],
+   "cards": [
+    {
+     "path": "Released/Gen 5/Wondercards/ITA/0132 BWB2W2 - Ray Metagross (ITA).pgf",
+     "size": 204,
+     "sha256": "56dd21a76107c41231b6928cd6c7e0920c48941a9b249a8aa6f68defe3a74aea"
+    }
+   ]
+  },
+  {
+   "language": "it",
+   "method": "wireless",
+   "title": "Team Rocket Meowth",
+   "gifts": [
+    "Meowth"
+   ],
+   "games": [
+    "black",
+    "white"
+   ],
+   "runs": [
+    {
+     "start": "2013-07-13",
+     "end": "2013-07-14"
+    }
+   ],
+   "cards": [
+    {
+     "path": "Released/Gen 5/Wondercards/ITA/0120 BWB2W2 - ROCKET Meowth (ITA).pgf",
+     "size": 204,
+     "sha256": "4f822c26f7df2710380bf29f9e10220e013aa2d7ec7448ba12de16927ff03c21"
+    }
+   ]
+  },
+  {
+   "language": "it",
+   "method": "wireless",
+   "title": "2013 World Championships Smeargle",
+   "gifts": [
+    "Smeargle"
+   ],
+   "games": [
+    "black",
+    "white"
+   ],
+   "runs": [
+    {
+     "start": "2013-08-10",
+     "end": "2013-08-11"
+    }
+   ],
+   "cards": [
+    {
+     "path": "Released/Gen 5/Wondercards/ITA/0155 BWB2W2 - WORLD13 Smeargle (ITA).pgf",
+     "size": 204,
+     "sha256": "3e756a624ec1795c3490f79e375ebf9e2f2ee6811d5039216cd493deb08537b4"
+    }
+   ]
+  },
+  {
+   "language": "it",
+   "method": "wireless",
+   "title": "International Summer 2013 Shiny Pokémon of myth",
+   "gifts": [
+    "Giratina",
+    "Palkia",
+    "Dialga"
+   ],
+   "games": [
+    "black",
+    "white"
+   ],
+   "runs": [
+    {
+     "start": "2013-09-27",
+     "end": "2013-10-11"
+    }
+   ],
+   "cards": [
+    {
+     "path": "Released/Gen 5/Wondercards/ITA/0148 BWB2W2 - EST2013 Shiny Dialga (ITA).pgf",
+     "size": 204,
+     "sha256": "cd6b86b4feaf1d33f0f3284b6e3027a58910d536c57a149b301ac841197a424a"
+    },
+    {
+     "path": "Released/Gen 5/Wondercards/ITA/0149 BWB2W2 - EST2013 Shiny Palkia (ITA).pgf",
+     "size": 204,
+     "sha256": "978a3c380cb5db0ca07959de3c5146b2e6eac8c6248b63990f7e6055aeb959bc"
+    },
+    {
+     "path": "Released/Gen 5/Wondercards/ITA/0150 BWB2W2 - EST2013 Shiny Giratina (ITA).pgf",
+     "size": 204,
+     "sha256": "82fd7da1004cdbfd0ae5143569ccabce9965fc2b9b0c6b16f4688e7d4e506dbb"
+    }
+   ]
+  },
+  {
+   "language": "ja",
+   "method": "wfc",
+   "title": "Liberty Pass",
+   "gifts": [
+    "Liberty Pass"
+   ],
+   "games": [
+    "black",
+    "white"
+   ],
+   "runs": [
+    {
+     "start": "2010-09-18",
+     "end": "2010-10-18"
+    }
+   ],
+   "cards": [
+    {
+     "path": "Released/Gen 5/Wondercards/JPN/2046 BW - Item Liberty Pass (JPN).pgf",
+     "size": 204,
+     "sha256": "fd7ce23b26c8ad3bcfa64c7bc5c0ee99d1357323f60ab8d6a147c1f7ae24e7f7"
+    }
+   ]
+  },
+  {
+   "language": "ja",
+   "method": "wireless",
+   "title": "Trade for Evolution! Pokémon",
+   "gifts": [
+    "Machoke",
+    "Slowpoke",
+    "Haunter",
+    "Scyther",
+    "Electabuzz",
+    "Magmar",
+    "Karrablast",
+    "Shelmet"
+   ],
+   "games": [
+    "black",
+    "white"
+   ],
+   "runs": [
+    {
+     "start": "2010-10-10",
+     "end": "2010-11-28"
+    }
+   ],
+   "cards": [
+    {
+     "path": "Released/Gen 5/Wondercards/JPN/0002 BW - きょうえん Electabuzz (JPN).pgf",
+     "size": 204,
+     "sha256": "710c22e54f4c4f4dc7db5b2aebd8b6e3ee718bc57ebaffc37229a90f7fcd1269"
+    },
+    {
+     "path": "Released/Gen 5/Wondercards/JPN/0002 BW - きょうえん Haunter (JPN).pgf",
+     "size": 204,
+     "sha256": "9ee590be878e5e78ebfd5deb432b64c424500570686f4525ea594603e18074e8"
+    },
+    {
+     "path": "Released/Gen 5/Wondercards/JPN/0002 BW - きょうえん Karrablast (JPN).pgf",
+     "size": 204,
+     "sha256": "93da14145238b5e5ec8a72976e0102874986ea1534ba6d659fb2cb60a3696651"
+    },
+    {
+     "path": "Released/Gen 5/Wondercards/JPN/0002 BW - きょうえん Machoke (JPN).pgf",
+     "size": 204,
+     "sha256": "220a39aed824691057938314df1639354c6aa59068d33257d89ff566584af945"
+    },
+    {
+     "path": "Released/Gen 5/Wondercards/JPN/0002 BW - きょうえん Magmar (JPN).pgf",
+     "size": 204,
+     "sha256": "bf9277d4af61640c06741ffcca1924b6dd6fe0fc0016f36568b88a9fb4fb6309"
+    },
+    {
+     "path": "Released/Gen 5/Wondercards/JPN/0002 BW - きょうえん Scyther (JPN).pgf",
+     "size": 204,
+     "sha256": "b080618e1f9d800560d248379f7578c435befb1436892246c9e12af750f6b034"
+    },
+    {
+     "path": "Released/Gen 5/Wondercards/JPN/0002 BW - きょうえん Shelmet (JPN).pgf",
+     "size": 204,
+     "sha256": "f61a87a4b9375269f966aedc17b00b6a0c4248f02c856e45c21e4e316eb94e77"
+    },
+    {
+     "path": "Released/Gen 5/Wondercards/JPN/0002 BW - きょうえん Slowpoke (JPN).pgf",
+     "size": 204,
+     "sha256": "b87f516d28c00b29f128b68955e677f6fe1619d6c4c8e42a3bc7f1bf3c584a3f"
+    },
+    {
+     "path": "Released/Gen 5/Wondercards/JPN/0004 BW - せいしゃ Electabuzz (JPN).pgf",
+     "size": 204,
+     "sha256": "317b9189d58b311f880a6ea055c57a52fd5a313036dd5743c797535716722af7"
+    },
+    {
+     "path": "Released/Gen 5/Wondercards/JPN/0004 BW - せいしゃ Haunter (JPN).pgf",
+     "size": 204,
+     "sha256": "4065a133e7e16ef0a008ec66f9b7a0e67b980e749c5b9dd6f6e3a82396d703aa"
+    },
+    {
+     "path": "Released/Gen 5/Wondercards/JPN/0004 BW - せいしゃ Karrablast (JPN).pgf",
+     "size": 204,
+     "sha256": "6aaebe5a49474c1d28b15b3527d4652775475b0c1a743b911f306205bb15914d"
+    },
+    {
+     "path": "Released/Gen 5/Wondercards/JPN/0004 BW - せいしゃ Machoke (JPN).pgf",
+     "size": 204,
+     "sha256": "2d6540920bf234971cc0cd313a41ec477ba06568cac0bfa46bc743609799ecb8"
+    },
+    {
+     "path": "Released/Gen 5/Wondercards/JPN/0004 BW - せいしゃ Magmar (JPN).pgf",
+     "size": 204,
+     "sha256": "88a5d57b7fe0d111b2c7331e9a7ed7ed0057d2af7a3e287745db684ce518e7d7"
+    },
+    {
+     "path": "Released/Gen 5/Wondercards/JPN/0004 BW - せいしゃ Scyther (JPN).pgf",
+     "size": 204,
+     "sha256": "64f10bead606adc19863ddb7f1840d3b11b6e260349562db24914ef1b57c8df5"
+    },
+    {
+     "path": "Released/Gen 5/Wondercards/JPN/0004 BW - せいしゃ Shelmet (JPN).pgf",
+     "size": 204,
+     "sha256": "4ad2f3c2692d20cf7c5a26d7bb5f433e8844c14c0e899d999123ccdb4ab7e319"
+    },
+    {
+     "path": "Released/Gen 5/Wondercards/JPN/0004 BW - せいしゃ Slowpoke (JPN).pgf",
+     "size": 204,
+     "sha256": "abf1d15a61d52173d009fd8b9563c53d5e01f33a36a568d8198f048b801e9c77"
+    }
+   ]
+  },
+  {
+   "language": "ja",
+   "method": "wfc",
+   "title": "Pokémon Smash! Cubchoo",
+   "gifts": [
+    "Cubchoo"
+   ],
+   "games": [
+    "black",
+    "white"
+   ],
+   "runs": [
+    {
+     "start": "2010-10-22",
+     "end": "2010-11-29"
+    }
+   ],
+   "cards": [
+    {
+     "path": "Released/Gen 5/Wondercards/JPN/0001 BW - ポケスマ Cubchoo (JPN).pgf",
+     "size": 204,
+     "sha256": "03b0996c8c3e07f627542bd8420846b6dece247528482e6a135532253dfefdb6"
+    }
+   ]
+  },
+  {
+   "language": "ja",
+   "method": "wireless",
+   "title": "2010 Birthday Audino",
+   "gifts": [
+    "Audino"
+   ],
+   "games": [
+    "black",
+    "white"
+   ],
+   "runs": [
+    {
+     "start": "2010-11-04",
+     "end": "2011-11-03"
+    }
+   ],
+   "cards": [
+    {
+     "path": "Released/Gen 5/Wondercards/JPN/0003 BW - オーサカ Audino (JPN).pgf",
+     "size": 204,
+     "sha256": "390ebe8a20b1f28927213c52a2f1bcc27d9ed24eb96c73cb73bc5e066808f1e6"
+    },
+    {
+     "path": "Released/Gen 5/Wondercards/JPN/0003 BW - サッポロ Audino (JPN).pgf",
+     "size": 204,
+     "sha256": "ffe561bc8a4d53ddfa8b69262a9c2f787069951805cd8d791f02bf2eac769ca9"
+    }
+   ]
+  },
+  {
+   "language": "ja",
+   "method": "wfc",
+   "title": "Mystery Eggs",
+   "gifts": [
+    "Pansage",
+    "Pidove",
+    "Axew"
+   ],
+   "games": [
+    "black",
+    "white"
+   ],
+   "runs": [
+    {
+     "start": "2010-12-17",
+     "end": "2011-01-11"
+    }
+   ],
+   "cards": [
+    {
+     "path": "Released/Gen 5/Wondercards/JPN/0029 BW - (Trainer) Axew Egg (JPN).pgf",
+     "size": 204,
+     "sha256": "36973a3943898860832a3820faa2d99da720eef7cb773261deac2598dd80723a"
+    },
+    {
+     "path": "Released/Gen 5/Wondercards/JPN/0029 BW - (Trainer) Pansage Egg (JPN).pgf",
+     "size": 204,
+     "sha256": "3a707bd21b7435bba08878deee6e713b694e362d1e28cb07d30dffe7f73d1649"
+    },
+    {
+     "path": "Released/Gen 5/Wondercards/JPN/0029 BW - (Trainer) Pidove Egg (JPN).pgf",
+     "size": 204,
+     "sha256": "2934759867ee0fbb037661af6b5bb09d919ede2ab9c431014e8b31447a30bed9"
+    },
+    {
+     "path": "Released/Gen 5/Wondercards/JPN/0034 BW - サーチャー Axew (JPN).pgf",
+     "size": 204,
+     "sha256": "d58a184159312de6295c9aa64b60a852ac65362f5090ac337b5d8da97a068bd0"
+    },
+    {
+     "path": "Released/Gen 5/Wondercards/JPN/0158 BWB2W2 - デント Pansage (JPN).pgf",
+     "size": 204,
+     "sha256": "6a78b1b940c9a3b1d729cced3ba7a9a548ee1a9a9a228b105d71500a841815a7"
+    }
+   ]
+  },
+  {
+   "language": "ja",
+   "method": "wireless",
+   "title": "Winter Vacation Darkrai",
+   "gifts": [
+    "Darkrai"
+   ],
+   "games": [
+    "black",
+    "white"
+   ],
+   "runs": [
+    {
+     "start": "2010-12-27",
+     "end": "2011-01-11"
+    }
+   ],
+   "cards": [
+    {
+     "path": "Released/Gen 5/Wondercards/JPN/0028 BW - ふゆやすみ Darkrai (JPN).pgf",
+     "size": 204,
+     "sha256": "cb266d2ec2e2e152c31d694f402bc665683210aa12601202ad10c77e790bb3a6"
+    },
+    {
+     "path": "Released/Gen 5/Wondercards/JPN/0028 BW - ＡＮＡ Darkrai (JPN).pgf",
+     "size": 204,
+     "sha256": "ac9989840da496aec4f42a863dd4d8139aa1340f6686f296b385b40412a5a25a"
+    }
+   ]
+  },
+  {
+   "language": "ja",
+   "method": "wireless",
+   "title": "Pokémon Smash! Zoroark",
+   "gifts": [
+    "Zoroark"
+   ],
+   "games": [
+    "black",
+    "white"
+   ],
+   "runs": [
+    {
+     "start": "2011-01-16",
+     "end": "2011-02-06"
+    }
+   ],
+   "cards": [
+    {
+     "path": "Released/Gen 5/Wondercards/JPN/0030 BW - ポケスマ！Zoroark (JPN).pgf",
+     "size": 204,
+     "sha256": "8c0fe56494befc1a3fc765a2a806a56a9766c2d926c6da22fda0865d8c9b87be"
+    }
+   ]
+  },
+  {
+   "language": "ja",
+   "method": "wfc",
+   "title": "Ash's Scraggy",
+   "gifts": [
+    "Scraggy"
+   ],
+   "games": [
+    "black",
+    "white"
+   ],
+   "runs": [
+    {
+     "start": "2011-01-28",
+     "end": "2011-02-10"
+    }
+   ],
+   "cards": [
+    {
+     "path": "Released/Gen 5/Wondercards/JPN/0031 BW - サトシ Scraggy (JPN).pgf",
+     "size": 204,
+     "sha256": "a4bacd680b3806101c0ca3e058579df17f7bb3113c7fcc34d3ea27a8819f1011"
+    }
+   ]
+  },
+  {
+   "language": "ja",
+   "method": "wfc",
+   "title": "Pokémon Smash! Zoroark",
+   "gifts": [
+    "Zoroark"
+   ],
+   "games": [
+    "black",
+    "white"
+   ],
+   "runs": [
+    {
+     "start": "2011-02-15",
+     "end": "2011-03-14"
+    }
+   ],
+   "cards": [
+    {
+     "path": "Released/Gen 5/Wondercards/JPN/0030 BW - ポケスマ！Zoroark (JPN).pgf",
+     "size": 204,
+     "sha256": "8c0fe56494befc1a3fc765a2a806a56a9766c2d926c6da22fda0865d8c9b87be"
+    }
+   ]
+  },
+  {
+   "language": "ja",
+   "method": "wireless",
+   "title": "Pokémon Searcher BW Axew",
+   "gifts": [
+    "Axew"
+   ],
+   "games": [
+    "black",
+    "white"
+   ],
+   "runs": [
+    {
+     "start": "2011-03-19",
+     "end": "2011-04-03"
+    },
+    {
+     "start": "2011-04-29",
+     "end": "2011-05-08"
+    }
+   ],
+   "cards": [
+    {
+     "path": "Released/Gen 5/Wondercards/JPN/0034 BW - サーチャー Axew (JPN).pgf",
+     "size": 204,
+     "sha256": "d58a184159312de6295c9aa64b60a852ac65362f5090ac337b5d8da97a068bd0"
+    }
+   ]
+  },
+  {
+   "language": "ja",
+   "method": "wireless",
+   "title": "Eind Victini",
+   "gifts": [
+    "Victini"
+   ],
+   "games": [
+    "black",
+    "white"
+   ],
+   "runs": [
+    {
+     "start": "2011-04-16",
+     "end": "2011-08-31"
+    }
+   ],
+   "cards": [
+    {
+     "path": "Released/Gen 5/Wondercards/JPN/0032 BW - アイント Victini (JPN).pgf",
+     "size": 204,
+     "sha256": "0da2493d42918e058e4ca84d492eb9f56b71c7d5774d142ab2406ff24ac6f466"
+    }
+   ]
+  },
+  {
+   "language": "ja",
+   "method": "wfc",
+   "title": "Movie 2011 Shiny Pokémon",
+   "gifts": [
+    "Golurk",
+    "Hydreigon"
+   ],
+   "games": [
+    "black",
+    "white"
+   ],
+   "runs": [
+    {
+     "start": "2011-06-17",
+     "end": "2011-09-08"
+    }
+   ],
+   "cards": [
+    {
+     "path": "Released/Gen 5/Wondercards/JPN/0035 B - サーチャー Hydreigon (JPN).pgf",
+     "size": 204,
+     "sha256": "47bc8eb5356a5bfb93b333042c30148edcbec659844b396b71a697ddbecc0dec"
+    },
+    {
+     "path": "Released/Gen 5/Wondercards/JPN/0035 W - ジャンタ Golurk (JPN).pgf",
+     "size": 204,
+     "sha256": "7bfc484ceaa4f9fc6e83fdc64a93f3df4c97f95e307910ddd1c62b91dc4c7ee4"
+    }
+   ]
+  },
+  {
+   "language": "ja",
+   "method": "wireless",
+   "title": "Movie 2011 Ash's Pokémon",
+   "gifts": [
+    "Reshiram",
+    "Zekrom"
+   ],
+   "games": [
+    "black",
+    "white"
+   ],
+   "runs": [
+    {
+     "start": "2011-07-09",
+     "end": "2011-09-30"
+    }
+   ],
+   "cards": [
+    {
+     "path": "Released/Gen 5/Wondercards/JPN/0033 B - サトシ Zekrom (JPN).pgf",
+     "size": 204,
+     "sha256": "87fd0ddc3a8ef4ed4bc14b5ab26ddb780b86207d472e2774143c156c7ea4fd14"
+    },
+    {
+     "path": "Released/Gen 5/Wondercards/JPN/0033 W - サトシ Reshiram (JPN).pgf",
+     "size": 204,
+     "sha256": "08cb8c3e486d134e39a2c106895ec473fd1de5f2e38de4619f9be28b08d0c571"
+    }
+   ]
+  },
+  {
+   "language": "ja",
+   "method": "wireless",
+   "title": "All Nippon Airways Pikachu",
+   "gifts": [
+    "Pikachu"
+   ],
+   "games": [
+    "black",
+    "white"
+   ],
+   "runs": [
+    {
+     "start": "2011-07-18",
+     "end": "2011-09-30"
+    }
+   ],
+   "cards": [
+    {
+     "path": "Released/Gen 5/Wondercards/JPN/0036 BW - ＡＮＡ Pikachu (JPN).pgf",
+     "size": 204,
+     "sha256": "426d4cb2bc935c1d6c6ba6f9c71f3be7683a01ef21f93698944c5c2183b606df"
+    }
+   ]
+  },
+  {
+   "language": "ja",
+   "method": "wireless",
+   "title": "Singing Pikachu",
+   "gifts": [
+    "Pikachu"
+   ],
+   "games": [
+    "black",
+    "white"
+   ],
+   "runs": [
+    {
+     "start": "2011-07-30",
+     "end": "2011-09-04"
+    }
+   ],
+   "cards": [
+    {
+     "path": "Released/Gen 5/Wondercards/JPN/0036 BW - ＡＮＡ Pikachu (JPN).pgf",
+     "size": 204,
+     "sha256": "426d4cb2bc935c1d6c6ba6f9c71f3be7683a01ef21f93698944c5c2183b606df"
+    },
+    {
+     "path": "Released/Gen 5/Wondercards/JPN/0038 BW - ＥＬＴ Pikachu (JPN).pgf",
+     "size": 204,
+     "sha256": "cf6a8e7cf0d87efbe4c81a8a851fc4e8a80602169773f01ebf7534b0e8023461"
+    }
+   ]
+  },
+  {
+   "language": "ja",
+   "method": "wireless",
+   "title": "2011 World Championships Scrafty",
+   "gifts": [
+    "Scrafty"
+   ],
+   "games": [
+    "black",
+    "white"
+   ],
+   "runs": [
+    {
+     "start": "2011-08-14",
+     "end": "2011-08-14"
+    }
+   ],
+   "cards": []
+  },
+  {
+   "language": "ja",
+   "method": "wfc",
+   "title": "Pokémon Smash! Mewtwo",
+   "gifts": [
+    "Mewtwo"
+   ],
+   "games": [
+    "black",
+    "white"
+   ],
+   "runs": [
+    {
+     "start": "2011-09-26",
+     "end": "2011-10-31"
+    }
+   ],
+   "cards": [
+    {
+     "path": "Released/Gen 5/Wondercards/JPN/0048 BW - ポケスマ！ Mewtwo (JPN).pgf",
+     "size": 204,
+     "sha256": "44aea2d99ecff727fadd63829d22ad830c9d31389484235bd06a127077fa33ec"
+    }
+   ]
+  },
+  {
+   "language": "ja",
+   "method": "wireless",
+   "title": "2011 Birthday Audino",
+   "gifts": [
+    "Audino"
+   ],
+   "games": [
+    "black",
+    "white"
+   ],
+   "runs": [
+    {
+     "start": "2011-11-04",
+     "end": "2012-11-03"
+    }
+   ],
+   "cards": [
+    {
+     "path": "Released/Gen 5/Wondercards/JPN/0003 BW - オーサカ Audino (JPN).pgf",
+     "size": 204,
+     "sha256": "390ebe8a20b1f28927213c52a2f1bcc27d9ed24eb96c73cb73bc5e066808f1e6"
+    },
+    {
+     "path": "Released/Gen 5/Wondercards/JPN/0003 BW - サッポロ Audino (JPN).pgf",
+     "size": 204,
+     "sha256": "ffe561bc8a4d53ddfa8b69262a9c2f787069951805cd8d791f02bf2eac769ca9"
+    }
+   ]
+  },
+  {
+   "language": "ja",
+   "method": "wireless",
+   "title": "Master Ball",
+   "gifts": [
+    "Master Ball"
+   ],
+   "games": [
+    "black",
+    "white"
+   ],
+   "runs": [
+    {
+     "start": "2011-11-19",
+     "end": "2011-12-03"
+    }
+   ],
+   "cards": [
+    {
+     "path": "Released/Gen 5/Wondercards/JPN/0052 BW - Item Master Ball (JPN).pgf",
+     "size": 204,
+     "sha256": "f7f95547af5edd450222dc3912d293f9a9909b73a750b040afc9773f885d8c14"
+    },
+    {
+     "path": "Released/Gen 5/Wondercards/JPN/0068 BW - Item Master Ball (JPN).pgf",
+     "size": 204,
+     "sha256": "45a29d3e1871b1f97a8a3317eea779b43ad64e4691875fa75e1ec6f553f2f857"
+    }
+   ]
+  },
+  {
+   "language": "ja",
+   "method": "wireless",
+   "title": "Pokémon Center Tohoku Snivy",
+   "gifts": [
+    "Snivy"
+   ],
+   "games": [
+    "black",
+    "white"
+   ],
+   "runs": [
+    {
+     "start": "2011-12-04",
+     "end": "2011-12-18"
+    }
+   ],
+   "cards": [
+    {
+     "path": "Released/Gen 5/Wondercards/JPN/0049 BW - トウホク Snivy (JPN).pgf",
+     "size": 204,
+     "sha256": "6104f53e9b9e96eaae39caca8d6ffe6b9ff1036ba2d151f65f38c35a465c6b33"
+    }
+   ]
+  },
+  {
+   "language": "ja",
+   "method": "wfc",
+   "title": "Milos Island Pokémon",
+   "gifts": [
+    "Tornadus",
+    "Thundurus"
+   ],
+   "games": [
+    "black",
+    "white"
+   ],
+   "runs": [
+    {
+     "start": "2011-12-16",
+     "end": "2012-01-10"
+    }
+   ],
+   "cards": [
+    {
+     "path": "Released/Gen 5/Wondercards/JPN/0051 B - ミロスとう Thundurus (JPN).pgf",
+     "size": 204,
+     "sha256": "5f0b38a10eb4e93e852b832085d05cf1bb9a7633bb5df6476bb8245011f44fad"
+    },
+    {
+     "path": "Released/Gen 5/Wondercards/JPN/0051 W - ミロスとう Tornadus (JPN).pgf",
+     "size": 204,
+     "sha256": "b4e84c0f8c40be1b63d85c9f7a7f5de9d163cde4723c52d704dfbff53da636a0"
+    }
+   ]
+  },
+  {
+   "language": "ja",
+   "method": "wireless",
+   "title": "Pokémon Center Shaymin",
+   "gifts": [
+    "Shaymin"
+   ],
+   "games": [
+    "black",
+    "white"
+   ],
+   "runs": [
+    {
+     "start": "2011-12-19",
+     "end": "2012-01-05"
+    }
+   ],
+   "cards": [
+    {
+     "path": "Released/Gen 5/Wondercards/JPN/0053 BW - ＰＣ Shaymin (JPN).pgf",
+     "size": 204,
+     "sha256": "618b72e4db28bf6d0e527a48a8a122c2486ee6d8944b95973cdbc03c0ae7d23d"
+    }
+   ]
+  },
+  {
+   "language": "ja",
+   "method": "wireless",
+   "title": "Year of the Dragon Eggs",
+   "gifts": [
+    "Horsea",
+    "Trapinch",
+    "Swablu",
+    "Bagon",
+    "Druddigon",
+    "Deino"
+   ],
+   "games": [
+    "black",
+    "white"
+   ],
+   "runs": [
+    {
+     "start": "2012-01-06",
+     "end": "2012-02-05"
+    }
+   ],
+   "cards": [
+    {
+     "path": "Released/Gen 5/Wondercards/JPN/0054 BW - (Trainer) Bagon Egg (JPN).pgf",
+     "size": 204,
+     "sha256": "3261d1811d89287e9f26ad75b460823cee96a285454cc123a92e6c9e3049bcf5"
+    },
+    {
+     "path": "Released/Gen 5/Wondercards/JPN/0054 BW - (Trainer) Deino Egg (JPN).pgf",
+     "size": 204,
+     "sha256": "51200c3da2110117f2bde6259c15a01357f3709910ee950814d7307d5ddbecca"
+    },
+    {
+     "path": "Released/Gen 5/Wondercards/JPN/0054 BW - (Trainer) Druddigon Egg (JPN).pgf",
+     "size": 204,
+     "sha256": "c5b886def695b59d24dfb4ff19f1e493b27f4d8d6eb7ea23a2f60b4c8c6b46ab"
+    },
+    {
+     "path": "Released/Gen 5/Wondercards/JPN/0054 BW - (Trainer) Horsea Egg (JPN).pgf",
+     "size": 204,
+     "sha256": "2bcd469a93362dc6fec01339997a42c87d24698c378465a26a3545289c196591"
+    },
+    {
+     "path": "Released/Gen 5/Wondercards/JPN/0054 BW - (Trainer) Swablu Egg (JPN).pgf",
+     "size": 204,
+     "sha256": "ca4d001c3a797d426b149bde673dc29b7c42303404a02e23d65a588cfba3ed61"
+    },
+    {
+     "path": "Released/Gen 5/Wondercards/JPN/0054 BW - (Trainer) Trapinch Egg (JPN).pgf",
+     "size": 204,
+     "sha256": "c56eb5206c66d1ddc934718be83bdb07363ca1133336668dc1c9d78838e97afa"
+    },
+    {
+     "path": "Released/Gen 5/Wondercards/JPN/0055 BW - (Trainer) Bagon Egg (JPN).pgf",
+     "size": 204,
+     "sha256": "820ed96885afb9eea0f3cd4d367d0538f03ddfb2c11e2b7ef1402891ad683cdc"
+    },
+    {
+     "path": "Released/Gen 5/Wondercards/JPN/0055 BW - (Trainer) Deino Egg (JPN).pgf",
+     "size": 204,
+     "sha256": "a01cfd70b7b6f3ce5db9a31929ca56b6058bda3a837d500ff214f3c851eab7ed"
+    },
+    {
+     "path": "Released/Gen 5/Wondercards/JPN/0055 BW - (Trainer) Druddigon Egg (JPN).pgf",
+     "size": 204,
+     "sha256": "006a76614538606345b5b5a5df48c81e2ff04c333a6a10d5ca7d700531a21931"
+    },
+    {
+     "path": "Released/Gen 5/Wondercards/JPN/0055 BW - (Trainer) Horsea Egg (JPN).pgf",
+     "size": 204,
+     "sha256": "e7adc037a2fb8ecfc43038542c92ed97964e03ac5c31d90d3f90626a58b801f9"
+    },
+    {
+     "path": "Released/Gen 5/Wondercards/JPN/0055 BW - (Trainer) Swablu Egg (JPN).pgf",
+     "size": 204,
+     "sha256": "404997650d04b7b082d2dc678a8687ca50aa674ad880ffb182850cb1f320c1b7"
+    },
+    {
+     "path": "Released/Gen 5/Wondercards/JPN/0055 BW - (Trainer) Trapinch Egg (JPN).pgf",
+     "size": 204,
+     "sha256": "d7c80c7f8ee3cedfbb771293577e843f24c3005c26decce17ea50af2acfb2b08"
+    }
+   ]
+  },
+  {
+   "language": "ja",
+   "method": "wireless",
+   "title": "15th Anniversary Rayquaza",
+   "gifts": [
+    "Rayquaza"
+   ],
+   "games": [
+    "black",
+    "white"
+   ],
+   "runs": [
+    {
+     "start": "2012-02-10",
+     "end": "2012-02-27"
+    }
+   ],
+   "cards": [
+    {
+     "path": "Released/Gen 5/Wondercards/JPN/0058 BW - せんきょ Rayquaza (JPN).pgf",
+     "size": 204,
+     "sha256": "a07c384bbfa40d50021e4b45222c200fd04c1e09e8a0f431e5ee50af2cfb1434"
+    }
+   ]
+  },
+  {
+   "language": "ja",
+   "method": "wfc",
+   "title": "Nobunaga's Black Rayquaza",
+   "gifts": [
+    "Rayquaza"
+   ],
+   "games": [
+    "black",
+    "white"
+   ],
+   "runs": [
+    {
+     "start": "2012-03-17",
+     "end": "2012-04-16"
+    }
+   ],
+   "cards": [
+    {
+     "path": "Released/Gen 5/Wondercards/JPN/0059 BW - ノブナガ Shiny Rayquaza (JPN).pgf",
+     "size": 204,
+     "sha256": "a6814c877804876b7d792bc4702a1f27272c7c2911421f395261deaeed42bd36"
+    }
+   ]
+  },
+  {
+   "language": "ja",
+   "method": "wireless",
+   "title": "Pikachu Festival Pikachu",
+   "gifts": [
+    "Pikachu"
+   ],
+   "games": [
+    "black",
+    "white"
+   ],
+   "runs": [
+    {
+     "start": "2012-03-23",
+     "end": "2012-04-08"
+    }
+   ],
+   "cards": [
+    {
+     "path": "Released/Gen 5/Wondercards/JPN/0071 BW - トウホク Pikachu (JPN).pgf",
+     "size": 204,
+     "sha256": "20e642e33df95b92e5c2b4df2f2ea8213fefcd10b6b14cfeeeb65969868d595d"
+    }
+   ]
+  },
+  {
+   "language": "ja",
+   "method": "wireless",
+   "title": "Super Strong Pokémon Present Campaign",
+   "gifts": [
+    "Kyogre",
+    "Groudon",
+    "Gardevoir",
+    "Salamence",
+    "Metagross",
+    "Ludicolo",
+    "Milotic",
+    "Walrein",
+    "Sceptile",
+    "Blaziken",
+    "Swampert",
+    "Pikachu"
+   ],
+   "games": [
+    "black",
+    "white"
+   ],
+   "runs": [
+    {
+     "start": "2012-04-16",
+     "end": "2012-05-06"
+    }
+   ],
+   "cards": [
+    {
+     "path": "Released/Gen 5/Wondercards/JPN/0062 BW - ながさき Blaziken (JPN).pgf",
+     "size": 204,
+     "sha256": "56b87b7b6fb3747d27fc2c36c5c9825fb54810b01ce4692072987c99c69c8838"
+    },
+    {
+     "path": "Released/Gen 5/Wondercards/JPN/0062 BW - ながさき Sceptile (JPN).pgf",
+     "size": 204,
+     "sha256": "0bd5d84b323a5b19af0f711b03cd359285590f7c4c1051dfc9b04d0134abef74"
+    },
+    {
+     "path": "Released/Gen 5/Wondercards/JPN/0062 BW - ながさき Swampert (JPN).pgf",
+     "size": 204,
+     "sha256": "ddc82dc0ee257dc60fbf02cfc2b4cb1b4e0eaeab51938eccc0bd4171d59355b9"
+    },
+    {
+     "path": "Released/Gen 5/Wondercards/JPN/0063 BW - ながさき Ludicolo (JPN).pgf",
+     "size": 204,
+     "sha256": "28ab7de94aeb75a53552ae8c61cf9d5221e1ff73462471b3d196b3163e198d45"
+    },
+    {
+     "path": "Released/Gen 5/Wondercards/JPN/0063 BW - ながさき Milotic (JPN).pgf",
+     "size": 204,
+     "sha256": "20310c6a94dfa8df8252fe0c12d7ee23b4b8aace0e0abc072e874d7dbafcaf30"
+    },
+    {
+     "path": "Released/Gen 5/Wondercards/JPN/0063 BW - ながさき Walrein (JPN).pgf",
+     "size": 204,
+     "sha256": "73ddb26e27d1aaf08d82d7d4e441d113718ff601bb6a75994af37921ca37ef61"
+    },
+    {
+     "path": "Released/Gen 5/Wondercards/JPN/0064 BW - ながさき Gardevoir (JPN).pgf",
+     "size": 204,
+     "sha256": "3967cc45677fd248559b6198349809e52a4ad5e1aabad2b57828f601495f841b"
+    },
+    {
+     "path": "Released/Gen 5/Wondercards/JPN/0064 BW - ながさき Metagross (JPN).pgf",
+     "size": 204,
+     "sha256": "39def3597af4968b6f284a0798cfb64608bc64d8375a8d761d3519af1ec02d6b"
+    },
+    {
+     "path": "Released/Gen 5/Wondercards/JPN/0064 BW - ながさき Salamence (JPN).pgf",
+     "size": 204,
+     "sha256": "22614061cfaf62b6b2801ee2a5bb2614d396cd59670c4e4cc278c4c5a4e12ca0"
+    },
+    {
+     "path": "Released/Gen 5/Wondercards/JPN/0065 BW - フクオカ Groudon (JPN).pgf",
+     "size": 204,
+     "sha256": "f5a27c96c66444f6ec4168666d7a969ac2c43a7648f56fd5d047c92c164da48e"
+    },
+    {
+     "path": "Released/Gen 5/Wondercards/JPN/0066 BW - フクオカ Kyogre (JPN).pgf",
+     "size": 204,
+     "sha256": "1a185aca2f8dfcf274e58ababc63f0ddbf330a35e4a8295dc2e73e32f8383b23"
+    },
+    {
+     "path": "Released/Gen 5/Wondercards/JPN/0067 BW - さくら Pikachu (JPN).pgf",
+     "size": 204,
+     "sha256": "6d78b9bdab0f8d1355b370e0f21e111a8ea849df511431518f824f0bae5544a6"
+    },
+    {
+     "path": "Released/Gen 5/Wondercards/JPN/0072 BW - させぼ Blaziken (JPN).pgf",
+     "size": 204,
+     "sha256": "8ec10bf466fbaa74da3852e0e83e854442f4b05d4f569f2802287f6f58dd944a"
+    },
+    {
+     "path": "Released/Gen 5/Wondercards/JPN/0072 BW - させぼ Sceptile (JPN).pgf",
+     "size": 204,
+     "sha256": "36adf62af5797cb8d5b0e9aa23955f037fcc4603d4bf8837db2227556ed87ade"
+    },
+    {
+     "path": "Released/Gen 5/Wondercards/JPN/0072 BW - させぼ Swampert (JPN).pgf",
+     "size": 204,
+     "sha256": "4bb0cce09721ccfc40c7566fc62b2ed82e0017af0e9044852948671e254c66d1"
+    },
+    {
+     "path": "Released/Gen 5/Wondercards/JPN/0073 BW - させぼ Ludicolo (JPN).pgf",
+     "size": 204,
+     "sha256": "352cdf05ba197fd01795d466e640cdfb155a7f39aa20f2de04b0015e9f244ed0"
+    },
+    {
+     "path": "Released/Gen 5/Wondercards/JPN/0073 BW - させぼ Milotic (JPN).pgf",
+     "size": 204,
+     "sha256": "3d8fe6e667129dcf0243e75fb54ee15371f34fe4c2c4ebc0ae1172c832e75baa"
+    },
+    {
+     "path": "Released/Gen 5/Wondercards/JPN/0073 BW - させぼ Walrein (JPN).pgf",
+     "size": 204,
+     "sha256": "ca7e733f1b7513d254cf49cf670aae651c2cac051f00fc1b0829d70d828813c9"
+    },
+    {
+     "path": "Released/Gen 5/Wondercards/JPN/0074 BW - させぼ Gardevoir (JPN).pgf",
+     "size": 204,
+     "sha256": "ee9cadefc0ace1b4d8ba2aaa95b9470d685a280ca998a493a80cd8c0d19459bd"
+    },
+    {
+     "path": "Released/Gen 5/Wondercards/JPN/0074 BW - させぼ Metagross (JPN).pgf",
+     "size": 204,
+     "sha256": "dc072f88c78f30dee7103b19c01803913b0a4dd61399adda3ec77291b402a27e"
+    },
+    {
+     "path": "Released/Gen 5/Wondercards/JPN/0074 BW - させぼ Salamence (JPN).pgf",
+     "size": 204,
+     "sha256": "398f58d31b55d812e5626069ae19bba5242062001a3a96457214418fee3fc706"
+    }
+   ]
+  },
+  {
+   "language": "ja",
+   "method": "wireless",
+   "title": "Pokémon Searcher BW Piplup",
+   "gifts": [
+    "Piplup"
+   ],
+   "games": [
+    "black",
+    "white"
+   ],
+   "runs": [
+    {
+     "start": "2012-04-28",
+     "end": "2012-05-06"
+    }
+   ],
+   "cards": [
+    {
+     "path": "Released/Gen 5/Wondercards/JPN/0093 BW - サーチャー Piplup (JPN).pgf",
+     "size": 204,
+     "sha256": "eaf2e727d770106020b4c57ccfa74e9f6b840c23ff1b5c35fadeb4918c7256f1"
+    }
+   ]
+  },
+  {
+   "language": "ja",
+   "method": "wireless",
+   "title": "Pika Pika Carnival Pikachu",
+   "gifts": [
+    "Pikachu"
+   ],
+   "games": [
+    "black",
+    "white"
+   ],
+   "runs": [
+    {
+     "start": "2012-05-11",
+     "end": "2012-05-20"
+    }
+   ],
+   "cards": [
+    {
+     "path": "Released/Gen 5/Wondercards/JPN/0096 BW - おまつり Pikachu (JPN).pgf",
+     "size": 204,
+     "sha256": "e277d06045b48101ea50e6b0951afb0e3592aa6663b99b52979c8bd012952aa7"
+    }
+   ]
+  },
+  {
+   "language": "ja",
+   "method": "wireless",
+   "title": "Powerful Tag Pokémon",
+   "gifts": [
+    "Lucario",
+    "Whimsicott",
+    "Ninetales",
+    "Chandelure"
+   ],
+   "games": [
+    "black",
+    "white"
+   ],
+   "runs": [
+    {
+     "start": "2012-06-01",
+     "end": "2012-06-22"
+    }
+   ],
+   "cards": [
+    {
+     "path": "Released/Gen 5/Wondercards/JPN/0101 BW - PC Ninetales (JPN).pgf",
+     "size": 204,
+     "sha256": "1153e56081f8e19c8df8e43b883fc4c116595c6adf073cc2b1d3c3cca92e142f"
+    },
+    {
+     "path": "Released/Gen 5/Wondercards/JPN/0102 BW - PC Chandelure (JPN).pgf",
+     "size": 204,
+     "sha256": "3903edae3226e63b285407ecbea5940c3edb174a8612398f51036fc6cb13b974"
+    },
+    {
+     "path": "Released/Gen 5/Wondercards/JPN/0103 BW - PC Whimsicott (JPN).pgf",
+     "size": 204,
+     "sha256": "c5a5ef25d6ceb4244035078774417bdeb3894907e9cb3dace729d39ae01d47b7"
+    },
+    {
+     "path": "Released/Gen 5/Wondercards/JPN/0104 BW - PC Lucario (JPN).pgf",
+     "size": 204,
+     "sha256": "aac22285d68c7424ff3e895d3bcb79b01448be877df360c4eae3a80e17bac0ca"
+    }
+   ]
+  },
+  {
+   "language": "ja",
+   "method": "infrared",
+   "title": "Shokotan Keldeo",
+   "gifts": [
+    "Keldeo"
+   ],
+   "games": [
+    "black",
+    "white"
+   ],
+   "runs": [
+    {
+     "start": "2012-06-23",
+     "end": "2012-08-31"
+    }
+   ],
+   "cards": [
+    {
+     "path": "Released/Gen 5/Wondercards/JPN/0069 BWB2W2 - しょこたん Keldeo (JPN).pgf",
+     "size": 204,
+     "sha256": "5e75289adb18325a436fd9ebf0a0198271c3314f969b5876c804627e334b2bac"
+    }
+   ]
+  },
+  {
+   "language": "ja",
+   "method": "wireless",
+   "title": "Cinema Meloetta",
+   "gifts": [
+    "Meloetta"
+   ],
+   "games": [
+    "black",
+    "white"
+   ],
+   "runs": [
+    {
+     "start": "2012-07-01",
+     "end": "2012-09-30"
+    }
+   ],
+   "cards": [
+    {
+     "path": "Released/Gen 5/Wondercards/JPN/0070 BWB2W2 - えいがかん Meloetta (JPN).pgf",
+     "size": 204,
+     "sha256": "594b6073ce29a89089dea9527621e5301efa9cd54f6400b3f7a20d2a86dd3676"
+    }
+   ]
+  },
+  {
+   "language": "ja",
+   "method": "infrared",
+   "title": "Pokémon Adventure Camp Fossil Pokémon",
+   "gifts": [
+    "Omanyte",
+    "Kabuto",
+    "Aerodactyl",
+    "Lileep",
+    "Anorith",
+    "Cranidos",
+    "Shieldon",
+    "Tirtouga",
+    "Archen"
+   ],
+   "games": [
+    "black",
+    "white"
+   ],
+   "runs": [
+    {
+     "start": "2012-07-21",
+     "end": "2013-09-30"
+    }
+   ],
+   "cards": [
+    {
+     "path": "Released/Gen 5/Wondercards/JPN/0098 BWB2W2 - キャンプ Aerodactyl (JPN).pgf",
+     "size": 204,
+     "sha256": "d50f205c86e2401853ce2802201a6b4a362e4274b2b1d9b487baa03a17eb3b0c"
+    },
+    {
+     "path": "Released/Gen 5/Wondercards/JPN/0098 BWB2W2 - キャンプ Anorith (JPN).pgf",
+     "size": 204,
+     "sha256": "df3d96f87b07e8b4150199eee664f20d6e87e17813b301331b8384fabe621f28"
+    },
+    {
+     "path": "Released/Gen 5/Wondercards/JPN/0098 BWB2W2 - キャンプ Archen (JPN).pgf",
+     "size": 204,
+     "sha256": "0f4963eb41f249537833333e9f7d5a89b99a7572a8c27796b47c09979a5cdd13"
+    },
+    {
+     "path": "Released/Gen 5/Wondercards/JPN/0098 BWB2W2 - キャンプ Cranidos (JPN).pgf",
+     "size": 204,
+     "sha256": "3a66f591bd5f766e03bcf631b6b35a7cc4a637da10b65664112bb37b18e1ec2f"
+    },
+    {
+     "path": "Released/Gen 5/Wondercards/JPN/0098 BWB2W2 - キャンプ Kabuto (JPN).pgf",
+     "size": 204,
+     "sha256": "3a31e20c7f76250dd72bc2d51af43b128dbf85887b2d8e3a3ec55cfaaa422c64"
+    },
+    {
+     "path": "Released/Gen 5/Wondercards/JPN/0098 BWB2W2 - キャンプ Lileep (JPN).pgf",
+     "size": 204,
+     "sha256": "732bd41571f84a041dbaf0c35bea75b5fbb6d20193472a3c71eb1d2b54ce1f13"
+    },
+    {
+     "path": "Released/Gen 5/Wondercards/JPN/0098 BWB2W2 - キャンプ Omanyte (JPN).pgf",
+     "size": 204,
+     "sha256": "0a2788071ae24d2a716837b05e4f74ab164742f26020252f2d66e5ba003d5292"
+    },
+    {
+     "path": "Released/Gen 5/Wondercards/JPN/0098 BWB2W2 - キャンプ Shieldon (JPN).pgf",
+     "size": 204,
+     "sha256": "235c631ac20dcb3a226744d1e3000447dbb000f59f7235bbc5b6cf2c606a5e92"
+    },
+    {
+     "path": "Released/Gen 5/Wondercards/JPN/0098 BWB2W2 - キャンプ Tirtouga (JPN).pgf",
+     "size": 204,
+     "sha256": "d7cb25bd7071e6a891881cd1cdd6f660c7febd00ffe3a6313c3a4ab2e9c90c1e"
+    }
+   ]
+  },
+  {
+   "language": "ja",
+   "method": "wireless",
+   "title": "2012 World Championships Pikachu",
+   "gifts": [
+    "Pikachu"
+   ],
+   "games": [
+    "black",
+    "white"
+   ],
+   "runs": [
+    {
+     "start": "2012-08-12",
+     "end": "2012-08-12"
+    }
+   ],
+   "cards": [
+    {
+     "path": "Released/Gen 5/Wondercards/JPN/0036 BW - ＡＮＡ Pikachu (JPN).pgf",
+     "size": 204,
+     "sha256": "426d4cb2bc935c1d6c6ba6f9c71f3be7683a01ef21f93698944c5c2183b606df"
+    },
+    {
+     "path": "Released/Gen 5/Wondercards/JPN/0038 BW - ＥＬＴ Pikachu (JPN).pgf",
+     "size": 204,
+     "sha256": "cf6a8e7cf0d87efbe4c81a8a851fc4e8a80602169773f01ebf7534b0e8023461"
+    }
+   ]
+  },
+  {
+   "language": "ja",
+   "method": "wireless",
+   "title": "2012 Birthday Audino",
+   "gifts": [
+    "Audino"
+   ],
+   "games": [
+    "black",
+    "white"
+   ],
+   "runs": [
+    {
+     "start": "2012-11-04",
+     "end": "2013-10-11"
+    }
+   ],
+   "cards": [
+    {
+     "path": "Released/Gen 5/Wondercards/JPN/0003 BW - オーサカ Audino (JPN).pgf",
+     "size": 204,
+     "sha256": "390ebe8a20b1f28927213c52a2f1bcc27d9ed24eb96c73cb73bc5e066808f1e6"
+    },
+    {
+     "path": "Released/Gen 5/Wondercards/JPN/0003 BW - サッポロ Audino (JPN).pgf",
+     "size": 204,
+     "sha256": "ffe561bc8a4d53ddfa8b69262a9c2f787069951805cd8d791f02bf2eac769ca9"
+    }
+   ]
+  },
+  {
+   "language": "ja",
+   "method": "wireless",
+   "title": "Pokémon Center Tohoku Victini",
+   "gifts": [
+    "Victini"
+   ],
+   "games": [
+    "black",
+    "white"
+   ],
+   "runs": [
+    {
+     "start": "2012-11-25",
+     "end": "2013-01-06"
+    }
+   ],
+   "cards": [
+    {
+     "path": "Released/Gen 5/Wondercards/JPN/0125 BWB2W2 - トウホク Victini (JPN).pgf",
+     "size": 204,
+     "sha256": "4034e32c208deab7179d7a37065005cd382702c730d1092ba5494883a4fdcf9f"
+    }
+   ]
+  },
+  {
+   "language": "ja",
+   "method": "wireless",
+   "title": "P2 Laboratory Genesect",
+   "gifts": [
+    "Genesect"
+   ],
+   "games": [
+    "black",
+    "white"
+   ],
+   "runs": [
+    {
+     "start": "2013-01-11",
+     "end": "2013-02-10"
+    }
+   ],
+   "cards": [
+    {
+     "path": "Released/Gen 5/Wondercards/JPN/0127 BWB2W2 - Ｐ２ラボ Genesect (JPN).pgf",
+     "size": 204,
+     "sha256": "5fc890a3fb8a66e684c8177f88f481c951ab0e81de30f6b06c8bac640fd96011"
+    }
+   ]
+  },
+  {
+   "language": "ja",
+   "method": "wireless",
+   "title": "Pokémon Center Nagoya Magikarp",
+   "gifts": [
+    "Magikarp"
+   ],
+   "games": [
+    "black",
+    "white"
+   ],
+   "runs": [
+    {
+     "start": "2013-03-20",
+     "end": "2013-05-06"
+    }
+   ],
+   "cards": [
+    {
+     "path": "Released/Gen 5/Wondercards/JPN/0134 BWB2W2 - ナゴヤ Shiny Magikarp (JPN).pgf",
+     "size": 204,
+     "sha256": "a0a9c2f6f90d93b68401410f868ae7cb6d55e90f1ec97075aabefaf5b0f28524"
+    }
+   ]
+  },
+  {
+   "language": "ja",
+   "method": "wireless",
+   "title": "Masuda Deoxys",
+   "gifts": [
+    "Deoxys"
+   ],
+   "games": [
+    "black",
+    "white"
+   ],
+   "runs": [
+    {
+     "start": "2013-03-20",
+     "end": "2013-05-06"
+    }
+   ],
+   "cards": [
+    {
+     "path": "Released/Gen 5/Wondercards/JPN/0133 BWB2W2 - マスダ Deoxys (JPN).pgf",
+     "size": 204,
+     "sha256": "3c3b1e22e2fd79d9b2b8ecf7bd14e4d74748a85f36a3a85b68f06fcfc5aced9a"
+    }
+   ]
+  },
+  {
+   "language": "ja",
+   "method": "infrared",
+   "title": "Pokémon Hills Mewtwo",
+   "gifts": [
+    "Mewtwo"
+   ],
+   "games": [
+    "black",
+    "white"
+   ],
+   "runs": [
+    {
+     "start": "2013-06-15",
+     "end": "2013-09-01"
+    }
+   ],
+   "cards": [
+    {
+     "path": "Released/Gen 5/Wondercards/JPN/0135 BWB2W2 - Ｐヒルズ Mewtwo (JPN).pgf",
+     "size": 204,
+     "sha256": "737f39daa2030ee72d3fa6b78fe814f0af76e5543e73f65bb3523530702727e2"
+    }
+   ]
+  },
+  {
+   "language": "ja",
+   "method": "wireless",
+   "title": "Pokémon Center 15th Anniversary Pokémon",
+   "gifts": [
+    "Samurott",
+    "Emboar",
+    "Infernape",
+    "Torterra",
+    "Pikachu",
+    "Serperior",
+    "Empoleon"
+   ],
+   "games": [
+    "black",
+    "white"
+   ],
+   "runs": [
+    {
+     "start": "2013-06-26",
+     "end": "2013-07-07"
+    }
+   ],
+   "cards": [
+    {
+     "path": "Released/Gen 5/Wondercards/JPN/0139 BWB2W2 - ＰＣＳ Empoleon (JPN).pgf",
+     "size": 204,
+     "sha256": "66b86303d62d755e2d0de5baab50e62e0fcbeba4c1e9b76cae19b8df1ab36a92"
+    },
+    {
+     "path": "Released/Gen 5/Wondercards/JPN/0140 BWB2W2 - ＰＣＴＨ Serperior (JPN).pgf",
+     "size": 204,
+     "sha256": "cf6b490ca924103d3bcb3285af3ff8de55ba5c5970d418d6297d08a76a99ba2c"
+    },
+    {
+     "path": "Released/Gen 5/Wondercards/JPN/0141 BWB2W2 - ＰＣＴ Pikachu (JPN).pgf",
+     "size": 204,
+     "sha256": "10b4de33febea07b8b338adf17441920506f8b885874437c61da735331fd92ba"
+    },
+    {
+     "path": "Released/Gen 5/Wondercards/JPN/0142 BWB2W2 - ＰＣＹ Torterra (JPN).pgf",
+     "size": 204,
+     "sha256": "60a8cb5cbc6b91e57d7a44f1a7fe2c068bca4a2703d63b5053262e453015095b"
+    },
+    {
+     "path": "Released/Gen 5/Wondercards/JPN/0143 BWB2W2 - ＰＣＮ Infernape (JPN).pgf",
+     "size": 204,
+     "sha256": "d55add3c13e149a9a7c7b0c69259155431cc590f0eeab451e0ac899c27e1c9aa"
+    },
+    {
+     "path": "Released/Gen 5/Wondercards/JPN/0144 BWB2W2 - ＰＣＯ Emboar (JPN).pgf",
+     "size": 204,
+     "sha256": "23dd34541475eebd5dbefc4a741ae8915680269ae83550387122caad0d7bc65b"
+    },
+    {
+     "path": "Released/Gen 5/Wondercards/JPN/0145 BWB2W2 - ＰＣＦ Samurott (JPN).pgf",
+     "size": 204,
+     "sha256": "cdff37af61580233961b1d8cd7f7691b77771b0faebedaf585799ffb4a10f585"
+    },
+    {
+     "path": "Released/Gen 5/Wondercards/JPN/0146 BWB2W2 - ＰＣＦ Samurott (JPN).pgf",
+     "size": 204,
+     "sha256": "a8f600e91527412f2a1cac054380112dd9c39c98bc37a8c4c187847e95d559b7"
+    },
+    {
+     "path": "Released/Gen 5/Wondercards/JPN/0146 BWB2W2 - ＰＣＮ Infernape (JPN).pgf",
+     "size": 204,
+     "sha256": "1fa4b56940f6488ec7d30ecae68ea5c286de49a920b11cfab6e5d05a836a546b"
+    },
+    {
+     "path": "Released/Gen 5/Wondercards/JPN/0146 BWB2W2 - ＰＣＯ Emboar (JPN).pgf",
+     "size": 204,
+     "sha256": "a49356440d86a342a57b66faf9ed1cc29f7093ff69ba655ff221d374a12a4067"
+    },
+    {
+     "path": "Released/Gen 5/Wondercards/JPN/0146 BWB2W2 - ＰＣＳ Empoleon (JPN).pgf",
+     "size": 204,
+     "sha256": "14e350d3756293313d9788971dff539e767e26c6983d9904015343cbe0337ab5"
+    },
+    {
+     "path": "Released/Gen 5/Wondercards/JPN/0146 BWB2W2 - ＰＣＴ Pikachu (JPN).pgf",
+     "size": 204,
+     "sha256": "e2fc2d65cf191f578ea9e86e35060a3098d5c40437e76834d4fed335ccf6f1b7"
+    },
+    {
+     "path": "Released/Gen 5/Wondercards/JPN/0146 BWB2W2 - ＰＣＴＨ Serperior (JPN).pgf",
+     "size": 204,
+     "sha256": "9c62feb9cc234148f770982d892c13f2f5bb7c976c2cd900803a874961b56596"
+    },
+    {
+     "path": "Released/Gen 5/Wondercards/JPN/0146 BWB2W2 - ＰＣＹ Torterra (JPN).pgf",
+     "size": 204,
+     "sha256": "a9c9a97f2300013d9849b19c1584d050133f6bac41bf75dc29bc17ea546f2920"
+    }
+   ]
+  },
+  {
+   "language": "ja",
+   "method": "wireless",
+   "title": "Cinema Genesect",
+   "gifts": [
+    "Genesect"
+   ],
+   "games": [
+    "black",
+    "white"
+   ],
+   "runs": [
+    {
+     "start": "2013-06-29",
+     "end": "2013-09-30"
+    }
+   ],
+   "cards": [
+    {
+     "path": "Released/Gen 5/Wondercards/JPN/0136 BWB2W2 - えいがかん Shiny Genesect (JPN).pgf",
+     "size": 204,
+     "sha256": "eb24147a299085046a5d99fe04cfbcc38217d967c2862572865e590ba2a6a4e8"
+    }
+   ]
+  },
+  {
+   "language": "ja",
+   "method": "wfc",
+   "title": "Decolora Jirachi",
+   "gifts": [
+    "Jirachi"
+   ],
+   "games": [
+    "black",
+    "white"
+   ],
+   "runs": [
+    {
+     "start": "2013-07-01",
+     "end": "2013-07-31"
+    }
+   ],
+   "cards": [
+    {
+     "path": "Released/Gen 5/Wondercards/JPN/0137 BWB2W2 - デコロラ Jirachi (JPN).pgf",
+     "size": 204,
+     "sha256": "f70b6dd1ec60a9222b6a90c1ce61b6fa1b43a5ee9e8af152f119b947e3bf79a5"
+    }
+   ]
+  },
+  {
+   "language": "ja",
+   "method": "wireless",
+   "title": "Kiyo Eevee",
+   "gifts": [
+    "Eevee"
+   ],
+   "games": [
+    "black",
+    "white"
+   ],
+   "runs": [
+    {
+     "start": "2013-07-13",
+     "end": "2013-09-01"
+    }
+   ],
+   "cards": [
+    {
+     "path": "Released/Gen 5/Wondercards/JPN/0138 BWB2W2 - キヨ Eevee (JPN).pgf",
+     "size": 204,
+     "sha256": "f422c1bfd12b7a7b7d129cf8b2f74d6e549397f3001aeafa28af1881973d194a"
+    },
+    {
+     "path": "Released/Gen 5/Wondercards/JPN/0147 BWB2W2 - キヨ Eevee (JPN).pgf",
+     "size": 204,
+     "sha256": "2a33a832e5ed878a8d30ecc9273d907649dd5790afd355878a926a6401fe07bc"
+    }
+   ]
+  },
+  {
+   "language": "ja",
+   "method": "wireless",
+   "title": "Strongest Class Pikachu",
+   "gifts": [
+    "Pikachu"
+   ],
+   "games": [
+    "black",
+    "white"
+   ],
+   "runs": [
+    {
+     "start": "2013-07-26",
+     "end": "2013-07-30"
+    }
+   ],
+   "cards": [
+    {
+     "path": "Released/Gen 5/Wondercards/JPN/0152 BWB2W2 - イベント Pikachu (JPN) (HK).pgf",
+     "size": 204,
+     "sha256": "b3a5c5771f2d1b833ca1a2a6bb76390496ff82396464fdf28b4f48a5024a7948"
+    }
+   ]
+  },
+  {
+   "language": "ja",
+   "method": "wireless",
+   "title": "2013 Tanabata Jirachi",
+   "gifts": [
+    "Jirachi"
+   ],
+   "games": [
+    "black",
+    "white"
+   ],
+   "runs": [
+    {
+     "start": "2013-08-01",
+     "end": "2013-08-31"
+    }
+   ],
+   "cards": [
+    {
+     "path": "Released/Gen 5/Wondercards/JPN/0151 BWB2W2 - たなばた Jirachi (JPN).pgf",
+     "size": 204,
+     "sha256": "fb0adb18a81b256a2adc1f0503b029c111d864c6d21dab76eb5fc19e23724280"
+    }
+   ]
+  },
+  {
+   "language": "ja",
+   "method": "wireless",
+   "title": "Pokémon Center Best Wishes Pokémon",
+   "gifts": [
+    "Pikachu",
+    "Rotom",
+    "Pansage",
+    "Axew"
+   ],
+   "games": [
+    "black",
+    "white"
+   ],
+   "runs": [
+    {
+     "start": "2013-08-10",
+     "end": "2013-09-06"
+    }
+   ],
+   "cards": [
+    {
+     "path": "Released/Gen 5/Wondercards/JPN/0158 BWB2W2 - アイリス Axew (JPN).pgf",
+     "size": 204,
+     "sha256": "68a776cd04f5e445cbf9d914954948f43895133ad29769c9b592824caaedb815"
+    },
+    {
+     "path": "Released/Gen 5/Wondercards/JPN/0158 BWB2W2 - オーキド Rotom (JPN).pgf",
+     "size": 204,
+     "sha256": "0a619c6a94b20a20f3948a42f30aa39089e1e270a0ca2a85cc0565522102336c"
+    },
+    {
+     "path": "Released/Gen 5/Wondercards/JPN/0158 BWB2W2 - サトシ Pikachu (JPN).pgf",
+     "size": 204,
+     "sha256": "613b990e8c1ec576748bf4902a348c51eb621f64be0c4d173b5c518a1c2c04a9"
+    },
+    {
+     "path": "Released/Gen 5/Wondercards/JPN/0158 BWB2W2 - デント Pansage (JPN).pgf",
+     "size": 204,
+     "sha256": "6a78b1b940c9a3b1d729cced3ba7a9a548ee1a9a9a228b105d71500a841815a7"
+    },
+    {
+     "path": "Released/Gen 5/Wondercards/JPN/0159 BWB2W2 - アイリス Axew (JPN).pgf",
+     "size": 204,
+     "sha256": "093904e558f5715b315a424c43af53b31536555d142abc4edb307db5f53262cb"
+    },
+    {
+     "path": "Released/Gen 5/Wondercards/JPN/0159 BWB2W2 - オーキド Rotom (JPN).pgf",
+     "size": 204,
+     "sha256": "737fc96e96b621c4a609f078efe5932a7cf4c8dd1592cd01220573901f801e72"
+    },
+    {
+     "path": "Released/Gen 5/Wondercards/JPN/0159 BWB2W2 - サトシ Pikachu (JPN).pgf",
+     "size": 204,
+     "sha256": "49dcd1ff46b28069a68f288fd8a297e0c862d52ed85e75d5a6a5a0f4fcc59766"
+    },
+    {
+     "path": "Released/Gen 5/Wondercards/JPN/0159 BWB2W2 - デント Pansage (JPN).pgf",
+     "size": 204,
+     "sha256": "5d2ee377410692eeb771c2dd22ab9d27ae78633ea97c469a365c08d54b7af4c7"
+    }
+   ]
+  },
+  {
+   "language": "ja",
+   "method": "wireless",
+   "title": "2013 World Championships Smeargle",
+   "gifts": [
+    "Smeargle"
+   ],
+   "games": [
+    "black",
+    "white"
+   ],
+   "runs": [
+    {
+     "start": "2013-08-10",
+     "end": "2013-08-11"
+    }
+   ],
+   "cards": []
+  },
+  {
+   "language": "ja",
+   "method": "wireless",
+   "title": "Pokémon Game Show Pokémon",
+   "gifts": [
+    "Pidgeot",
+    "Dragonite",
+    "Milotic",
+    "Metagross",
+    "Spiritomb",
+    "Haxorus",
+    "Volcarona"
+   ],
+   "games": [
+    "black",
+    "white"
+   ],
+   "runs": [
+    {
+     "start": "2013-08-17",
+     "end": "2013-08-18"
+    }
+   ],
+   "cards": [
+    {
+     "path": "Released/Gen 5/Wondercards/JPN/0156 BWB2W2 - アイリス Haxorus (JPN).pgf",
+     "size": 204,
+     "sha256": "0e2987034927a4a2009cf8b90b309676295a4fa22af8a10aa4691d01eafa8bd8"
+    },
+    {
+     "path": "Released/Gen 5/Wondercards/JPN/0156 BWB2W2 - アデク Volcarona (JPN).pgf",
+     "size": 204,
+     "sha256": "852adf07d88601e35feb614f1e13374e4251c35f725afb0c9c7b8310286c3db7"
+    },
+    {
+     "path": "Released/Gen 5/Wondercards/JPN/0156 BWB2W2 - グリーン Pidgeot (JPN).pgf",
+     "size": 204,
+     "sha256": "65ce128a346faff048f9715d34c088095baea1aa54d7a35dcb7301eefdd74760"
+    },
+    {
+     "path": "Released/Gen 5/Wondercards/JPN/0156 BWB2W2 - シロナ Spiritomb (JPN).pgf",
+     "size": 204,
+     "sha256": "464c276f26c551002dc130632739fd119adcc4dfde7b555926c19e6d2adfda84"
+    },
+    {
+     "path": "Released/Gen 5/Wondercards/JPN/0156 BWB2W2 - ダイゴ Metagross (JPN).pgf",
+     "size": 204,
+     "sha256": "5d4f15e9f7d0267d2a530173535def42906889f18cb3dae522b22f3254b53a38"
+    },
+    {
+     "path": "Released/Gen 5/Wondercards/JPN/0156 BWB2W2 - ミクリ Milotic (JPN).pgf",
+     "size": 204,
+     "sha256": "6fac30c03ee4b50a5a618615d264f9a73c767da8c8758701f00f3f8a506d7a37"
+    },
+    {
+     "path": "Released/Gen 5/Wondercards/JPN/0156 BWB2W2 - ワタル Dragonite (JPN).pgf",
+     "size": 204,
+     "sha256": "cd36364e08893af60469a351acefab1d40aa614061754f2f2f207980a3da6b74"
+    },
+    {
+     "path": "Released/Gen 5/Wondercards/JPN/0157 BWB2W2 - アイリス Haxorus (JPN).pgf",
+     "size": 204,
+     "sha256": "5e1e041c02ca8f3850cc150803b5879c9b84eaf66a44a19138aeb3bad5f6e2d3"
+    },
+    {
+     "path": "Released/Gen 5/Wondercards/JPN/0157 BWB2W2 - アデク Volcarona (JPN).pgf",
+     "size": 204,
+     "sha256": "40e393903487b30edd792e21c0530f3440fafea46b90db9dc8898ecb0fa68fc7"
+    },
+    {
+     "path": "Released/Gen 5/Wondercards/JPN/0157 BWB2W2 - グリーン Pidgeot (JPN).pgf",
+     "size": 204,
+     "sha256": "906542d51d4f929b7c3955f92b9986680f16e40970cc88de826ba09eadc85d48"
+    },
+    {
+     "path": "Released/Gen 5/Wondercards/JPN/0157 BWB2W2 - シロナ Spiritomb (JPN).pgf",
+     "size": 204,
+     "sha256": "20ba331a519b18897cc8e85b34823e4f7c7fc3599791e56775eafd00a4774ae3"
+    },
+    {
+     "path": "Released/Gen 5/Wondercards/JPN/0157 BWB2W2 - ダイゴ Metagross (JPN).pgf",
+     "size": 204,
+     "sha256": "5cf95955d5b0c7e11babfa164ea9c812a839170a4accba686c47509326b503db"
+    },
+    {
+     "path": "Released/Gen 5/Wondercards/JPN/0157 BWB2W2 - ミクリ Milotic (JPN).pgf",
+     "size": 204,
+     "sha256": "b795fcf558ec4f53a4bb4a53f478a941117e2710566c54757e42840e1b0ead84"
+    },
+    {
+     "path": "Released/Gen 5/Wondercards/JPN/0157 BWB2W2 - ワタル Dragonite (JPN).pgf",
+     "size": 204,
+     "sha256": "70054db8acd5af2d3791e57333f2750c6e2daaba4e2829d2ba1741492855e1e3"
+    }
+   ]
+  },
+  {
+   "language": "ja",
+   "method": "wireless",
+   "title": "Chief Golgo's Sableye",
+   "gifts": [
+    "Sableye"
+   ],
+   "games": [
+    "black",
+    "white"
+   ],
+   "runs": [
+    {
+     "start": "2013-09-15",
+     "end": "2013-09-28"
+    }
+   ],
+   "cards": [
+    {
+     "path": "Released/Gen 5/Wondercards/JPN/0165 BWB2W2 - しょちょう Sableye (JPN).pgf",
+     "size": 204,
+     "sha256": "fba87c85c3e42a5956da87cf2971c58fc23436093e2d42226ec4db866eac3c3a"
+    }
+   ]
+  },
+  {
+   "language": "ja",
+   "method": "wireless",
+   "title": "Yamamoto's Tournament Pokémon",
+   "gifts": [
+    "Politoed",
+    "Kingdra"
+   ],
+   "games": [
+    "black",
+    "white"
+   ],
+   "runs": [
+    {
+     "start": "2013-09-29",
+     "end": "2013-10-06"
+    }
+   ],
+   "cards": [
+    {
+     "path": "Released/Gen 5/Wondercards/JPN/0166 BWB2W2 - ヤマモト Politoed (JPN).pgf",
+     "size": 204,
+     "sha256": "9153a2cc3fcbfcd2d74072db451945ece94147059d8c279e7de819d78cbb5af6"
+    },
+    {
+     "path": "Released/Gen 5/Wondercards/JPN/0167 BWB2W2 - ヤマモト Kingdra (JPN).pgf",
+     "size": 204,
+     "sha256": "c1e8f9345dd1c93957e9e97fa1678332b1efca2e87f138711ba2f05855354149"
+    }
+   ]
+  },
+  {
+   "language": "ko",
+   "method": "infrared",
+   "title": "Liberty Pass",
+   "gifts": [
+    "Liberty Pass"
+   ],
+   "games": [
+    "black",
+    "white"
+   ],
+   "runs": [
+    {
+     "start": "2011-04-23",
+     "end": "2011-05-29"
+    }
+   ],
+   "cards": [
+    {
+     "path": "Released/Gen 5/Wondercards/KOR/2046 BW - Item Liberty Pass (KOR).pgf",
+     "size": 204,
+     "sha256": "c1e392b2602eb8fd21f139daf553f3cb19df673c3daae448df5efa8d3882c38a"
+    }
+   ]
+  },
+  {
+   "language": "ko",
+   "method": "wfc",
+   "title": "Secret Eggs",
+   "gifts": [
+    "Pansage",
+    "Pidove",
+    "Axew"
+   ],
+   "games": [
+    "black",
+    "white"
+   ],
+   "runs": [
+    {
+     "start": "2011-06-01",
+     "end": "2011-06-26"
+    }
+   ],
+   "cards": [
+    {
+     "path": "Released/Gen 5/Wondercards/KOR/0029 BW - (Trainer) Axew Egg (KOR).pgf",
+     "size": 204,
+     "sha256": "f634c41e182374e6ab45994ad8095fc33a6e70e71e0ab487f226e4caeb0ed6ab"
+    },
+    {
+     "path": "Released/Gen 5/Wondercards/KOR/0029 BW - (Trainer) Pansage Egg (KOR).pgf",
+     "size": 204,
+     "sha256": "c24f8475fcf664f6d69bec790749fcc6eafc91b0554c546282141504a156cfc9"
+    },
+    {
+     "path": "Released/Gen 5/Wondercards/KOR/0029 BW - (Trainer) Pidove Egg (KOR).pgf",
+     "size": 204,
+     "sha256": "5fd6c72700002f71efb9142a072c3f9f939e0184849fc53d41bf2bf1a71e9a7d"
+    }
+   ]
+  },
+  {
+   "language": "ko",
+   "method": "wireless",
+   "title": "Station Zoroark",
+   "gifts": [
+    "Zoroark"
+   ],
+   "games": [
+    "black",
+    "white"
+   ],
+   "runs": [
+    {
+     "start": "2011-06-26",
+     "end": "2011-08-28"
+    }
+   ],
+   "cards": [
+    {
+     "path": "Released/Gen 5/Wondercards/KOR/0030 BW - 방송국 Zoroark (KOR).pgf",
+     "size": 204,
+     "sha256": "775310da693abf1de03adbf1a3c7c0b7bd93e502cbb4c92e3c82730059e3363d"
+    }
+   ]
+  },
+  {
+   "language": "ko",
+   "method": "wfc",
+   "title": "Ash's Scraggy",
+   "gifts": [
+    "Scraggy"
+   ],
+   "games": [
+    "black",
+    "white"
+   ],
+   "runs": [
+    {
+     "start": "2011-06-28",
+     "end": "2011-07-17"
+    }
+   ],
+   "cards": [
+    {
+     "path": "Released/Gen 5/Wondercards/KOR/0031 BW - 지우 Scraggy (KOR).pgf",
+     "size": 204,
+     "sha256": "7931cf0a5cc4158620b1cf0b31f32f9cdaf40535e11ad20994466acb67e22bfd"
+    }
+   ]
+  },
+  {
+   "language": "ko",
+   "method": "wireless",
+   "title": "2011 World Championships Scrafty",
+   "gifts": [
+    "Scrafty"
+   ],
+   "games": [
+    "black",
+    "white"
+   ],
+   "runs": [
+    {
+     "start": "2011-08-14",
+     "end": "2011-08-14"
+    }
+   ],
+   "cards": []
+  },
+  {
+   "language": "ko",
+   "method": "wireless",
+   "title": "Homeplus Darkrai",
+   "gifts": [
+    "Darkrai"
+   ],
+   "games": [
+    "black",
+    "white"
+   ],
+   "runs": [
+    {
+     "start": "2011-09-03",
+     "end": "2011-09-25"
+    }
+   ],
+   "cards": [
+    {
+     "path": "Released/Gen 5/Wondercards/KOR/0028 BW - 홈플러스 Darkrai (KOR).pgf",
+     "size": 204,
+     "sha256": "cc3b86f797ed4e975ba3df0211ca6b1f8bf4c24dcd58911fa0f1b859c5c25546"
+    }
+   ]
+  },
+  {
+   "language": "ko",
+   "method": "wfc",
+   "title": "Movie 2011 Shiny Pokémon",
+   "gifts": [
+    "Golurk",
+    "Hydreigon"
+   ],
+   "games": [
+    "black",
+    "white"
+   ],
+   "runs": [
+    {
+     "start": "2011-11-03",
+     "end": "2012-01-31"
+    }
+   ],
+   "cards": [
+    {
+     "path": "Released/Gen 5/Wondercards/KOR/0035 B - 카리타 Hydreigon (KOR).pgf",
+     "size": 204,
+     "sha256": "1fb730708afce6f59dd6f6979fee4744783860d642cac5026d1961ee2e9c0983"
+    },
+    {
+     "path": "Released/Gen 5/Wondercards/KOR/0035 W - 잔타 Golurk (KOR).pgf",
+     "size": 204,
+     "sha256": "71140a65fb3a43cf96d09bf8f1b247ace3ddc3bcc91ccae113b0d52bcd47b0f8"
+    }
+   ]
+  },
+  {
+   "language": "ko",
+   "method": "wireless",
+   "title": "Movie 2011 Ash's Pokémon",
+   "gifts": [
+    "Reshiram",
+    "Zekrom"
+   ],
+   "games": [
+    "black",
+    "white"
+   ],
+   "runs": [
+    {
+     "start": "2011-12-22",
+     "end": "2012-02-29"
+    }
+   ],
+   "cards": [
+    {
+     "path": "Released/Gen 5/Wondercards/KOR/0033 B - 지우 Zekrom (KOR).pgf",
+     "size": 204,
+     "sha256": "40d73603de1f4e03c92f87afcfeb27442375e704a47725923831424aef4b74a4"
+    },
+    {
+     "path": "Released/Gen 5/Wondercards/KOR/0033 W - 지우 Reshiram (KOR).pgf",
+     "size": 204,
+     "sha256": "6841097b35f800bfef2e98882656e8764c72390baa760fe6bfbd6770536ab1d7"
+    }
+   ]
+  },
+  {
+   "language": "ko",
+   "method": "wireless",
+   "title": "Eind Victini",
+   "gifts": [
+    "Victini"
+   ],
+   "games": [
+    "black",
+    "white"
+   ],
+   "runs": [
+    {
+     "start": "2011-12-22",
+     "end": "2012-01-08"
+    }
+   ],
+   "cards": [
+    {
+     "path": "Released/Gen 5/Wondercards/KOR/0032 BW - 아인트 Victini (KOR).pgf",
+     "size": 204,
+     "sha256": "aebfa4ca926d3dfa6b1e1002ecbf9d28ad7b2a28554a81033c8f36898c7cc978"
+    }
+   ]
+  },
+  {
+   "language": "ko",
+   "method": "infrared",
+   "title": "Strongest Return Mewtwo",
+   "gifts": [
+    "Mewtwo"
+   ],
+   "games": [
+    "black",
+    "white"
+   ],
+   "runs": [
+    {
+     "start": "2012-03-03",
+     "end": "2012-03-03"
+    }
+   ],
+   "cards": [
+    {
+     "path": "Released/Gen 5/Wondercards/KOR/0048 BW - 최강의귀환 Mewtwo (KOR).pgf",
+     "size": 204,
+     "sha256": "36fb37df3ebebf19a2ad975fc6c2ca237c1659ef723c257e70cdd5c985e58e5b"
+    }
+   ]
+  },
+  {
+   "language": "ko",
+   "method": "wfc",
+   "title": "Strongest Return Mewtwo",
+   "gifts": [
+    "Mewtwo"
+   ],
+   "games": [
+    "black",
+    "white"
+   ],
+   "runs": [
+    {
+     "start": "2012-03-15",
+     "end": "2012-05-10"
+    }
+   ],
+   "cards": [
+    {
+     "path": "Released/Gen 5/Wondercards/KOR/0048 BW - 최강의귀환 Mewtwo (KOR).pgf",
+     "size": 204,
+     "sha256": "36fb37df3ebebf19a2ad975fc6c2ca237c1659ef723c257e70cdd5c985e58e5b"
+    }
+   ]
+  },
+  {
+   "language": "ko",
+   "method": "wfc",
+   "title": "Milos Island Pokémon",
+   "gifts": [
+    "Tornadus",
+    "Thundurus"
+   ],
+   "games": [
+    "black",
+    "white"
+   ],
+   "runs": [
+    {
+     "start": "2012-05-14",
+     "end": "2012-07-05"
+    }
+   ],
+   "cards": [
+    {
+     "path": "Released/Gen 5/Wondercards/KOR/0051 B - 삼로스섬 Thundurus (KOR).pgf",
+     "size": 204,
+     "sha256": "cfdd25657082ab8e883df5ba14a92cc1436e2e308b44cec32cdd0169c7179dc4"
+    },
+    {
+     "path": "Released/Gen 5/Wondercards/KOR/0051 W - 삼로스섬 Tornadus (KOR).pgf",
+     "size": 204,
+     "sha256": "dad88eab8ca14bc38b84da08019d8cb64cba198d4da5a653464fc59ca1bfc491"
+    }
+   ]
+  },
+  {
+   "language": "ko",
+   "method": "infrared",
+   "title": "Korean Nationals 2012 Volcarona",
+   "gifts": [
+    "Volcarona"
+   ],
+   "games": [
+    "black",
+    "white"
+   ],
+   "runs": [
+    {
+     "start": "2012-06-09",
+     "end": "2012-06-10"
+    }
+   ],
+   "cards": [
+    {
+     "path": "Released/Gen 5/Wondercards/KOR/0094 BW - 선발전12 Volcarona (KOR).pgf",
+     "size": 204,
+     "sha256": "34b98961ee463414e93fc222bb2591f3d3377cab3025e9a8af73516d6546c0ee"
+    }
+   ]
+  },
+  {
+   "language": "ko",
+   "method": "infrared",
+   "title": "Summer Carnival Pikachu",
+   "gifts": [
+    "Pikachu"
+   ],
+   "games": [
+    "black",
+    "white"
+   ],
+   "runs": [
+    {
+     "start": "2012-07-14",
+     "end": "2012-08-29"
+    }
+   ],
+   "cards": [
+    {
+     "path": "Released/Gen 5/Wondercards/KOR/0071 BW - 썸머카니발 Pikachu (KOR).pgf",
+     "size": 204,
+     "sha256": "2be2cbdacb7d3bbcf047f0163693064a70634a3102d7aa0c0c416f0af57d5551"
+    }
+   ]
+  },
+  {
+   "language": "ko",
+   "method": "wireless",
+   "title": "2012 World Championships Pikachu",
+   "gifts": [
+    "Pikachu"
+   ],
+   "games": [
+    "black",
+    "white"
+   ],
+   "runs": [
+    {
+     "start": "2012-08-12",
+     "end": "2012-08-12"
+    }
+   ],
+   "cards": [
+    {
+     "path": "Released/Gen 5/Wondercards/KOR/0071 BW - 썸머카니발 Pikachu (KOR).pgf",
+     "size": 204,
+     "sha256": "2be2cbdacb7d3bbcf047f0163693064a70634a3102d7aa0c0c416f0af57d5551"
+    }
+   ]
+  },
+  {
+   "language": "ko",
+   "method": "wfc",
+   "title": "Year of the Dragon Pokémon",
+   "gifts": [
+    "Horsea",
+    "Trapinch",
+    "Swablu",
+    "Bagon",
+    "Druddigon",
+    "Deino"
+   ],
+   "games": [
+    "black",
+    "white"
+   ],
+   "runs": [
+    {
+     "start": "2012-08-23",
+     "end": "2012-10-04"
+    }
+   ],
+   "cards": [
+    {
+     "path": "Released/Gen 5/Wondercards/KOR/0105 BW - 용의해 Bagon (KOR).pgf",
+     "size": 204,
+     "sha256": "23f995952fb6629f459e6f55325bc8f0926dfeedd7880a00a36721046dfdd193"
+    },
+    {
+     "path": "Released/Gen 5/Wondercards/KOR/0105 BW - 용의해 Deino (KOR).pgf",
+     "size": 204,
+     "sha256": "ecd6da9030468c5902f2239c32964f6817f5032ef744647664d99e63355f9ceb"
+    },
+    {
+     "path": "Released/Gen 5/Wondercards/KOR/0105 BW - 용의해 Druddigon (KOR).pgf",
+     "size": 204,
+     "sha256": "65ffec1cf4e22b4b4d1384c96cfcc5eec54ba6d60aef445c084dc4211a0d71a9"
+    },
+    {
+     "path": "Released/Gen 5/Wondercards/KOR/0105 BW - 용의해 Horsea (KOR).pgf",
+     "size": 204,
+     "sha256": "3575a42459c6c609d3c5022bd77add9d3b9df7a93c73bcd1b7f3296c8bc5585e"
+    },
+    {
+     "path": "Released/Gen 5/Wondercards/KOR/0105 BW - 용의해 Swablu (KOR).pgf",
+     "size": 204,
+     "sha256": "d873075d82bfec6ecb69e32713a0abe9582217c71d9100efa74c3adbacd8c1d6"
+    },
+    {
+     "path": "Released/Gen 5/Wondercards/KOR/0105 BW - 용의해 Trapinch (KOR).pgf",
+     "size": 204,
+     "sha256": "6848e33fcc24b01894894689cdf6b86e919a74f894d1efb583646a1d0ea16bdb"
+    },
+    {
+     "path": "Released/Gen 5/Wondercards/KOR/0106 BW - 용의해 Bagon (KOR).pgf",
+     "size": 204,
+     "sha256": "419681e00c49994aa4e45234fa29d7942b09a90a3d4712d49351ceb3bb37d87d"
+    },
+    {
+     "path": "Released/Gen 5/Wondercards/KOR/0106 BW - 용의해 Deino (KOR).pgf",
+     "size": 204,
+     "sha256": "9ec91a188f42996766fbabdd6557611f9d0af550d366a7cf4630b835d1c23b1d"
+    },
+    {
+     "path": "Released/Gen 5/Wondercards/KOR/0106 BW - 용의해 Druddigon (KOR).pgf",
+     "size": 204,
+     "sha256": "f53d3019764942a6d6e898d89945870aab874cb06a90fbb74cc2f47e8a113da2"
+    },
+    {
+     "path": "Released/Gen 5/Wondercards/KOR/0106 BW - 용의해 Horsea (KOR).pgf",
+     "size": 204,
+     "sha256": "9ac2727855a2bb30da29574307dba8e53e6736c481a9faacb218413af9db6ff7"
+    },
+    {
+     "path": "Released/Gen 5/Wondercards/KOR/0106 BW - 용의해 Swablu (KOR).pgf",
+     "size": 204,
+     "sha256": "8d8f8ada725d1a3037a2b553e3a4602365be0787384dfa60bd1eb67f2a9a3b59"
+    },
+    {
+     "path": "Released/Gen 5/Wondercards/KOR/0106 BW - 용의해 Trapinch (KOR).pgf",
+     "size": 204,
+     "sha256": "b70418a63ea940d8828e2bcc3ea9b188a674a4817064dec9dad20742f8703087"
+    }
+   ]
+  },
+  {
+   "language": "ko",
+   "method": "infrared",
+   "title": "Kanto First Partner Eggs",
+   "gifts": [
+    "Bulbasaur",
+    "Charmander",
+    "Squirtle"
+   ],
+   "games": [
+    "black",
+    "white"
+   ],
+   "runs": [
+    {
+     "start": "2012-11-08",
+     "end": "2012-11-11"
+    }
+   ],
+   "cards": [
+    {
+     "path": "Released/Gen 5/Wondercards/KOR/0095 BWB2W2 - (Trainer) Bulbasaur Egg (KOR).pgf",
+     "size": 204,
+     "sha256": "c203a5d8f59614455cb7401004d1b7264c30c870557198c1a2cb3974b3e1cb96"
+    },
+    {
+     "path": "Released/Gen 5/Wondercards/KOR/0095 BWB2W2 - (Trainer) Charmander Egg (KOR).pgf",
+     "size": 204,
+     "sha256": "6ecb8cc78fdef278c6d287c4b0f2db9bde45e61f196c9947e0f5eef5b8fea846"
+    },
+    {
+     "path": "Released/Gen 5/Wondercards/KOR/0095 BWB2W2 - (Trainer) Squirtle Egg (KOR).pgf",
+     "size": 204,
+     "sha256": "9b74298e3e5ff5f343ec375289bfb375f971975b25101f0fd6cf83a226bc3e14"
+    }
+   ]
+  },
+  {
+   "language": "ko",
+   "method": "wireless",
+   "title": "Sacred Swordsman Keldeo",
+   "gifts": [
+    "Keldeo"
+   ],
+   "games": [
+    "black",
+    "white"
+   ],
+   "runs": [
+    {
+     "start": "2012-12-11",
+     "end": "2013-01-06"
+    }
+   ],
+   "cards": [
+    {
+     "path": "Released/Gen 5/Wondercards/KOR/0069 BWB2W2 - 성검사 Keldeo (KOR).pgf",
+     "size": 204,
+     "sha256": "28e4cd9cbc9ea70219f99d5deae33e4dcfc0ed4d5132b6357805ad680d4c8bd3"
+    }
+   ]
+  },
+  {
+   "language": "ko",
+   "method": "infrared",
+   "title": "Cinema Meloetta",
+   "gifts": [
+    "Meloetta"
+   ],
+   "games": [
+    "black",
+    "white"
+   ],
+   "runs": [
+    {
+     "start": "2012-12-19",
+     "end": "2013-02-28"
+    }
+   ],
+   "cards": [
+    {
+     "path": "Released/Gen 5/Wondercards/KOR/0070 BWB2W2 - 영화관 Meloetta (KOR).pgf",
+     "size": 204,
+     "sha256": "dbe3167f93b1e31d251487f37904040aefb5fb5c1ce29642e8457cef38895f07"
+    }
+   ]
+  },
+  {
+   "language": "ko",
+   "method": "wireless",
+   "title": "Concert Piplup",
+   "gifts": [
+    "Piplup"
+   ],
+   "games": [
+    "black",
+    "white"
+   ],
+   "runs": [
+    {
+     "start": "2012-12-22",
+     "end": "2012-12-25"
+    }
+   ],
+   "cards": [
+    {
+     "path": "Released/Gen 5/Wondercards/KOR/0097 BWB2W2 - 음악회 Piplup (KOR).pgf",
+     "size": 204,
+     "sha256": "2329208bec240c583f1ba8a36fa5d322d06f853b63501db0303626586838bade"
+    }
+   ]
+  },
+  {
+   "language": "ko",
+   "method": "infrared",
+   "title": "Character Fair Jirachi",
+   "gifts": [
+    "Jirachi"
+   ],
+   "games": [
+    "black",
+    "white"
+   ],
+   "runs": [
+    {
+     "start": "2013-07-17",
+     "end": "2013-07-21"
+    }
+   ],
+   "cards": [
+    {
+     "path": "Released/Gen 5/Wondercards/KOR/0153 BWB2W2 - 캐릭터페어 Jirachi (KOR).pgf",
+     "size": 204,
+     "sha256": "904289b1ebc5f9eb0640b43e2865c5a8586948a73a91dfb0664f92d03638001d"
+    }
+   ]
+  },
+  {
+   "language": "ko",
+   "method": "wfc",
+   "title": "Chilseok Jirachi",
+   "gifts": [
+    "Jirachi"
+   ],
+   "games": [
+    "black",
+    "white"
+   ],
+   "runs": [
+    {
+     "start": "2013-08-01",
+     "end": "2013-08-31"
+    }
+   ],
+   "cards": [
+    {
+     "path": "Released/Gen 5/Wondercards/KOR/0154 BWB2W2 - 칠석 Jirachi (KOR).pgf",
+     "size": 204,
+     "sha256": "7b44a946ad639c5fa7b9ed000d6717fe30d559f2476fdf27110804b00cb793af"
+    }
+   ]
+  },
+  {
+   "language": "ko",
+   "method": "wireless",
+   "title": "2013 World Championships Smeargle",
+   "gifts": [
+    "Smeargle"
+   ],
+   "games": [
+    "black",
+    "white"
+   ],
+   "runs": [
+    {
+     "start": "2013-08-10",
+     "end": "2013-08-11"
+    }
+   ],
+   "cards": []
+  },
+  {
+   "language": "ko",
+   "method": "wireless",
+   "title": "World Championships 2013 Qualifiers Tournament Pokémon",
+   "gifts": [
+    "Liepard",
+    "Cresselia",
+    "Hitmontop"
+   ],
+   "games": [
+    "black",
+    "white"
+   ],
+   "runs": [
+    {
+     "start": "2013-08-31",
+     "end": "2013-09-01"
+    }
+   ],
+   "cards": [
+    {
+     "path": "Released/Gen 5/Wondercards/KOR/0162 BWB2W2 - 권도훈 Hitmontop (KOR).pgf",
+     "size": 204,
+     "sha256": "bb0900f884c0c6c1162c5199f9c6afe73d97693e46cb1864cd3c849378291ef1"
+    },
+    {
+     "path": "Released/Gen 5/Wondercards/KOR/0163 BWB2W2 - 사승헌 Cresselia (KOR).pgf",
+     "size": 204,
+     "sha256": "b834ee476cb8130655a46460ff55b790691ddf366b2b57ab320a3733c8b08e96"
+    },
+    {
+     "path": "Released/Gen 5/Wondercards/KOR/0164 BWB2W2 - 박세준 Liepard (KOR).pgf",
+     "size": 204,
+     "sha256": "85d16b06a426bad2a9cf6b38221626502c0178146d9749abac8730c9e3777fa4"
+    }
+   ]
+  },
+  {
+   "language": "ko",
+   "method": "wireless",
+   "title": "10/12 Shiny Pokémon of myth",
+   "gifts": [
+    "Dialga",
+    "Palkia",
+    "Giratina"
+   ],
+   "games": [
+    "black",
+    "white"
+   ],
+   "runs": [
+    {
+     "start": "2013-09-14",
+     "end": "2013-10-06"
+    }
+   ],
+   "cards": [
+    {
+     "path": "Released/Gen 5/Wondercards/KOR/0148 BWB2W2 - 10_12 Shiny Dialga (KOR).pgf",
+     "size": 204,
+     "sha256": "3921c835f5ab5e7b1101f62915dd953f89a22719d6d39b53b72044946f08e26a"
+    },
+    {
+     "path": "Released/Gen 5/Wondercards/KOR/0149 BWB2W2 - 10_12 Shiny Palkia (KOR).pgf",
+     "size": 204,
+     "sha256": "de0824f2d7250f2c746688c04a33c672688796cc1d1ec182403c0aecad50930f"
+    },
+    {
+     "path": "Released/Gen 5/Wondercards/KOR/0150 BWB2W2 - 10_12 Shiny Giratina (KOR).pgf",
+     "size": 204,
+     "sha256": "12c3e3bb6789ab1596dbd5a1ad0da8b7f9d2696846206c159cc4654f70c7d7cd"
+    }
+   ]
+  },
+  {
+   "language": "ko",
+   "method": "wireless",
+   "title": "Cinema Genesect",
+   "gifts": [
+    "Genesect"
+   ],
+   "games": [
+    "black",
+    "white"
+   ],
+   "runs": [
+    {
+     "start": "2014-01-09",
+     "end": "2014-01-15"
+    }
+   ],
+   "cards": [
+    {
+     "path": "Released/Gen 5/Wondercards/KOR/0136 BWB2W2 - 영화관 Shiny Genesect (KOR).pgf",
+     "size": 204,
+     "sha256": "751e7d76eb44c0fbb3df3d86894267b04382fba417728ea6ad185e7212501f97"
+    }
+   ]
+  },
+  {
+   "language": "es",
+   "method": "wfc",
+   "title": "Liberty Pass",
+   "gifts": [
+    "Liberty Pass"
+   ],
+   "games": [
+    "black",
+    "white"
+   ],
+   "runs": [
+    {
+     "start": "2011-03-04",
+     "end": "2011-04-27"
+    }
+   ],
+   "cards": [
+    {
+     "path": "Released/Gen 5/Wondercards/SPA/2046 BW - Item Liberty Pass (SPA).pgf",
+     "size": 204,
+     "sha256": "578a59cefd8f2d171db5570eeaf07240795723e45d0cbfdf88ad59be8ddefbf5"
+    }
+   ]
+  },
+  {
+   "language": "es",
+   "method": "wireless",
+   "title": "Summer 2011 Zoroark",
+   "gifts": [
+    "Zoroark"
+   ],
+   "games": [
+    "black",
+    "white"
+   ],
+   "runs": [
+    {
+     "start": "2011-06-11",
+     "end": "2011-06-18"
+    }
+   ],
+   "cards": [
+    {
+     "path": "Released/Gen 5/Wondercards/SPA/0030 BW - VER2011 Zoroark (SPA).pgf",
+     "size": 204,
+     "sha256": "bf602b1dd5ad3ab319f7d12ccce68b6ca6b36218283ab956cd4c0f358be6602b"
+    }
+   ]
+  },
+  {
+   "language": "es",
+   "method": "wireless",
+   "title": "Summer 2011 Pokémon",
+   "gifts": [
+    "Karrablast",
+    "Shelmet"
+   ],
+   "games": [
+    "black",
+    "white"
+   ],
+   "runs": [
+    {
+     "start": "2011-06-11",
+     "end": "2011-06-18"
+    }
+   ],
+   "cards": [
+    {
+     "path": "Released/Gen 5/Wondercards/SPA/0002 BW - VER2011 Karrablast (SPA).pgf",
+     "size": 204,
+     "sha256": "ea3ce67ba33ad9f6cde366cc8d4d792ead5e8f261b8b75ddb275b1c52d7e5ad0"
+    },
+    {
+     "path": "Released/Gen 5/Wondercards/SPA/0003 BW - VER2011 Shelmet (SPA).pgf",
+     "size": 204,
+     "sha256": "01e623e7cf6fba9fb4533ed1f8cdb9860e2f25bd8383032a25bc1ceefc3b1ae5"
+    }
+   ]
+  },
+  {
+   "language": "es",
+   "method": "wireless",
+   "title": "2011 World Championships Scrafty",
+   "gifts": [
+    "Scrafty"
+   ],
+   "games": [
+    "black",
+    "white"
+   ],
+   "runs": [
+    {
+     "start": "2011-08-14",
+     "end": "2011-08-14"
+    }
+   ],
+   "cards": [
+    {
+     "path": "Released/Gen 5/Wondercards/SPA/0037 BW - WORLD11 Scrafty (SPA).pgf",
+     "size": 204,
+     "sha256": "846388bef8c62e24dc54a055fceffcaa543edd018c4875cc305479a1b216eca5"
+    }
+   ]
+  },
+  {
+   "language": "es",
+   "method": "wireless",
+   "title": "Winter 2011 Darkrai",
+   "gifts": [
+    "Darkrai"
+   ],
+   "games": [
+    "black",
+    "white"
+   ],
+   "runs": [
+    {
+     "start": "2011-11-23",
+     "end": "2011-12-31"
+    }
+   ],
+   "cards": [
+    {
+     "path": "Released/Gen 5/Wondercards/SPA/0028 BW - 2011INV Darkrai (SPA).pgf",
+     "size": 204,
+     "sha256": "ce47c7875c7053fa1884728cde64c80f35d7a36970471d41b9327bf37aecc6d6"
+    }
+   ]
+  },
+  {
+   "language": "es",
+   "method": "wfc",
+   "title": "Spring 2012 Pokémon",
+   "gifts": [
+    "Reshiram",
+    "Zekrom"
+   ],
+   "games": [
+    "black",
+    "white"
+   ],
+   "runs": [
+    {
+     "start": "2012-03-10",
+     "end": "2012-04-08"
+    }
+   ],
+   "cards": [
+    {
+     "path": "Released/Gen 5/Wondercards/SPA/0033 B - PRI2012 Zekrom (SPA).pgf",
+     "size": 204,
+     "sha256": "707a9c8b93481da385455ee57710e47eb1c8f06cf5775936aa1aa25b4f95ddb8"
+    },
+    {
+     "path": "Released/Gen 5/Wondercards/SPA/0033 W - PRI2012 Reshiram (SPA).pgf",
+     "size": 204,
+     "sha256": "050cef19713497eb4bd77650be319982160a97b1533c912d2a854f2a9edf73ef"
+    }
+   ]
+  },
+  {
+   "language": "es",
+   "method": "wireless",
+   "title": "Video Game Championships 2012 Larvitar",
+   "gifts": [
+    "Larvitar"
+   ],
+   "games": [
+    "black",
+    "white"
+   ],
+   "runs": [
+    {
+     "start": "2012-03-24",
+     "end": "2012-03-24"
+    }
+   ],
+   "cards": [
+    {
+     "path": "Released/Gen 5/Wondercards/SPA/0061 BW - VGC12 Larvitar (SPA).pgf",
+     "size": 204,
+     "sha256": "cdd355858ace239dc4946726aaaef1f886375ce6e7251e72dd9d5b9af1a56110"
+    }
+   ]
+  },
+  {
+   "language": "es",
+   "method": "wfc",
+   "title": "Movie 14 Victini",
+   "gifts": [
+    "Victini"
+   ],
+   "games": [
+    "black",
+    "white"
+   ],
+   "runs": [
+    {
+     "start": "2012-04-10",
+     "end": "2012-04-30"
+    }
+   ],
+   "cards": [
+    {
+     "path": "Released/Gen 5/Wondercards/SPA/0032 BW - PELI14 Victini (SPA).pgf",
+     "size": 204,
+     "sha256": "f0acf428246b8cdb9e8a09ac9b1ad34cd849a40ba0e8125ea09e399e76407b9e"
+    }
+   ]
+  },
+  {
+   "language": "es",
+   "method": "wfc",
+   "title": "Spring 2012 Mewtwo",
+   "gifts": [
+    "Mewtwo"
+   ],
+   "games": [
+    "black",
+    "white"
+   ],
+   "runs": [
+    {
+     "start": "2012-05-01",
+     "end": "2012-05-31"
+    }
+   ],
+   "cards": [
+    {
+     "path": "Released/Gen 5/Wondercards/SPA/0048 BW - PRI2012 Mewtwo (SPA).pgf",
+     "size": 204,
+     "sha256": "6b3b5d28537d5ebff0cd4e894f20672dfb3246412c707349266a7e675b718e52"
+    }
+   ]
+  },
+  {
+   "language": "es",
+   "method": "wireless",
+   "title": "Summer 2012 Pikachu",
+   "gifts": [
+    "Pikachu"
+   ],
+   "games": [
+    "black",
+    "white"
+   ],
+   "runs": [
+    {
+     "start": "2012-07-05",
+     "end": "2012-07-08"
+    }
+   ],
+   "cards": [
+    {
+     "path": "Released/Gen 5/Wondercards/SPA/0071 BW - VER2012 Pikachu (SPA).pgf",
+     "size": 204,
+     "sha256": "f34ac1df6bbf92b3ba814ca9dcb6e5e82eccfbf471fcdfcfb92a8191f033bbab"
+    }
+   ]
+  },
+  {
+   "language": "es",
+   "method": "wireless",
+   "title": "2012 World Championships Pikachu",
+   "gifts": [
+    "Pikachu"
+   ],
+   "games": [
+    "black",
+    "white"
+   ],
+   "runs": [
+    {
+     "start": "2012-08-12",
+     "end": "2012-08-12"
+    }
+   ],
+   "cards": [
+    {
+     "path": "Released/Gen 5/Wondercards/SPA/0100 BW - WORLD12 Pikachu (SPA) (C).pgf",
+     "size": 204,
+     "sha256": "a20fc9cff03705fe9d676d89f0eec44832c352c02c0d08b9a16f4394387e9247"
+    },
+    {
+     "path": "Released/Gen 5/Wondercards/SPA/0100 BW - WORLD12 Pikachu (SPA).pgf",
+     "size": 204,
+     "sha256": "45bd81090fb2148895566fb3eb777d507e47159e5a14b6ae3e09a3ce769defec"
+    }
+   ]
+  },
+  {
+   "language": "es",
+   "method": "wireless",
+   "title": "Summer 2012 Keldeo",
+   "gifts": [
+    "Keldeo"
+   ],
+   "games": [
+    "black",
+    "white"
+   ],
+   "runs": [
+    {
+     "start": "2012-09-01",
+     "end": "2012-10-11"
+    }
+   ],
+   "cards": [
+    {
+     "path": "Released/Gen 5/Wondercards/SPA/0069 BW - VER2012 Keldeo (SPA).pgf",
+     "size": 204,
+     "sha256": "649b4d45aec2a8ec7bc08350d2cb491b875e994bfcbc4ac6532f16559c767a80"
+    }
+   ]
+  },
+  {
+   "language": "es",
+   "method": "wireless",
+   "title": "Spring 2013 Meloetta",
+   "gifts": [
+    "Meloetta"
+   ],
+   "games": [
+    "black",
+    "white"
+   ],
+   "runs": [
+    {
+     "start": "2013-03-22",
+     "end": "2013-04-19"
+    }
+   ],
+   "cards": [
+    {
+     "path": "Released/Gen 5/Wondercards/SPA/0129 BWB2W2 - PRI2013 Meloetta (SPA).pgf",
+     "size": 204,
+     "sha256": "f06b57bea78e580f1f9bba9c2b7d1ff5a69a77267d9b08c784115187faea4530"
+    }
+   ]
+  },
+  {
+   "language": "es",
+   "method": "wireless",
+   "title": "Video Game Championships 2013 Metagross",
+   "gifts": [
+    "Metagross"
+   ],
+   "games": [
+    "black",
+    "white"
+   ],
+   "runs": [
+    {
+     "start": "2013-05-12",
+     "end": "2013-05-12"
+    }
+   ],
+   "cards": [
+    {
+     "path": "Released/Gen 5/Wondercards/SPA/0132 BWB2W2 - Ray Metagross (SPA).pgf",
+     "size": 204,
+     "sha256": "f721cdeaf43ae9d7193c580afbf91958355bb09c5ca06d23b839eac3546cecbe"
+    }
+   ]
+  },
+  {
+   "language": "es",
+   "method": "wireless",
+   "title": "2013 World Championships Smeargle",
+   "gifts": [
+    "Smeargle"
+   ],
+   "games": [
+    "black",
+    "white"
+   ],
+   "runs": [
+    {
+     "start": "2013-08-10",
+     "end": "2013-08-11"
+    }
+   ],
+   "cards": [
+    {
+     "path": "Released/Gen 5/Wondercards/SPA/0155 BWB2W2 - WORLD13 Smeargle (SPA).pgf",
+     "size": 204,
+     "sha256": "c3d0ad32ab7b26a12bfc104c6be50d9503ca8e280b468e77c4c7b9c2a32bcd03"
+    }
+   ]
+  },
+  {
+   "language": "es",
+   "method": "wireless",
+   "title": "International Summer 2013 Pokémon of myth",
+   "gifts": [
+    "Giratina",
+    "Palkia",
+    "Dialga"
+   ],
+   "games": [
+    "black",
+    "white"
+   ],
+   "runs": [
+    {
+     "start": "2013-09-27",
+     "end": "2013-10-11"
+    }
+   ],
+   "cards": [
+    {
+     "path": "Released/Gen 5/Wondercards/SPA/0148 BWB2W2 - VER2013 Shiny Dialga (SPA).pgf",
+     "size": 204,
+     "sha256": "3662b179d532b07685cd75ed93a83bafa72b1a482c87b5ef91b805458388c09e"
+    },
+    {
+     "path": "Released/Gen 5/Wondercards/SPA/0149 BWB2W2 - VER2013 Shiny Palkia (SPA).pgf",
+     "size": 204,
+     "sha256": "c614f13a5a572b298eb064ebf3c5dcaabe80a68be135cedfad50b0eaa7adb6a9"
+    },
+    {
+     "path": "Released/Gen 5/Wondercards/SPA/0150 BWB2W2 - VER2013 Shiny Giratina (SPA).pgf",
+     "size": 204,
+     "sha256": "f32ea65e61068e4b11debdb0c03d2dde344a56228c67fc74132b9c5ab6163742"
+    }
+   ]
+  }
+ ]
+}

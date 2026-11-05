@@ -11,6 +11,44 @@ no game code and no game data.
 
 The protocol and the multiplayer design are in [docs/SPEC.md](docs/SPEC.md).
 
+## Mystery Gift events
+
+`data/mystery_events.json` lists the Mystery Gift events of Black and
+White as they were given out, for each cartridge language: English,
+French, German, Italian, Spanish, Japanese and Korean. That is 168 events.
+Each entry gives:
+
+- how the gift was given out: Nintendo WFC, local wireless (shops and
+  events) or infrared
+- the gifts and the games (Black, White or both)
+- the original dates, one range for each time the event ran
+- where each Wonder Card file is in Project Pokémon's EventsGallery, with
+  its size and SHA-256
+
+The list holds no card files and no game data, only the facts above. eidos
+will read it to replay the events every month: each event starts on the day
+of the month it first started and stays up for a week. eidos gets the card
+files from EventsGallery and checks them against the SHA-256. Serving the
+list from the relay is not built yet.
+
+### Sources
+
+- Event dates, methods and gifts: Bulbapedia's lists of Generation V event
+  distributions, Wi-Fi and local, for each language, and its list of other
+  event distributions (the Liberty Pass and the Master Ball).
+  <https://bulbapedia.bulbagarden.net/>. Bulbapedia's text is under
+  CC BY-NC-SA 2.5; this list takes only dates and names from it.
+- Wonder Card files: Project Pokémon's EventsGallery.
+  <https://github.com/projectpokemon/EventsGallery>
+- Dates checked against Serebii's event pages
+  (<https://www.serebii.net/events/>) and PKMN.NET.
+
+Local events often ran on different dates in different countries. The list
+keeps the dates of the language's home country (the United States for
+English when listed there, France, Germany, Italy, Spain, Japan, Korea),
+and otherwise the first country named. Four events have no card file in
+EventsGallery and list no card.
+
 ## Build
 
 You need a stable Rust toolchain.
