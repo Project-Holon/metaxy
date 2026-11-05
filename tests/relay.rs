@@ -1225,11 +1225,15 @@ async fn mystery_gift_events_for_a_day() {
     loop {
         match cl.read(Duration::from_secs(5)).await {
             Got::Frame('M', p) => {
-                let mut lines = p.splitn(4, |&b| b == b'\n');
+                let mut lines = p.splitn(5, |&b| b == b'\n');
                 let method = String::from_utf8(lines.next().unwrap().to_vec()).unwrap();
                 let title = String::from_utf8(lines.next().unwrap().to_vec()).unwrap();
                 let _gifts = lines.next().unwrap();
+                let text = String::from_utf8(lines.next().unwrap().to_vec()).unwrap();
                 let card = lines.next().unwrap();
+                if title == "Liberty Pass" {
+                    assert!(text.starts_with("Use this special pass"));
+                }
                 assert!(method == "wfc" || method == "wireless" || method == "infrared");
                 assert_eq!(card.len(), 204);
                 titles.push(title);

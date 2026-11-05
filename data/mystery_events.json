@@ -36,6 +36,12 @@
      "local_wireless_copy": false,
      "file": "cards/c62055f4759e92b5b7b8718f32b404dd0f806bc4e5544de2a3b27b7682e85d7b.pgf"
     }
+   ],
+   "texts": [
+    {
+     "species": 0,
+     "text": "Use this special pass to take\na ship from Castelia City to\nLiberty Garden and meet the\nMythical Pokémon Victini!"
+    }
    ]
   },
   {
@@ -91,6 +97,12 @@
      "local_wireless_copy": false,
      "file": "cards/6c20983a0184798a110b3da25ff2eb0bd2eea91953a4a472ee2507b9fd40521e.pgf"
     }
+   ],
+   "texts": [
+    {
+     "species": 0,
+     "text": "What Pokémon will hatch from\nthis Egg? Keep it with you\non your journey and take care\nof it, and you'll find out!"
+    }
    ]
   },
   {
@@ -121,6 +133,12 @@
      ],
      "local_wireless_copy": false,
      "file": "cards/e7d70f078b25d636e2849c5771e10ab79f3a791904a9ea550f1836dd94190e5c.pgf"
+    }
+   ],
+   "texts": [
+    {
+     "species": 571,
+     "text": "You've received a Zoroark\nwhich knows a special move!\nTry it out in battle!"
     }
    ]
   },
@@ -165,6 +183,16 @@
      "local_wireless_copy": false,
      "file": "cards/65c67057cbdb9cbb11afdbbf4abc10874621f001ac62869269052a8689ff159d.pgf"
     }
+   ],
+   "texts": [
+    {
+     "species": 588,
+     "text": "You've received a Karrablast!\nTrade Karrablast with your\nfriend's Shelmet for it to evolve!"
+    },
+    {
+     "species": 616,
+     "text": "You've received a Shelmet!\nTrade Shelmet with your\nfriend's Karrablast for it to evolve!"
+    }
    ]
   },
   {
@@ -195,6 +223,12 @@
      ],
      "local_wireless_copy": false,
      "file": "cards/cfd1fb7a6dcd6a20ade1c988e4099d05685387220ba5b4847c241699194e01dc.pgf"
+    }
+   ],
+   "texts": [
+    {
+     "species": 560,
+     "text": "Thanks for coming to the 2011\nPokémon World Championships!\nBe sure to save your game after you\npick up the Pokémon at a Pokémon Center."
     }
    ]
   },
@@ -227,6 +261,12 @@
      "local_wireless_copy": false,
      "file": "cards/2d151d3ebce0f7d54b9183a57d209c6c01033fb5a56e69a32b67d596c21f9da1.pgf"
     }
+   ],
+   "texts": [
+    {
+     "species": 571,
+     "text": "You've received a Zoroark\nthat knows a special move!\nTry it out in battle!"
+    }
    ]
   },
   {
@@ -257,6 +297,12 @@
      ],
      "local_wireless_copy": false,
      "file": "cards/f4e0c769081ad7ca118da16f1cbfc6644932014bf5c8c1bc0465e190920703cd.pgf"
+    }
+   ],
+   "texts": [
+    {
+     "species": 491,
+     "text": "Here's Darkrai!\nIt's a super-popular and\nMythical Pokémon!"
     }
    ]
   },
@@ -293,6 +339,12 @@
      "local_wireless_copy": false,
      "file": "cards/c36f8edbb4c585b479a9234fa0a51cdf6b3c853c0c3238f35efa98ffa9cdc868.pgf"
     }
+   ],
+   "texts": [
+    {
+     "species": 494,
+     "text": "Straight out of the movie with the\nmove V-create, this Victini will\nbring victory after victory!"
+    }
    ]
   },
   {
@@ -323,6 +375,12 @@
      ],
      "local_wireless_copy": false,
      "file": "cards/7065bb2ca133a0fe247a0ab5fe35a16c6e12f55956fb2a50a6823e172cdd8e43.pgf"
+    }
+   ],
+   "texts": [
+    {
+     "species": 150,
+     "text": "Thank you for playing Pokémon!\nPlay with the powerful Mewtwo and\nshow it off to friends in battle!"
     }
    ]
   },
@@ -385,6 +443,16 @@
      "local_wireless_copy": true,
      "file": "cards/55319245eb4a701d5c46c5e3357aeeb23b3b1d12284c5c7b2937d56b7c9e741f.pgf"
     }
+   ],
+   "texts": [
+    {
+     "species": 643,
+     "text": "It's Reshiram from the movie!\nTry out its Blue Flare move\nto witness its power in battle!"
+    },
+    {
+     "species": 644,
+     "text": "It's Zekrom from the movie!\nTry out its Bolt Strike move\nto witness its power in battle!"
+    }
    ]
   },
   {
@@ -446,6 +514,16 @@
      "local_wireless_copy": true,
      "file": "cards/55319245eb4a701d5c46c5e3357aeeb23b3b1d12284c5c7b2937d56b7c9e741f.pgf"
     }
+   ],
+   "texts": [
+    {
+     "species": 643,
+     "text": "It's Reshiram from the movie!\nTry out its Blue Flare move\nto witness its power in battle!"
+    },
+    {
+     "species": 644,
+     "text": "It's Zekrom from the movie!\nTry out its Bolt Strike move\nto witness its power in battle!"
+    }
    ]
   },
   {
@@ -476,6 +554,12 @@
      ],
      "local_wireless_copy": false,
      "file": "cards/b1bfcf26609f63f437bb4a2c864d66501efac6666199bffb1f63746506cd4ed7.pgf"
+    }
+   ],
+   "texts": [
+    {
+     "species": 491,
+     "text": "Here's Darkrai!\nIt's a super-popular and\nMythical Pokémon!"
     }
    ]
   },
@@ -508,6 +592,12 @@
      "local_wireless_copy": false,
      "file": "cards/22f747df1acc48031b3df4218ced7d9d3da812d5ee743b471aab344c36ed5571.pgf"
     }
+   ],
+   "texts": [
+    {
+     "species": 25,
+     "text": "Play with the Pikachu and\nshow it off to friends\nin Singapore!"
+    }
    ]
   },
   {
@@ -538,6 +628,12 @@
      ],
      "local_wireless_copy": false,
      "file": "cards/106ac802a85478732087c18e16f638498f1f80267303ce70bb1b0eef88570a5a.pgf"
+    }
+   ],
+   "texts": [
+    {
+     "species": 246,
+     "text": "Thank you for playing Pokémon!\nTrain hard with Larvitar,\nand take the competition by storm!"
     }
    ]
   },
@@ -570,6 +666,12 @@
      "local_wireless_copy": false,
      "file": "cards/44580ade66718d3a131aa4c60c5201db4aabc4608ee56d78a24168eeb93c356c.pgf"
     }
+   ],
+   "texts": [
+    {
+     "species": 25,
+     "text": "Here comes Pikachu with a powerful move!\nAim to become the most powerful\nTrainer with this Pokémon!"
+    }
    ]
   },
   {
@@ -600,6 +702,12 @@
      ],
      "local_wireless_copy": false,
      "file": "cards/56ad66590e093aa2391bfec009ac379e4da4d07a43eded8472600caec3bf2531.pgf"
+    }
+   ],
+   "texts": [
+    {
+     "species": 25,
+     "text": "This special Pikachu is a gift to you\nin celebration of the 2012 World Championships. Surprise your\nfriends in battle with the move Fly!"
     }
    ]
   },
@@ -632,6 +740,12 @@
      "local_wireless_copy": false,
      "file": "cards/26f5906c8f5fef8e21c8723eb7ff3af112f79e4e7550ed9a30424bb90cabb3eb.pgf"
     }
+   ],
+   "texts": [
+    {
+     "species": 647,
+     "text": "It will be a great addition to your\nparty for your adventure in\nPokémon Black Version 2 or\nPokémon White Version 2!"
+    }
    ]
   },
   {
@@ -662,6 +776,12 @@
      ],
      "local_wireless_copy": false,
      "file": "cards/b0044f0d17ced9a04be701e0b1b421c97032e0c30698ac81a70304a3be210bd8.pgf"
+    }
+   ],
+   "texts": [
+    {
+     "species": 91,
+     "text": "Thank you for playing Pokémon! Use this\nCloyster to put the competition on ice!"
     }
    ]
   },
@@ -694,6 +814,12 @@
      "local_wireless_copy": false,
      "file": "cards/690a03c07f48ed941da53bd845e52a260d5ac7534af9b17800dcb6973038abb8.pgf"
     }
+   ],
+   "texts": [
+    {
+     "species": 648,
+     "text": "The Mythical Pokémon Meloetta is a\ngift to you! Meloetta's song and dance\nwill make your battles spectacular!"
+    }
    ]
   },
   {
@@ -724,6 +850,12 @@
      ],
      "local_wireless_copy": false,
      "file": "cards/0131d6bbb12d31e10323e26403ac547d65ba755f37ebe56c033d034dae478bd1.pgf"
+    }
+   ],
+   "texts": [
+    {
+     "species": 272,
+     "text": "Thank you for playing Pokémon!\nDrain your opponents with this\nLudicolo!"
     }
    ]
   },
@@ -756,6 +888,12 @@
      "local_wireless_copy": false,
      "file": "cards/48e1007d0b3413bd8a6759b33b478d2ccad2170bada2099dde48fbb595e432b8.pgf"
     }
+   ],
+   "texts": [
+    {
+     "species": 376,
+     "text": "Start training for the\nWorld Championships today!\nThis special Metagross will\nput your rivals in the dark!"
+    }
    ]
   },
   {
@@ -786,6 +924,12 @@
      ],
      "local_wireless_copy": false,
      "file": "cards/6d05dd9f3bb32ad55bf301211762112d30abcc9f7a3d8a3bc8ac009214825cb0.pgf"
+    }
+   ],
+   "texts": [
+    {
+     "species": 235,
+     "text": "This special Smeargle is a gift\nto you in celebration of the\n2013 Pokémon World Championships."
     }
    ]
   },
@@ -874,6 +1018,20 @@
      ],
      "local_wireless_copy": false,
      "file": "cards/2fdbe360f541b630afce7b5a34fc7dccaee0ad33c2b54c9b030626efe2a8e089.pgf"
+    }
+   ],
+   "texts": [
+    {
+     "species": 487,
+     "text": "Now the power of the Sinnoh region's\nLegendary Dragon-type Pokémon is yours!\nGo on adventures with this rare and\nShiny Pokémon, and your bond will\ngrow stronger!"
+    },
+    {
+     "species": 484,
+     "text": "Now the power of the Sinnoh region's\nLegendary Dragon-type Pokémon is yours!\nGo on adventures with this rare and\nShiny Pokémon, and your bond will\ngrow stronger!"
+    },
+    {
+     "species": 483,
+     "text": "Now the power of the Sinnoh region's\nLegendary Dragon-type Pokémon is yours!\nGo on adventures with this rare and\nShiny Pokémon, and your bond will\ngrow stronger!"
     }
    ]
   },
@@ -963,6 +1121,20 @@
      "local_wireless_copy": false,
      "file": "cards/2fdbe360f541b630afce7b5a34fc7dccaee0ad33c2b54c9b030626efe2a8e089.pgf"
     }
+   ],
+   "texts": [
+    {
+     "species": 487,
+     "text": "Now the power of the Sinnoh region's\nLegendary Dragon-type Pokémon is yours!\nGo on adventures with this rare and\nShiny Pokémon, and your bond will\ngrow stronger!"
+    },
+    {
+     "species": 484,
+     "text": "Now the power of the Sinnoh region's\nLegendary Dragon-type Pokémon is yours!\nGo on adventures with this rare and\nShiny Pokémon, and your bond will\ngrow stronger!"
+    },
+    {
+     "species": 483,
+     "text": "Now the power of the Sinnoh region's\nLegendary Dragon-type Pokémon is yours!\nGo on adventures with this rare and\nShiny Pokémon, and your bond will\ngrow stronger!"
+    }
    ]
   },
   {
@@ -993,6 +1165,12 @@
      ],
      "local_wireless_copy": false,
      "file": "cards/222e68430921ae7b1d8c86b121509a55a97dd3d6f4f2888e92017e5975508a5f.pgf"
+    }
+   ],
+   "texts": [
+    {
+     "species": 150,
+     "text": "Look for Mewtwo to play a key role in\nthis year's Pokémon movie!\nTo celebrate its appearance,\nget moving with this Mewtwo,\nwhich is unbelievably fast in battle!"
     }
    ]
   },
@@ -1025,6 +1203,12 @@
      "local_wireless_copy": false,
      "file": "cards/42664f35bab67e1f911d5836ec8bb75d5ad0dbe2baa295f92b41bb4eb08ac5c9.pgf"
     }
+   ],
+   "texts": [
+    {
+     "species": 0,
+     "text": "C'est un ticket spécial qui permet\nd'aller sur l'Île Liberté et de\nrencontrer Victini, le Pokémon\nfabuleux! Embarquez à Volucité!"
+    }
    ]
   },
   {
@@ -1055,6 +1239,12 @@
      ],
      "local_wireless_copy": false,
      "file": "cards/582af93a0d042ba8d80dbda059d14622d710de7b8678c4f93bfa4e4c3e1ee3c9.pgf"
+    }
+   ],
+   "texts": [
+    {
+     "species": 571,
+     "text": "Vous avez reçu un Zoroark\nmaîtrisant une capacité redoutable!\nEssayez-la en combat!"
     }
    ]
   },
@@ -1099,6 +1289,16 @@
      "local_wireless_copy": false,
      "file": "cards/21148ff3e590c20aba97c6aaf6a687cd4ab7b51c865959a3996cffb48acd64c6.pgf"
     }
+   ],
+   "texts": [
+    {
+     "species": 588,
+     "text": "Vous avez reçu un Carabing!\nÉchangez-le contre un Escargaume\npour le faire évoluer!"
+    },
+    {
+     "species": 616,
+     "text": "Vous avez reçu un Escargaume!\nÉchangez-le contre un Carabing\npour le faire évoluer!"
+    }
    ]
   },
   {
@@ -1129,6 +1329,12 @@
      ],
      "local_wireless_copy": false,
      "file": "cards/39ff7cfca7111bd41c586f03068b69487b1b829d856e885f7f125f549036ff1e.pgf"
+    }
+   ],
+   "texts": [
+    {
+     "species": 560,
+     "text": "Merci de votre visite au Championnat\ndu Monde Pokémon 2011!\nN'oubliez pas de sauvegarder après\navoir récupéré votre Baggaïd\ndans un Centre Pokémon."
     }
    ]
   },
@@ -1161,6 +1367,12 @@
      "local_wireless_copy": false,
      "file": "cards/8b122b046668d48426d4a6fe75c6881dd6d200399731660ed3135ee7b4bee937.pgf"
     }
+   ],
+   "texts": [
+    {
+     "species": 571,
+     "text": "Vous avez reçu un Zoroark\nmaîtrisant une capacité redoutable!\nEssayez-la en combat!"
+    }
    ]
   },
   {
@@ -1191,6 +1403,12 @@
      ],
      "local_wireless_copy": false,
      "file": "cards/c4573f5735d3731cd7e4d931a7a83d6d935cfed5dd602b1e70e04623f61b7d44.pgf"
+    }
+   ],
+   "texts": [
+    {
+     "species": 491,
+     "text": "Voilà Darkrai!\nC'est un Pokémon fabuleux\nque tout le monde connaît\net craint!"
     }
    ]
   },
@@ -1233,6 +1451,16 @@
      "local_wireless_copy": false,
      "file": "cards/f760bf3ab4b572fd6dbe0acf70f25693baedc9b0da7c65bca1415ba9e959f7e4.pgf"
     }
+   ],
+   "texts": [
+    {
+     "species": 643,
+     "text": "C'est le Reshiram du film!\nEssayez sa capacité Flamme Bleue\nlors des combats pour admirer\ntoute sa puissance!"
+    },
+    {
+     "species": 644,
+     "text": "C'est le Zekrom du film!\nEssayez sa capacité ChargeFoudre\nlors des combats pour admirer\ntoute sa puissance!"
+    }
    ]
   },
   {
@@ -1263,6 +1491,12 @@
      ],
      "local_wireless_copy": false,
      "file": "cards/bf4a07ee0a443fdc0a6997b47c37f2f2896e2e3ea1a0ecada4e8cc0444e78594.pgf"
+    }
+   ],
+   "texts": [
+    {
+     "species": 246,
+     "text": "Merci de jouer à Pokémon!\nEntrainez dur votre Embrylex\npour baiayer la concurrence!"
     }
    ]
   },
@@ -1295,6 +1529,12 @@
      "local_wireless_copy": false,
      "file": "cards/0509a5eacb420df3edd5c1f16960f45eb2f03a9233b255ce19aec98d55b2c3d8.pgf"
     }
+   ],
+   "texts": [
+    {
+     "species": 150,
+     "text": "Merci d'avoir joué à Pokémon!\nVos amis seront jaloux lorsqu'ils verront\nvotre puissant Mewtwo en action!"
+    }
    ]
   },
   {
@@ -1325,6 +1565,12 @@
      ],
      "local_wireless_copy": false,
      "file": "cards/5b10646c7268be193ef0cc03876e90324adc51aec2a993b3b421c02e4845372d.pgf"
+    }
+   ],
+   "texts": [
+    {
+     "species": 494,
+     "text": "Venu tout droit du Royaume du Val, ce\nVictini s'imposera dans tous les combats\ngrâce à sa capacité CoupVictoire!"
     }
    ]
   },
@@ -1357,6 +1603,12 @@
      "local_wireless_copy": false,
      "file": "cards/8c89afa7f04feb429ca2ddbf30f05882f51de8e35fb0a589fb58b6a1bfca15ab.pgf"
     }
+   ],
+   "texts": [
+    {
+     "species": 25,
+     "text": "Un Pikachu + une capacité surpuissante!\nDevenez un Dresseur imbattable grâce\nà cette combinaison unique!"
+    }
    ]
   },
   {
@@ -1387,6 +1639,12 @@
      ],
      "local_wireless_copy": false,
      "file": "cards/7622697dfb65858ec30b35f16955927a8b774a5eed3f126b42fa968efed583f2.pgf"
+    }
+   ],
+   "texts": [
+    {
+     "species": 25,
+     "text": ""
     }
    ]
   },
@@ -1419,6 +1677,12 @@
      "local_wireless_copy": false,
      "file": "cards/3b398d7becb2203eb0c663c789f0ba40ba1f6bfc36f9e5aa3a2c4d19f936e99d.pgf"
     }
+   ],
+   "texts": [
+    {
+     "species": 647,
+     "text": "Voilà un fidèle compagnon de route\npour vous épauler à travers votre\npériple dans Pokemon Version Noire 2\nou Pokemon Version Blanche 2!"
+    }
    ]
   },
   {
@@ -1449,6 +1713,12 @@
      ],
      "local_wireless_copy": false,
      "file": "cards/5cf28e279426d114a344a8d4798f8382fd5fb5d342b17f4f5b98abeb13790b6d.pgf"
+    }
+   ],
+   "texts": [
+    {
+     "species": 648,
+     "text": "Nous vous offrons... Meloetta,\nun Pokémon de talent!\nSon chant et sa danse rendront\nvos combats spectaculaires!"
     }
    ]
   },
@@ -1481,6 +1751,12 @@
      "local_wireless_copy": false,
      "file": "cards/2e576056ec96900bdc8ad25fd058ad10970c10041b8fe9c2c50053133ed1235f.pgf"
     }
+   ],
+   "texts": [
+    {
+     "species": 376,
+     "text": "Préparez-vous dès aujourd'hui pour les\nChampionnates du Monde! Ce Métalosse\nannonce des jours sombres pour vos\nadversaires!"
+    }
    ]
   },
   {
@@ -1511,6 +1787,12 @@
      ],
      "local_wireless_copy": false,
      "file": "cards/741d5411d7823656bea0c76ea1c3089720ae8ee0662362f16ea6f28c143a27d0.pgf"
+    }
+   ],
+   "texts": [
+    {
+     "species": 235,
+     "text": ""
     }
    ]
   },
@@ -1567,6 +1849,20 @@
      "local_wireless_copy": false,
      "file": "cards/1ac19f41f75836f08c0113285f219379ac418af1abd6480ffbe0b6138eb412f5.pgf"
     }
+   ],
+   "texts": [
+    {
+     "species": 487,
+     "text": "Le pouvoir de ce Pokémon légendaire\nde type Dragon, originaire de Sinnoh,\nest maintenant entre vos mains!\nPartez à l'aventure avec ce Giratina\nchromatique et renforcez vos liens!"
+    },
+    {
+     "species": 484,
+     "text": "Le pouvoir de ce Pokémon légendaire\nde type Dragon, originaire de Sinnoh,\nest maintenant entre vos mains!\nPartez à l'aventure avec ce Palkia\nchromatique et renforcez vos liens!"
+    },
+    {
+     "species": 483,
+     "text": "Le pouvoir de ce Pokémon légendaire\nde type Dragon, originaire de Sinnoh,\nest maintenant entre vos mains!\nPartez à l'aventure avec ce Dialga\nchromatique et renforcez vos liens!"
+    }
    ]
   },
   {
@@ -1597,6 +1893,12 @@
      ],
      "local_wireless_copy": false,
      "file": "cards/830e21d48746edb5a5ee9bbc38219b94d415e6afa57be805df17fe1e2c4c21f9.pgf"
+    }
+   ],
+   "texts": [
+    {
+     "species": 0,
+     "text": "Mit diesem speziellen Pass kannst du\nvon Stratos City aus ein Schiff zum\nFreiheitsgarten chartern, um dort das\nMysteriöse Pokémon Victini zu treffen!"
     }
    ]
   },
@@ -1641,6 +1943,16 @@
      "local_wireless_copy": false,
      "file": "cards/839e20eabf9db926b7489dd18aa38031e0a65c900ae47c3f51c0e4656c7f67a1.pgf"
     }
+   ],
+   "texts": [
+    {
+     "species": 588,
+     "text": "Du hast ein Laukaps erhalten!\nWenn du dein Laukaps gegen das\nSchnuthelm eines Freundes tauschst,\nentwickelt es sich!"
+    },
+    {
+     "species": 616,
+     "text": "Du hast ein Schnuthelm erhalten!\nWenn du dein Schnuthelm gegen das\nLaukaps eines Freundes tauschst,\nentwickelt es sich!"
+    }
    ]
   },
   {
@@ -1671,6 +1983,12 @@
      ],
      "local_wireless_copy": false,
      "file": "cards/10cb3a2aeab02c5d69bbf233c846a1d965278b837f295528087384774f69ca4c.pgf"
+    }
+   ],
+   "texts": [
+    {
+     "species": 560,
+     "text": "Danke für deinen Besuch bei der\nPokémon Videospiel-Weltmeisterschaft\n2011! Vergiss nicht, dein Spiel zu\nspeichern, nachdem du das Pokémon\nvom Pokémon-Center abgeholt hast!"
     }
    ]
   },
@@ -1703,6 +2021,12 @@
      "local_wireless_copy": false,
      "file": "cards/efc81e761d303d60fb4f0f74e99e4a2a0b4b842fcd7af8aad24dc1379fad0ba8.pgf"
     }
+   ],
+   "texts": [
+    {
+     "species": 571,
+     "text": "Du hast ein Zoroark mit einer\nbesonderen Attacke erhalten!\nProbier sie in einem Kampf aus!"
+    }
    ]
   },
   {
@@ -1733,6 +2057,12 @@
      ],
      "local_wireless_copy": false,
      "file": "cards/c093cb3ae45bf22d602a610be6ae7078ea3be033398caa6db235b4c3a9f2a6c1.pgf"
+    }
+   ],
+   "texts": [
+    {
+     "species": 491,
+     "text": "Hier ist Darkrai!\nEs ist ein Mysteriöses Pokémon,\ndas jeder kennt und fürchtet!"
     }
    ]
   },
@@ -1775,6 +2105,16 @@
      "local_wireless_copy": false,
      "file": "cards/fd658c41ed0bf5890df25f296f0dcbb286f15d5e13aa95ecbf50298450adf143.pgf"
     }
+   ],
+   "texts": [
+    {
+     "species": 643,
+     "text": "Dies ist das Reshiram aus dem Film!\nProbiere seine Attacke Blauflammen aus,\num dich im Kampf von seiner Stärke zu\nüberzeugen!"
+    },
+    {
+     "species": 644,
+     "text": "Dies ist das Zekrom aus dem Film!\nProbiere seine Attacke Blitzschlag aus,\num dich im Kampf von seiner Stärke zu \nüberzeugen!"
+    }
    ]
   },
   {
@@ -1805,6 +2145,12 @@
      ],
      "local_wireless_copy": false,
      "file": "cards/3b3e66f6d78938b61ec21932fde7b8f7f5919a0064dee90aabd3ca82f1b6cffe.pgf"
+    }
+   ],
+   "texts": [
+    {
+     "species": 246,
+     "text": "Danke, dass du Pokémon spielst!\nUnterziehe Larvitar einem rigorosen\nTraining und mache mit deinen\nGegnern kurzen Prozess!"
     }
    ]
   },
@@ -1837,6 +2183,12 @@
      "local_wireless_copy": false,
      "file": "cards/922562c246bb19b5817d70acefdfa7547d46ddca8786fdc0b1fb405335d2392d.pgf"
     }
+   ],
+   "texts": [
+    {
+     "species": 494,
+     "text": "Dieses Victini stammt direkt aus dem\nPokémon Film und verhilft dir mit\nseiner Attacke V-Generator zum Sieg!"
+    }
    ]
   },
   {
@@ -1867,6 +2219,12 @@
      ],
      "local_wireless_copy": false,
      "file": "cards/6437cc54a1d3fc66ad570ce69c8ece66db3bdc9e8e153e5222577ee2d1876f35.pgf"
+    }
+   ],
+   "texts": [
+    {
+     "species": 150,
+     "text": "Danke, dass du Pokémon spielst!\nBeeindrucke deine Freunde, indem du mit\ndem mächtigen Mewtu gegen sie kämpst!"
     }
    ]
   },
@@ -1899,6 +2257,12 @@
      "local_wireless_copy": false,
      "file": "cards/6877bfb4bfc9a9d6261d0f4891972441e30538e05d2506b9c3f5cbe81165f310.pgf"
     }
+   ],
+   "texts": [
+    {
+     "species": 25,
+     "text": "Du erhältst ein spezielles Pikachu zur\nFeier der Weltmeisterschaften 2012.\nDeine Freunde werden Staunen, wenn es\nim Kampf die Attacke Fliegen einsetzt!"
+    }
    ]
   },
   {
@@ -1929,6 +2293,12 @@
      ],
      "local_wireless_copy": false,
      "file": "cards/5c55b53d5d16c6b9d7f2a3725de889933638fe8374d15f1537e93d31bf79f0ff.pgf"
+    }
+   ],
+   "texts": [
+    {
+     "species": 25,
+     "text": "Schnapp dir Pikachu!\nHier kommt Pikachu mit einer mächtigen\nAttacke!Werde gemeinsam mit disem\nPokémon der stärkste Trainer von allen!"
     }
    ]
   },
@@ -1961,6 +2331,12 @@
      "local_wireless_copy": false,
      "file": "cards/6e0294109774523ddd81c8419ead1f7bd25d3c5c9428b6d352e0fa8b0cf42835.pgf"
     }
+   ],
+   "texts": [
+    {
+     "species": 647,
+     "text": "Keldeo wirde sich als ideale Ergänzung für\ndein Team erweisen, wenn du in Pokémon\nSchwarze Edition 2 oder Pokémon Weiße\nEdition 2 auf Abenteuerreise gehst!"
+    }
    ]
   },
   {
@@ -1991,6 +2367,12 @@
      ],
      "local_wireless_copy": false,
      "file": "cards/00a8d9144920e66b2f333e7e04d880cda68661c423cd09c6f2b33e66a5559645.pgf"
+    }
+   ],
+   "texts": [
+    {
+     "species": 648,
+     "text": "Das Mysteriöse Pokémon Meloetta ist\nein Geschenk für dich! Seine Gesangs-\nund Tanzeinlagen stehlen jedem Gegner\ndie Schau!"
     }
    ]
   },
@@ -2023,6 +2405,12 @@
      "local_wireless_copy": false,
      "file": "cards/7bae324c18ac7a445a91995ae8fa05f4c82fe21d7c21dd292b9704b21849adc0.pgf"
     }
+   ],
+   "texts": [
+    {
+     "species": 376,
+     "text": "Beginne noch heute mit dem Training\nfür die Weltmeisterschaften!\nMit diesem speziellen Metagross\nwirst du deine Gegner in den Schatten\nstellen!"
+    }
    ]
   },
   {
@@ -2053,6 +2441,12 @@
      ],
      "local_wireless_copy": false,
      "file": "cards/3c2706ab8cd75cd29b7cd3948180191ceb26eaf7c57f960350eb0d1b6be9ac97.pgf"
+    }
+   ],
+   "texts": [
+    {
+     "species": 235,
+     "text": ""
     }
    ]
   },
@@ -2109,6 +2503,20 @@
      "local_wireless_copy": false,
      "file": "cards/4009c3142dc3458fe4c82057e929903845902047410659835af11a7c1f1ce1bf.pgf"
     }
+   ],
+   "texts": [
+    {
+     "species": 487,
+     "text": "Die Kraft dieses legendären Drachen-\nPokémon der Sinnoh-Region ist dein!\nGeh auf Abenteuer mit diesem seltenen\nSchillernden Pokémon, um das Band\neurer Freundschaft zu stärken!"
+    },
+    {
+     "species": 484,
+     "text": "Die Kraft dieses legendären Drachen-\nPokémon der Sinnoh-Region ist dein!\nGeh auf Abenteuer mit diesem seltenen\nSchillernden Pokémon, um das Band\neurer Freundschaft zu stärken!"
+    },
+    {
+     "species": 483,
+     "text": "Die Kraft dieses legendären Drachen-\nPokémon der Sinnoh-Region ist dein!\nGeh auf Abenteuer mit diesem seltenen\nSchillernden Pokémon, um das Band\neurer Freundschaft zu stärken!"
+    }
    ]
   },
   {
@@ -2139,6 +2547,12 @@
      ],
      "local_wireless_copy": false,
      "file": "cards/3708018a68a60a228b18f1f39e89a894ac7baf1725968e19494efac692a74ac5.pgf"
+    }
+   ],
+   "texts": [
+    {
+     "species": 0,
+     "text": "Usa questo biglietto speciale per\nviaggiare in nave da Austropoli\nall'Isola Libertà: potrai incontrare\nil Pokémon misterioso Victini!"
     }
    ]
   },
@@ -2174,6 +2588,12 @@
      ],
      "local_wireless_copy": false,
      "file": "cards/111481c6e6cd8bae72545d764646c6c6a7d59ef57c02493eb2ca14780aa9547d.pgf"
+    }
+   ],
+   "texts": [
+    {
+     "species": 571,
+     "text": "Hai ricevuto uno Zoroark che\nconosce una mossa speciale!\nMettilo subito alla prova nella lotta!"
     }
    ]
   },
@@ -2218,6 +2638,16 @@
      "local_wireless_copy": false,
      "file": "cards/2a65e18e0e1fd2048f5f2e8b05bb251822f645bb6e89f4e35ed5caa2a16b4598.pgf"
     }
+   ],
+   "texts": [
+    {
+     "species": 588,
+     "text": "Hai ricevuto un Karrablast!\nPer far evolvere il tuo Karrablast\nscambialo con lo Shelmet\ndi un tuo amico!"
+    },
+    {
+     "species": 616,
+     "text": "Hai ricevuto uno Shelmet!\nPer far evolvere il tuo Shelmet\nscambialo con il Karrablast\ndi un tuo amico!"
+    }
    ]
   },
   {
@@ -2249,6 +2679,12 @@
      "local_wireless_copy": false,
      "file": "cards/a0045d6d4935d6d563ee1ea26a7850252e4474be2997e2c10e9b944b6cddbe4b.pgf"
     }
+   ],
+   "texts": [
+    {
+     "species": 560,
+     "text": "Siamo felici di averti qui con noi ai\nCampionati Mondiali Pokémon 2011!\nRicorda di salvare il gioco dopo\naver ricevuto il Pokémon al Centro\nPokémon."
+    }
    ]
   },
   {
@@ -2279,6 +2715,12 @@
      ],
      "local_wireless_copy": false,
      "file": "cards/8337b9ee7ba379b4d27f76ccf73c0ce91bab9f56b382decef412f064a89b1783.pgf"
+    }
+   ],
+   "texts": [
+    {
+     "species": 491,
+     "text": "Hai ricevuto Darkrai!\nUn imperdibile Pokémon\nmisterioso, tutto per te!"
     }
    ]
   },
@@ -2321,6 +2763,16 @@
      "local_wireless_copy": false,
      "file": "cards/701a658956396e824ffceca2c04b6376ce4deef7a955517192217b080fe1c7f5.pgf"
     }
+   ],
+   "texts": [
+    {
+     "species": 643,
+     "text": "Questo Reshiram arriva direttamente\ndal film! Con la mossa Fuocoblu\nsbaraglierà ogni avversario. Mettilo\nalla prova nella lotta, che aspetti?"
+    },
+    {
+     "species": 644,
+     "text": "Questo Zekrom arriva direttamente\ndal film! Con la mossa Lucesiluro\nsbaraglierà ogni avversario. Mettilo\nalla prova nella lotta, che aspetti?"
+    }
    ]
   },
   {
@@ -2351,6 +2803,12 @@
      ],
      "local_wireless_copy": false,
      "file": "cards/61f49c2fee79fdb754c1fb43080c7fbc002a833749432a6d410f2b83e4337741.pgf"
+    }
+   ],
+   "texts": [
+    {
+     "species": 246,
+     "text": "Grazie di aver scelto un gioco Pokémon!\nAllena Larvitar al meglio e sbaraglia\nogni avversario con la sua forza!"
     }
    ]
   },
@@ -2383,6 +2841,12 @@
      "local_wireless_copy": false,
      "file": "cards/118714ee47828af233ecad072138ea7fe6a83eb0dee5873ac9c7c92edd96f453.pgf"
     }
+   ],
+   "texts": [
+    {
+     "species": 494,
+     "text": "Direttamente dal Regno della Valle,\nquesto Victini con la mossa Generatore V\nti regalerà una vittoria dopo l'altra!"
+    }
    ]
   },
   {
@@ -2413,6 +2877,12 @@
      ],
      "local_wireless_copy": false,
      "file": "cards/3fa691e889115d68ea49f74a8007811be66b94ee0753f4cf8b00f0362fa83bc3.pgf"
+    }
+   ],
+   "texts": [
+    {
+     "species": 150,
+     "text": "Grazie per aver giocato con i Pokémon!\nScegli il potente Mewtwo nelle sfide con\ngli amici, e lasciali tutti a bocca aperta!"
     }
    ]
   },
@@ -2445,6 +2915,12 @@
      "local_wireless_copy": false,
      "file": "cards/57fc7af416fa3a30e671080209ede5f90debe8a7f8f56f956173ffa065fed5b6.pgf"
     }
+   ],
+   "texts": [
+    {
+     "species": 25,
+     "text": "Un Pikachu con una mossa davvero\npotentissima! Con il suo aiuto portrai\naspirare a diventare l'Allenatore più\nforte di tutti!"
+    }
    ]
   },
   {
@@ -2475,6 +2951,12 @@
      ],
      "local_wireless_copy": false,
      "file": "cards/5b2fc7622298ee941c74e5fb7a307cc570b004b9501af02b45c01e709a07c2a8.pgf"
+    }
+   ],
+   "texts": [
+    {
+     "species": 25,
+     "text": ""
     }
    ]
   },
@@ -2507,6 +2989,12 @@
      "local_wireless_copy": false,
      "file": "cards/c2bfe984d6f42af1e17982f67c42f2f2f1b2e7f26bfbaa191736acea291eb057.pgf"
     }
+   ],
+   "texts": [
+    {
+     "species": 647,
+     "text": "Darà alla tua squadra una marcia\nin più per le tue avventure in\nPokémon Versione Nera 2 e\nPokémon Versione Bianca 2!"
+    }
    ]
   },
   {
@@ -2537,6 +3025,12 @@
      ],
      "local_wireless_copy": false,
      "file": "cards/810d651a91e3015b9868a97ab1fbc101e9656f2fb525f94b19b7064482a3e032.pgf"
+    }
+   ],
+   "texts": [
+    {
+     "species": 648,
+     "text": "In regalo per te il Pokémon misterioso\nMeloetta! Il suo canto e la sua danza\ntrasformeranno le tue lotte in un\nvero spettacolo!"
     }
    ]
   },
@@ -2569,6 +3063,12 @@
      "local_wireless_copy": false,
      "file": "cards/56dd21a76107c41231b6928cd6c7e0920c48941a9b249a8aa6f68defe3a74aea.pgf"
     }
+   ],
+   "texts": [
+    {
+     "species": 376,
+     "text": "Inizia subito ad allenarti\nper i Campionati Mondiali!\nQuesto speciale Metagross\nsarà il terrore dei tuoi rivali!"
+    }
    ]
   },
   {
@@ -2600,6 +3100,12 @@
      "local_wireless_copy": false,
      "file": "cards/4f822c26f7df2710380bf29f9e10220e013aa2d7ec7448ba12de16927ff03c21.pgf"
     }
+   ],
+   "texts": [
+    {
+     "species": 52,
+     "text": ""
+    }
    ]
   },
   {
@@ -2630,6 +3136,12 @@
      ],
      "local_wireless_copy": false,
      "file": "cards/3e756a624ec1795c3490f79e375ebf9e2f2ee6811d5039216cd493deb08537b4.pgf"
+    }
+   ],
+   "texts": [
+    {
+     "species": 235,
+     "text": ""
     }
    ]
   },
@@ -2686,6 +3198,20 @@
      "local_wireless_copy": false,
      "file": "cards/82fd7da1004cdbfd0ae5143569ccabce9965fc2b9b0c6b16f4688e7d4e506dbb.pgf"
     }
+   ],
+   "texts": [
+    {
+     "species": 487,
+     "text": "Fai tuo il potere del Pokémon\nleggendario di tipo Drago di Sinnoh!\nPorta con te questo raro Pokémon\ncromatico nelle tue avventure per\nconsolidare il vostro legame!"
+    },
+    {
+     "species": 484,
+     "text": "Fai tuo il potere del Pokémon\nleggendario di tipo Drago di Sinnoh!\nPorta con te questo raro Pokémon\ncromatico nelle tue avventure per\nconsolidare il vostro legame!"
+    },
+    {
+     "species": 483,
+     "text": "Fai tuo il potere del Pokémon\nleggendario di tipo Drago di Sinnoh!\nPorta con te questo raro Pokémon\ncromatico nelle tue avventure per\nconsolidare il vostro legame!"
+    }
    ]
   },
   {
@@ -2716,6 +3242,12 @@
      ],
      "local_wireless_copy": false,
      "file": "cards/fd7ce23b26c8ad3bcfa64c7bc5c0ee99d1357323f60ab8d6a147c1f7ae24e7f7.pgf"
+    }
+   ],
+   "texts": [
+    {
+     "species": 0,
+     "text": "リバティガーデンとうに　いって\nビクティニに　あえる\nとくべつな　チケット。\nヒウンシティから　ふねに　のれる。"
     }
    ]
   },
@@ -2920,6 +3452,40 @@
      "local_wireless_copy": false,
      "file": "cards/abf1d15a61d52173d009fd8b9563c53d5e01f33a36a568d8198f048b801e9c77.pgf"
     }
+   ],
+   "texts": [
+    {
+     "species": 67,
+     "text": "このがくえんさい だけの とくべつな\n「おやめい」が ついた ポケモンを\nプレゼント！ ともだちと こうかんすると\nしんかするので いますぐ ためしてみよう！"
+    },
+    {
+     "species": 79,
+     "text": "このがくえんさい だけの とくべつな\n「おやめい」が ついた ポケモンを\nプレゼント！ ともだちと こうかんすると\nしんかするので いますぐ ためしてみよう！"
+    },
+    {
+     "species": 93,
+     "text": "このがくえんさい だけの とくべつな\n「おやめい」が ついた ポケモンを\nプレゼント！ ともだちと こうかんすると\nしんかするので いますぐ ためしてみよう！"
+    },
+    {
+     "species": 123,
+     "text": "このがくえんさい だけの とくべつな\n「おやめい」が ついた ポケモンを\nプレゼント！ ともだちと こうかんすると\nしんかするので いますぐ ためしてみよう！"
+    },
+    {
+     "species": 125,
+     "text": "このがくえんさい だけの とくべつな\n「おやめい」が ついた ポケモンを\nプレゼント！ ともだちと こうかんすると\nしんかするので いますぐ ためしてみよう！"
+    },
+    {
+     "species": 126,
+     "text": "このがくえんさい だけの とくべつな\n「おやめい」が ついた ポケモンを\nプレゼント！ ともだちと こうかんすると\nしんかするので いますぐ ためしてみよう！"
+    },
+    {
+     "species": 588,
+     "text": "このがくえんさい だけの とくべつな\n「おやめい」が ついた ポケモンを\nプレゼント！ ともだちと こうかんすると\nしんかするので いますぐ ためしてみよう！"
+    },
+    {
+     "species": 616,
+     "text": "このがくえんさい だけの とくべつな\n「おやめい」が ついた ポケモンを\nプレゼント！ ともだちと こうかんすると\nしんかするので いますぐ ためしてみよう！"
+    }
    ]
   },
   {
@@ -2950,6 +3516,12 @@
      ],
      "local_wireless_copy": false,
      "file": "cards/03b0996c8c3e07f627542bd8420846b6dece247528482e6a135532253dfefdb6.pgf"
+    }
+   ],
+   "texts": [
+    {
+     "species": 613,
+     "text": "ひでんわざが たくさん おぼえられて\nぼうけんの つよいみかた になる\n「クマシュン」を プレゼントするよ。\nクマシュンと いっしょに ぼうけんを\nどんどん すすめよう！"
     }
    ]
   },
@@ -2992,6 +3564,12 @@
      ],
      "local_wireless_copy": false,
      "file": "cards/ffe561bc8a4d53ddfa8b69262a9c2f787069951805cd8d791f02bf2eac769ca9.pgf"
+    }
+   ],
+   "texts": [
+    {
+     "species": 531,
+     "text": "ポケモンセンターからの プレゼントは\nバースデーリボンをつけた\nかわいい タブンネ！\nあたらしい たびのなかま として\nたいせつに そだててあげてね！"
     }
    ]
   },
@@ -3070,6 +3648,12 @@
      "local_wireless_copy": false,
      "file": "cards/6a78b1b940c9a3b1d729cced3ba7a9a548ee1a9a9a228b105d71500a841815a7.pgf"
     }
+   ],
+   "texts": [
+    {
+     "species": 0,
+     "text": "なぞのタマゴを　プレゼント！\nなんのポケモンが　かえるかは\nおたのしみ！だいじに　そだてて\nぼうけんに　つれていこう！"
+    }
    ]
   },
   {
@@ -3112,6 +3696,12 @@
      "local_wireless_copy": false,
      "file": "cards/ac9989840da496aec4f42a863dd4d8139aa1340f6686f296b385b40412a5a25a.pgf"
     }
+   ],
+   "texts": [
+    {
+     "species": 491,
+     "text": "みんなから　だいにんきの\nまぼろしのポケモン\nダークライを　プレゼント！"
+    }
    ]
   },
   {
@@ -3142,6 +3732,12 @@
      ],
      "local_wireless_copy": false,
      "file": "cards/8c0fe56494befc1a3fc765a2a806a56a9766c2d926c6da22fda0865d8c9b87be.pgf"
+    }
+   ],
+   "texts": [
+    {
+     "species": 571,
+     "text": "「ポケモンスマッシュ！」の\nゾロアークぶちょうが\nとくべつなわざを　おぼえたよ。\nどんなわざか　バトルで　ためしてみよう！"
     }
    ]
   },
@@ -3174,6 +3770,12 @@
      "local_wireless_copy": false,
      "file": "cards/a4bacd680b3806101c0ca3e058579df17f7bb3113c7fcc34d3ea27a8819f1011.pgf"
     }
+   ],
+   "texts": [
+    {
+     "species": 559,
+     "text": "アニメでだいかつやくの\nサトシのズルッグ。\nキミにとっても　たのしい\nぼうけんのパートナーになりますように！"
+    }
    ]
   },
   {
@@ -3204,6 +3806,12 @@
      ],
      "local_wireless_copy": false,
      "file": "cards/8c0fe56494befc1a3fc765a2a806a56a9766c2d926c6da22fda0865d8c9b87be.pgf"
+    }
+   ],
+   "texts": [
+    {
+     "species": 571,
+     "text": "「ポケモンスマッシュ！」の\nゾロアークぶちょうが\nとくべつなわざを　おぼえたよ。\nどんなわざか　バトルで　ためしてみよう！"
     }
    ]
   },
@@ -3240,6 +3848,12 @@
      "local_wireless_copy": false,
      "file": "cards/d58a184159312de6295c9aa64b60a852ac65362f5090ac337b5d8da97a068bd0.pgf"
     }
+   ],
+   "texts": [
+    {
+     "species": 610,
+     "text": "きみのゆうきを　たたえて\nサーチャーごうで　たすけたキバゴを\nプレゼントするよ！　キバゴといっしょに\nぼうけんに　しゅっぱつだ！"
+    }
    ]
   },
   {
@@ -3270,6 +3884,12 @@
      ],
      "local_wireless_copy": false,
      "file": "cards/0da2493d42918e058e4ca84d492eb9f56b71c7d5774d142ab2406ff24ac6f466.pgf"
+    }
+   ],
+   "texts": [
+    {
+     "species": 494,
+     "text": "ことしのえいがで　かつやくする\nＶジェネレートを　おぼえたビクティニを\nプレゼント！バトルでしょうりをつかめ！"
     }
    ]
   },
@@ -3312,6 +3932,16 @@
      "local_wireless_copy": false,
      "file": "cards/7bfc484ceaa4f9fc6e83fdc64a93f3df4c97f95e307910ddd1c62b91dc4c7ee4.pgf"
     }
+   ],
+   "texts": [
+    {
+     "species": 623,
+     "text": "ポケモンえいがでかつやくする\n「ジャンタのゴルーグ」をプレゼント！\nえいがでつかうわざ\n「ジャイロボール」をおぼえているぞ！"
+    },
+    {
+     "species": 635,
+     "text": "ポケモンえいがでかつやくする\n「カリータのサザンドラ」をプレゼント！\nえいがでつかうわざ\n「りゅうのいぶき」をおぼえているぞ！"
+    }
    ]
   },
   {
@@ -3353,6 +3983,16 @@
      "local_wireless_copy": false,
      "file": "cards/08cb8c3e486d134e39a2c106895ec473fd1de5f2e38de4619f9be28b08d0c571.pgf"
     }
+   ],
+   "texts": [
+    {
+     "species": 643,
+     "text": "ことしのえいがで　かつやくする\nレシラムをプレゼント！\nあおいほのおの　いりょくを\nバトルでためしてみよう！"
+    },
+    {
+     "species": 644,
+     "text": "ことしのえいがで　かつやくする\nゼクロムをプレゼント！\nらいげきの　いりょくを\nバトルでためしてみよう！"
+    }
    ]
   },
   {
@@ -3383,6 +4023,12 @@
      ],
      "local_wireless_copy": false,
      "file": "cards/426d4cb2bc935c1d6c6ba6f9c71f3be7683a01ef21f93698944c5c2183b606df.pgf"
+    }
+   ],
+   "texts": [
+    {
+     "species": 25,
+     "text": "わざ「そらをとぶ」をおぼえた\nとくべつなピカチュウをプレゼント！\nピカチュウといっしょに、\nなつやすみのぼうけんにでかけよう！"
     }
    ]
   },
@@ -3426,6 +4072,24 @@
      "local_wireless_copy": false,
      "file": "cards/cf6a8e7cf0d87efbe4c81a8a851fc4e8a80602169773f01ebf7534b0e8023461.pgf"
     }
+   ],
+   "texts": [
+    {
+     "species": 0,
+     "text": "a-nation for Lifeにきてくれて\nありがとう！わざ「うたう」をおぼえた\nとくべつなピカチュウをプレゼント！"
+    },
+    {
+     "species": 0,
+     "text": "ポケモンわっしょい！にきてくれて\nありがとう！わざ「うたう」をおぼえた\nとくべつなピカチュウをプレゼント！"
+    },
+    {
+     "species": 0,
+     "text": "POKÉMON with YOU ツアーに\nきてくれてありがとう！\nわざ「うたう」をおぼえた\nとくべつなピカチュウをプレゼント！"
+    },
+    {
+     "species": 0,
+     "text": "みんなで歌おう！ポケモン言えるかな？BW\nイベントにきてくれてありがろう！\nわざ「うたう」をおぼえた\nとくべつなピカチュウをプレゼント！"
+    }
    ]
   },
   {
@@ -3445,7 +4109,13 @@
      "end": "2011-08-14"
     }
    ],
-   "cards": []
+   "cards": [],
+   "texts": [
+    {
+     "species": 560,
+     "text": "Thanks for coming to the 2011\nPokémon World Championships!\nBe sure to save your game after you\npick up the Pokémon at a Pokémon Center."
+    }
+   ]
   },
   {
    "language": "ja",
@@ -3475,6 +4145,12 @@
      ],
      "local_wireless_copy": false,
      "file": "cards/44aea2d99ecff727fadd63829d22ad830c9d31389484235bd06a127077fa33ec.pgf"
+    }
+   ],
+   "texts": [
+    {
+     "species": 150,
+     "text": "いつも「ポケモンスマッシュ！」を\nみてくれてありがとう。\nおやめいが「ポケスマ！」の\nミュウツーをプレゼント。\nきみだけのミュウツーをそだてて、\nともだちとバトルをたのしんでね！"
     }
    ]
   },
@@ -3518,6 +4194,12 @@
      "local_wireless_copy": false,
      "file": "cards/ffe561bc8a4d53ddfa8b69262a9c2f787069951805cd8d791f02bf2eac769ca9.pgf"
     }
+   ],
+   "texts": [
+    {
+     "species": 531,
+     "text": "ポケモンセンターからの プレゼントは\nバースデーリボンをつけた\nかわいい タブンネ！\nあたらしい たびのなかま として\nたいせつに そだててあげてね！"
+    }
    ]
   },
   {
@@ -3560,6 +4242,12 @@
      "local_wireless_copy": false,
      "file": "cards/45a29d3e1871b1f97a8a3317eea779b43ad64e4691875fa75e1ec6f553f2f857.pgf"
     }
+   ],
+   "texts": [
+    {
+     "species": 0,
+     "text": "いよいよ ６４６しゅるいの　ポケモンの\nじょうほうが　あきらかに！\nマスターボールを　うけとって\nまだつかまえていない　ポケモンを\nてにいれるための　ぼうけんに　でよう！"
+    }
    ]
   },
   {
@@ -3590,6 +4278,12 @@
      ],
      "local_wireless_copy": false,
      "file": "cards/6104f53e9b9e96eaae39caca8d6ffe6b9ff1036ba2d151f65f38c35a465c6b33.pgf"
+    }
+   ],
+   "texts": [
+    {
+     "species": 495,
+     "text": "ポケモンセンタートウホクのオープンを\nきねんして「ちからのハチマキ」をもった\nツタージャをプレゼント！\nツタージャをそだてて、みんなで\nとうほくちほうをおうえんしよう！"
     }
    ]
   },
@@ -3632,6 +4326,16 @@
      "local_wireless_copy": false,
      "file": "cards/b4e84c0f8c40be1b63d85c9f7a7f5de9d163cde4723c52d704dfbff53da636a0.pgf"
     }
+   ],
+   "texts": [
+    {
+     "species": 641,
+     "text": "アニメでもだいかつやくのでんせつの\nポケモン　トルネロスをプレゼント！\nトルネロスとボルトロスの２ひきを\nそろえてランドロスをてにいれよう！"
+    },
+    {
+     "species": 642,
+     "text": "アニメでもだいかつやくのでんせつの\nポケモン　ボルトロスをプレゼント！\nボルトロスとトルネロスの２ひきを\nそろえてランドロスをてにいれよう！"
+    }
    ]
   },
   {
@@ -3662,6 +4366,12 @@
      ],
      "local_wireless_copy": false,
      "file": "cards/618b72e4db28bf6d0e527a48a8a122c2486ee6d8944b95973cdbc03c0ae7d23d.pgf"
+    }
+   ],
+   "texts": [
+    {
+     "species": 492,
+     "text": "ぜんこくのポケモンセンターから\n「ことしも1ねんありがとう！」\nというかんしゃのきもちをこめて、\nかんしゃポケモンのシェイミを\nプレゼント。だいじにそだててね！"
     }
    ]
   },
@@ -3820,6 +4530,12 @@
      "local_wireless_copy": false,
      "file": "cards/d7c80c7f8ee3cedfbb771293577e843f24c3005c26decce17ea50af2acfb2b08.pgf"
     }
+   ],
+   "texts": [
+    {
+     "species": 0,
+     "text": "２０１２年は「たつどし」！\nポケモンセンターから「たつどし」に\nちなんだポケモンのタマゴをプレゼント！\nとてもめずらしい、いろちがいの\nポケモンがうまれるよ！"
+    }
    ]
   },
   {
@@ -3850,6 +4566,12 @@
      ],
      "local_wireless_copy": false,
      "file": "cards/a07c384bbfa40d50021e4b45222c200fd04c1e09e8a0f431e5ee50af2cfb1434.pgf"
+    }
+   ],
+   "texts": [
+    {
+     "species": 384,
+     "text": "れきだいゲームのパッケージに\nとうじょうするポケモンから、\nみんなにえらばれて　みごと１いになった\nレックウザをプレゼント！"
     }
    ]
   },
@@ -3882,6 +4604,12 @@
      "local_wireless_copy": false,
      "file": "cards/a6814c877804876b7d792bc4702a1f27272c7c2911421f395261deaeed42bd36.pgf"
     }
+   ],
+   "texts": [
+    {
+     "species": 384,
+     "text": "とてもめずらしい　いろちがいの\nくろいレックウザを　プレゼント！\nレックウザと いっしょに ぼうけんを\nどんどん すすめよう！"
+    }
    ]
   },
   {
@@ -3912,6 +4640,12 @@
      ],
      "local_wireless_copy": false,
      "file": "cards/20e642e33df95b92e5c2b4df2f2ea8213fefcd10b6b14cfeeeb65969868d595d.pgf"
+    }
+   ],
+   "texts": [
+    {
+     "species": 25,
+     "text": "さいきょうクラスのわざを　おぼえた\nピカチュウを　プレゼント！\nさあ　ピカチュウと　いっしょに\nさいきょうトレーナーを　めざそう！"
     }
    ]
   },
@@ -4175,6 +4909,56 @@
      "local_wireless_copy": false,
      "file": "cards/398f58d31b55d812e5626069ae19bba5242062001a3a96457214418fee3fc706.pgf"
     }
+   ],
+   "texts": [
+    {
+     "species": 382,
+     "text": "ちょうきょうりょくポケモンが\nきみのもとに　やってきた！\nきゅうしゅうさいきょうの　トレーナーを\nめざして　しょうじんするのだ！"
+    },
+    {
+     "species": 383,
+     "text": "ちょうきょうりょくポケモンが\nきみのもとに　やってきた！\nきゅうしゅうさいきょうの　トレーナーを\nめざして　しょうじんするのだ！"
+    },
+    {
+     "species": 282,
+     "text": "ちょうきょうりょくポケモンが\nきみのもとに　やってきた！\nきゅうしゅうさいきょうの　トレーナーを\nめざして　しょうじんするのだ！"
+    },
+    {
+     "species": 373,
+     "text": "ちょうきょうりょくポケモンが\nきみのもとに　やってきた！\nきゅうしゅうさいきょうの　トレーナーを\nめざして　しょうじんするのだ！"
+    },
+    {
+     "species": 376,
+     "text": "ちょうきょうりょくポケモンが\nきみのもとに　やってきた！\nきゅうしゅうさいきょうの　トレーナーを\nめざして　しょうじんするのだ！"
+    },
+    {
+     "species": 272,
+     "text": "ちょうきょうりょくポケモンが\nきみのもとに　やってきた！\nきゅうしゅうさいきょうの　トレーナーを\nめざして　しょうじんするのだ！"
+    },
+    {
+     "species": 350,
+     "text": "ちょうきょうりょくポケモンが\nきみのもとに　やってきた！\nきゅうしゅうさいきょうの　トレーナーを\nめざして　しょうじんするのだ！"
+    },
+    {
+     "species": 365,
+     "text": "ちょうきょうりょくポケモンが\nきみのもとに　やってきた！\nきゅうしゅうさいきょうの　トレーナーを\nめざして　しょうじんするのだ！"
+    },
+    {
+     "species": 254,
+     "text": "ちょうきょうりょくポケモンが\nきみのもとに　やってきた！\nきゅうしゅうさいきょうの　トレーナーを\nめざして　しょうじんするのだ！"
+    },
+    {
+     "species": 257,
+     "text": "ちょうきょうりょくポケモンが\nきみのもとに　やってきた！\nきゅうしゅうさいきょうの　トレーナーを\nめざして　しょうじんするのだ！"
+    },
+    {
+     "species": 260,
+     "text": "ちょうきょうりょくポケモンが\nきみのもとに　やってきた！\nきゅうしゅうさいきょうの　トレーナーを\nめざして　しょうじんするのだ！"
+    },
+    {
+     "species": 25,
+     "text": "こうそくの　たびに　ようこそ！\nわざ「しんそく」を　おぼえた\nとくべつなピカチュウと　いっしょに\nきゅうしゅうの　ぼうけんを　たのしもう！"
+    }
    ]
   },
   {
@@ -4206,6 +4990,12 @@
      "local_wireless_copy": false,
      "file": "cards/eaf2e727d770106020b4c57ccfa74e9f6b840c23ff1b5c35fadeb4918c7256f1.pgf"
     }
+   ],
+   "texts": [
+    {
+     "species": 393,
+     "text": ""
+    }
    ]
   },
   {
@@ -4236,6 +5026,12 @@
      ],
      "local_wireless_copy": false,
      "file": "cards/e277d06045b48101ea50e6b0951afb0e3592aa6663b99b52979c8bd012952aa7.pgf"
+    }
+   ],
+   "texts": [
+    {
+     "species": 25,
+     "text": "ピカチュウと　いっしょに　\nあそんでね！　\nこれからも　ポケモンを　\nたのしんでね！"
     }
    ]
   },
@@ -4304,6 +5100,24 @@
      "local_wireless_copy": false,
      "file": "cards/aac22285d68c7424ff3e895d3bcb79b01448be877df360c4eae3a80e17bac0ca.pgf"
     }
+   ],
+   "texts": [
+    {
+     "species": 448,
+     "text": "ポケモンセンターが　セレクトした\nきょうりょくな　タッグの　ポケモンを\nプレゼントするよ！\nエルフーンと　ルカリオを\nつかった　チームを　つくって\nダブルバトルに　ちょうせんしよう！"
+    },
+    {
+     "species": 547,
+     "text": "ポケモンセンターが　セレクトした\nきょうりょくな　タッグの　ポケモンを\nプレゼントするよ！\nエルフーンと　ルカリオを\nつかった　チームを　つくって\nダブルバトルに　ちょうせんしよう！"
+    },
+    {
+     "species": 38,
+     "text": "ポケモンセンターが　セレクトした\nきょうりょくな　タッグの　ポケモンを\nプレゼントするよ！\nキュウコンと　シャンデラを\nつかった　チームを　つくって\nダブルバトルに　ちょうせんしよう！"
+    },
+    {
+     "species": 609,
+     "text": "ポケモンセンターが　セレクトした\nきょうりょくな　タッグの　ポケモンを\nプレゼントするよ！\nキュウコンと　シャンデラを\nつかった　チームを　つくって\nダブルバトルに　ちょうせんしよう！"
+    }
    ]
   },
   {
@@ -4335,6 +5149,12 @@
      "local_wireless_copy": false,
      "file": "cards/5e75289adb18325a436fd9ebf0a0198271c3314f969b5876c804627e334b2bac.pgf"
     }
+   ],
+   "texts": [
+    {
+     "species": 647,
+     "text": "ことしのえいがで　かつやくする\nケルディオを　プレゼント！\nバトルで　しょうりをつかめ！"
+    }
    ]
   },
   {
@@ -4365,6 +5185,12 @@
      ],
      "local_wireless_copy": false,
      "file": "cards/594b6073ce29a89089dea9527621e5301efa9cd54f6400b3f7a20d2a86dd3676.pgf"
+    }
+   ],
+   "texts": [
+    {
+     "species": 648,
+     "text": "ことしのえいがで　かつやくする\nメロエッタを　プレゼント！\nうたや　ダンスを\nバトルで　ためしてみよう！"
     }
    ]
   },
@@ -4493,6 +5319,44 @@
      "local_wireless_copy": false,
      "file": "cards/d7cb25bd7071e6a891881cd1cdd6f660c7febd00ffe3a6313c3a4ab2e9c90c1e.pgf"
     }
+   ],
+   "texts": [
+    {
+     "species": 138,
+     "text": ""
+    },
+    {
+     "species": 140,
+     "text": ""
+    },
+    {
+     "species": 142,
+     "text": ""
+    },
+    {
+     "species": 345,
+     "text": ""
+    },
+    {
+     "species": 347,
+     "text": ""
+    },
+    {
+     "species": 408,
+     "text": ""
+    },
+    {
+     "species": 410,
+     "text": ""
+    },
+    {
+     "species": 564,
+     "text": ""
+    },
+    {
+     "species": 566,
+     "text": ""
+    }
    ]
   },
   {
@@ -4534,6 +5398,12 @@
      ],
      "local_wireless_copy": false,
      "file": "cards/cf6a8e7cf0d87efbe4c81a8a851fc4e8a80602169773f01ebf7534b0e8023461.pgf"
+    }
+   ],
+   "texts": [
+    {
+     "species": 25,
+     "text": "This special Pikachu is a gift to you\nin celebration of the 2012 World Championships. Surprise your\nfriends in battle with the move Fly!"
     }
    ]
   },
@@ -4577,6 +5447,12 @@
      "local_wireless_copy": false,
      "file": "cards/ffe561bc8a4d53ddfa8b69262a9c2f787069951805cd8d791f02bf2eac769ca9.pgf"
     }
+   ],
+   "texts": [
+    {
+     "species": 531,
+     "text": "ポケモンセンターからの プレゼントは\nバースデーリボンをつけた\nかわいい タブンネ！\nあたらしい たびのなかま として\nたいせつに そだててあげてね！"
+    }
    ]
   },
   {
@@ -4607,6 +5483,12 @@
      ],
      "local_wireless_copy": false,
      "file": "cards/4034e32c208deab7179d7a37065005cd382702c730d1092ba5494883a4fdcf9f.pgf"
+    }
+   ],
+   "texts": [
+    {
+     "species": 494,
+     "text": "とうほくの みんなを えがおに！\nでんせつのポケモンだけが　つかえる\nとくべつな わざを おぼえた\n「しょうりのビクティニ」に\nパワーを もらおう！"
     }
    ]
   },
@@ -4639,6 +5521,12 @@
      "local_wireless_copy": false,
      "file": "cards/5fc890a3fb8a66e684c8177f88f481c951ab0e81de30f6b06c8bac640fd96011.pgf"
     }
+   ],
+   "texts": [
+    {
+     "species": 649,
+     "text": "テクノバスターは　もっている\nカセットによって　タイプが　かわるぞ！\nＰ２ラボに　ゲノセクトを　つれていって\nカセットを　てにいれよう！"
+    }
    ]
   },
   {
@@ -4669,6 +5557,12 @@
      ],
      "local_wireless_copy": false,
      "file": "cards/a0a9c2f6f90d93b68401410f868ae7cb6d55e90f1ec97075aabefaf5b0f28524.pgf"
+    }
+   ],
+   "texts": [
+    {
+     "species": 129,
+     "text": "ポケモンセンターナゴヤの\nおひっこしを　きねんして\nつうじょうでは　おぼえない\nとくべつなわざを　おぼえた\nきんのコイキングを　プレゼント！"
     }
    ]
   },
@@ -4701,6 +5595,16 @@
      "local_wireless_copy": false,
      "file": "cards/3c3b1e22e2fd79d9b2b8ecf7bd14e4d74748a85f36a3a85b68f06fcfc5aced9a.pgf"
     }
+   ],
+   "texts": [
+    {
+     "species": 0,
+     "text": "つうじょうでは　おぼえない\nとくべつなわざを　てにした\nデオキシスを　プレゼント！"
+    },
+    {
+     "species": 0,
+     "text": "プラズマだんせいあつを　きねんして\nつうじょうでは　おぼえない\nとくべつなわざを　てにした\nデオキシスを　プレゼント！"
+    }
    ]
   },
   {
@@ -4731,6 +5635,12 @@
      ],
      "local_wireless_copy": false,
      "file": "cards/737f39daa2030ee72d3fa6b78fe814f0af76e5543e73f65bb3523530702727e2.pgf"
+    }
+   ],
+   "texts": [
+    {
+     "species": 150,
+     "text": "ことしの　えいがでは\nミュウツーが　だいかつやく！\nそこで　ものすごくすばやい\nミュウツーを　プレゼントするよ！"
     }
    ]
   },
@@ -4912,6 +5822,36 @@
      "local_wireless_copy": false,
      "file": "cards/a9c9a97f2300013d9849b19c1584d050133f6bac41bf75dc29bc17ea546f2920.pgf"
     }
+   ],
+   "texts": [
+    {
+     "species": 503,
+     "text": "ポケモンセンターフクオカの\nロゴに　なっている\nミジュマルの　しんかけい\nダイケンキを　プレゼント！"
+    },
+    {
+     "species": 500,
+     "text": "ポケモンセンターオーサカの\nロゴに　なっている\nポカブの　しんかけい\nエンブオーを　プレゼント！"
+    },
+    {
+     "species": 392,
+     "text": "ポケモンセンターナゴヤの\nロゴに　なっている\nヒコザルの　しんかけい\nゴウカザルを　プレゼント！"
+    },
+    {
+     "species": 389,
+     "text": "ポケモンセンターヨコハマの\nロゴに　なっている\nナエトルの　しんかけい\nドダイトスを　プレゼント！"
+    },
+    {
+     "species": 25,
+     "text": "ポケモンセンター15しゅうねんきねん\nポケモンセンタートウキョーの\nロゴに　なっている\nピカチュウを　プレゼント！"
+    },
+    {
+     "species": 497,
+     "text": "ポケモンセンタートウホクの\nロゴに　なっている\nツタージャの　しんかけい\nジャローダを　プレゼント！"
+    },
+    {
+     "species": 395,
+     "text": "ポケモンセンターサッポロの\nロゴに　なっている\nポッチャマの　しんかけい\nエンペルトを　プレゼント！"
+    }
    ]
   },
   {
@@ -4943,6 +5883,12 @@
      "local_wireless_copy": false,
      "file": "cards/eb24147a299085046a5d99fe04cfbcc38217d967c2862572865e590ba2a6a4e8.pgf"
     }
+   ],
+   "texts": [
+    {
+     "species": 649,
+     "text": "ことしの　えいがで　かつやくする\nしんそくを　おぼえた\nあかいゲノセクトを　プレゼント！\nその　はやさを　バトルで\nためしてみよう！"
+    }
    ]
   },
   {
@@ -4973,6 +5919,12 @@
      ],
      "local_wireless_copy": false,
      "file": "cards/f70b6dd1ec60a9222b6a90c1ce61b6fa1b43a5ee9e8af152f119b947e3bf79a5.pgf"
+    }
+   ],
+   "texts": [
+    {
+     "species": 385,
+     "text": "テレビアニメとうじょうを　きねんして\nつうじょうでは　おぼえない\nとくべつなわざを　てにした\nジラーチを　プレゼント！"
     }
    ]
   },
@@ -5016,6 +5968,12 @@
      "local_wireless_copy": false,
      "file": "cards/2a33a832e5ed878a8d30ecc9273d907649dd5790afd355878a926a6401fe07bc.pgf"
     }
+   ],
+   "texts": [
+    {
+     "species": 133,
+     "text": "ことしの　ポケモンえいがの\nこうかいを　きねんして\nとくべつなわざ「うたう」を　おぼえた\nうたうイーブイを　プレゼント！"
+    }
    ]
   },
   {
@@ -5047,6 +6005,12 @@
      "local_wireless_copy": false,
      "file": "cards/b3a5c5771f2d1b833ca1a2a6bb76390496ff82396464fdf28b4f48a5024a7948.pgf"
     }
+   ],
+   "texts": [
+    {
+     "species": 25,
+     "text": "イベントの　かいさいを　きねんして\nきょうりょくな　わざ　ボルテッカーを\nおぼえた　さいきょうクラスの\nピカチュウを　プレゼント！"
+    }
    ]
   },
   {
@@ -5077,6 +6041,12 @@
      ],
      "local_wireless_copy": false,
      "file": "cards/fb0adb18a81b256a2adc1f0503b029c111d864c6d21dab76eb5fc19e23724280.pgf"
+    }
+   ],
+   "texts": [
+    {
+     "species": 385,
+     "text": "ポケモンセンタートウホクたなばたまつり\nかいさいを　きねんして\nつうじょうでは　おぼえない\nとくべつなわざを　おぼえた\nジラーチを　プレゼント！"
     }
    ]
   },
@@ -5189,6 +6159,24 @@
      "local_wireless_copy": false,
      "file": "cards/5d2ee377410692eeb771c2dd22ab9d27ae78633ea97c469a365c08d54b7af4c7.pgf"
     }
+   ],
+   "texts": [
+    {
+     "species": 25,
+     "text": "こうひょうほうそうちゅうの　アニメ\n「ポケットモンスター　ベストウイッシュ\nシーズン２　デコロラアドベンチャー」で\nだいかつやく！\nサトシ・デント・アイリス・オーキドの\nポケモンを　プレゼント！"
+    },
+    {
+     "species": 479,
+     "text": "こうひょうほうそうちゅうの　アニメ\n「ポケットモンスター　ベストウイッシュ\nシーズン２　デコロラアドベンチャー」で\nだいかつやく！\nサトシ・デント・アイリス・オーキドの\nポケモンを　プレゼント！"
+    },
+    {
+     "species": 511,
+     "text": "こうひょうほうそうちゅうの　アニメ\n「ポケットモンスター　ベストウイッシュ\nシーズン２　デコロラアドベンチャー」で\nだいかつやく！\nサトシ・デント・アイリス・オーキドの\nポケモンを　プレゼント！"
+    },
+    {
+     "species": 610,
+     "text": "こうひょうほうそうちゅうの　アニメ\n「ポケットモンスター　ベストウイッシュ\nシーズン２　デコロラアドベンチャー」で\nだいかつやく！\nサトシ・デント・アイリス・オーキドの\nポケモンを　プレゼント！"
+    }
    ]
   },
   {
@@ -5208,7 +6196,13 @@
      "end": "2013-08-11"
     }
    ],
-   "cards": []
+   "cards": [],
+   "texts": [
+    {
+     "species": 235,
+     "text": "This special Smeargle is a gift\nto you in celebration of the\n2013 Pokémon World Championships."
+    }
+   ]
   },
   {
    "language": "ja",
@@ -5388,6 +6382,36 @@
      "local_wireless_copy": false,
      "file": "cards/70054db8acd5af2d3791e57333f2750c6e2daaba4e2829d2ba1741492855e1e3.pgf"
     }
+   ],
+   "texts": [
+    {
+     "species": 18,
+     "text": "ポケットモンスター　赤・緑の\nチャンピオン　グリーンが　つかっていた\nピジョットを　プレゼント！"
+    },
+    {
+     "species": 149,
+     "text": "ポケットモンスター　金・銀の\nチャンピオン　ワタルが　つかっていた\nカイリューを　プレゼント！"
+    },
+    {
+     "species": 350,
+     "text": "ポケットモンスター　エメラルドの\nチャンピオン　ミクリが　つかっていた\nミロカロスを　プレゼント！"
+    },
+    {
+     "species": 376,
+     "text": "ポケットモンスター　ルビー・サファイアの\nチャンピオン　ダイゴが　つかっていた\nメタグロスを　プレゼント！"
+    },
+    {
+     "species": 442,
+     "text": "ポケットモンスター　ダイヤモンド・パール\nチャンピオン　シロナが　つかっていた\nミカルゲを　プレゼント！"
+    },
+    {
+     "species": 612,
+     "text": "ポケットモンスターブラック2・ホワイト2の\nチャンピオン　アイリスが　つかっている\nオノノクスを　プレゼント！"
+    },
+    {
+     "species": 637,
+     "text": "ポケットモンスターブラック・ホワイトの\nチャンピオン　アデクが　つかっている\nウルガモスを　プレゼント！"
+    }
    ]
   },
   {
@@ -5418,6 +6442,12 @@
      ],
      "local_wireless_copy": false,
      "file": "cards/fba87c85c3e42a5956da87cf2971c58fc23436093e2d42226ec4db866eac3c3a.pgf"
+    }
+   ],
+   "texts": [
+    {
+     "species": 302,
+     "text": "9がつ29にち　ほうそうの\nポケモンスマッシュ！　さいしゅうかいでは\nポケスマメンバーが　バトルを　して\nさいきょうおうじゃを　きめるよ！"
     }
    ]
   },
@@ -5462,6 +6492,16 @@
      "local_wireless_copy": false,
      "file": "cards/c1e8f9345dd1c93957e9e97fa1678332b1efca2e87f138711ba2f05855354149.pgf"
     }
+   ],
+   "texts": [
+    {
+     "species": 186,
+     "text": "ポケスマおうじゃに　かがやいた\nやまもとたいいんの　ニョロトノを\nプレゼント！\nいままで　ポケモンスマッシュ！を\nおうえんしてくれて　ありがとう！"
+    },
+    {
+     "species": 230,
+     "text": "ポケスマおうじゃに　かがやいた\nやまもとたいいんの　キングドラを\nプレゼント！\nいままで　ポケモンスマッシュ！を\nおうえんしてくれて　ありがとう！"
+    }
    ]
   },
   {
@@ -5492,6 +6532,12 @@
      ],
      "local_wireless_copy": false,
      "file": "cards/c1e392b2602eb8fd21f139daf553f3cb19df673c3daae448df5efa8d3882c38a.pgf"
+    }
+   ],
+   "texts": [
+    {
+     "species": 0,
+     "text": "리버티가든섬의 가기 위한\n특별한 티켓.\n구름시티에서 배를 탈 수 있다."
     }
    ]
   },
@@ -5548,6 +6594,12 @@
      "local_wireless_copy": false,
      "file": "cards/5fd6c72700002f71efb9142a072c3f9f939e0184849fc53d41bf2bf1a71e9a7d.pgf"
     }
+   ],
+   "texts": [
+    {
+     "species": 0,
+     "text": "수수께끼의 알을 선물!\n어떤 포켓몬이 부화할지 기대해줘!\n소중하게 키우고 모험에 데려가자!"
+    }
    ]
   },
   {
@@ -5578,6 +6630,12 @@
      ],
      "local_wireless_copy": false,
      "file": "cards/775310da693abf1de03adbf1a3c7c0b7bd93e502cbb4c92e3c82730059e3363d.pgf"
+    }
+   ],
+   "texts": [
+    {
+     "species": 571,
+     "text": "환영의 패왕 조로아크 케이블 TV 첫 방영을 기념하여\n특별한 기술을 배우고 있는\n조로아크를 선물! 어떤 기술일지\n배틀을 통해 확인해보자!"
     }
    ]
   },
@@ -5610,6 +6668,12 @@
      "local_wireless_copy": false,
      "file": "cards/7931cf0a5cc4158620b1cf0b31f32f9cdaf40535e11ad20994466acb67e22bfd.pgf"
     }
+   ],
+   "texts": [
+    {
+     "species": 559,
+     "text": "애니메이션에서 대활약하는\n지우의 곤율랭.\n너에게 있어 즐거운 모험의\n파트너가 될 수 있기를!"
+    }
    ]
   },
   {
@@ -5629,7 +6693,13 @@
      "end": "2011-08-14"
     }
    ],
-   "cards": []
+   "cards": [],
+   "texts": [
+    {
+     "species": 560,
+     "text": "Thanks for coming to the 2011\nPokémon World Championships!\nBe sure to save your game after you\npick up the Pokémon at a Pokémon Center."
+    }
+   ]
   },
   {
    "language": "ko",
@@ -5659,6 +6729,12 @@
      ],
      "local_wireless_copy": false,
      "file": "cards/cc3b86f797ed4e975ba3df0211ca6b1f8bf4c24dcd58911fa0f1b859c5c25546.pgf"
+    }
+   ],
+   "texts": [
+    {
+     "species": 491,
+     "text": "올해에도 포켓몬 영화와 함께!\n과거 포켓몬 영화에 등장했던\n환상의 포켓몬 다크라이를 선물!"
     }
    ]
   },
@@ -5701,6 +6777,16 @@
      "local_wireless_copy": false,
      "file": "cards/71140a65fb3a43cf96d09bf8f1b247ace3ddc3bcc91ccae113b0d52bcd47b0f8.pgf"
     }
+   ],
+   "texts": [
+    {
+     "species": 623,
+     "text": "포켓몬 영화에서 활약하는\n잔타의 골루그 선물!\n영화에서 사용하는\n자이로볼을 배우고 있다!"
+    },
+    {
+     "species": 635,
+     "text": "포켓몬 영화에서 활약하는\n카리타의 삼삼드래를 선물!\n영화에서 사용하는\n용의숨결을 배우고 있다!"
+    }
    ]
   },
   {
@@ -5742,6 +6828,16 @@
      "local_wireless_copy": false,
      "file": "cards/6841097b35f800bfef2e98882656e8764c72390baa760fe6bfbd6770536ab1d7.pgf"
     }
+   ],
+   "texts": [
+    {
+     "species": 643,
+     "text": "이번 영화에서 활약하는\n레시라무를 선물!\n푸른불꽃의 위력을\n배틀을 통해 확인해보자!"
+    },
+    {
+     "species": 644,
+     "text": "이번 영화에서 활약하는\n제크로무를 선물!\n뇌격의 위력을\n배틀을 통해 확인해보자!"
+    }
    ]
   },
   {
@@ -5772,6 +6868,12 @@
      ],
      "local_wireless_copy": false,
      "file": "cards/aebfa4ca926d3dfa6b1e1002ecbf9d28ad7b2a28554a81033c8f36898c7cc978.pgf"
+    }
+   ],
+   "texts": [
+    {
+     "species": 494,
+     "text": "올해 영화에서 활약하는\nV제너레이트를 배운 비크티니를 선물!\n배틀에서 승리를 잡자!"
     }
    ]
   },
@@ -5804,6 +6906,12 @@
      "local_wireless_copy": false,
      "file": "cards/36fb37df3ebebf19a2ad975fc6c2ca237c1659ef723c257e70cdd5c985e58e5b.pgf"
     }
+   ],
+   "texts": [
+    {
+     "species": 150,
+     "text": "최강 포켓몬의 귀환 - 뮤츠\n빠른 스피드와 높은 특공을 자랑하는\n최강 클래스 뮤츠를 선물합니다.\n나만의 뮤츠를 키워서 친구들과 함께\n포켓몬 배틀을 즐겨봅시다!"
+    }
    ]
   },
   {
@@ -5834,6 +6942,12 @@
      ],
      "local_wireless_copy": false,
      "file": "cards/36fb37df3ebebf19a2ad975fc6c2ca237c1659ef723c257e70cdd5c985e58e5b.pgf"
+    }
+   ],
+   "texts": [
+    {
+     "species": 150,
+     "text": "최강 포켓몬의 귀환 - 뮤츠\n빠른 스피드와 높은 특공을 자랑하는\n최강 클래스 뮤츠를 선물합니다.\n나만의 뮤츠를 키워서 친구들과 함께\n포켓몬 배틀을 즐겨봅시다!"
     }
    ]
   },
@@ -5876,6 +6990,16 @@
      "local_wireless_copy": false,
      "file": "cards/dad88eab8ca14bc38b84da08019d8cb64cba198d4da5a653464fc59ca1bfc491.pgf"
     }
+   ],
+   "texts": [
+    {
+     "species": 641,
+     "text": "애니메이션에서도 크게 활약한\n전설의 포켓몬 토네로스를 선물!\n볼트로스와 토네로스 두 마리를 모아\n랜드로스를 손에 넣자!"
+    },
+    {
+     "species": 642,
+     "text": "애니메이션에서도 크게 활약한\n전설의 포켓몬 볼트로스를 선물!\n볼트로스와 토네로스 두 마리를 모아\n랜드로스를 손에 넣자!"
+    }
    ]
   },
   {
@@ -5906,6 +7030,12 @@
      ],
      "local_wireless_copy": false,
      "file": "cards/34b98961ee463414e93fc222bb2591f3d3377cab3025e9a8af73516d6546c0ee.pgf"
+    }
+   ],
+   "texts": [
+    {
+     "species": 637,
+     "text": "포켓몬 월드챔피언십2012 대한민국\n 대표 선발전에 방문해 주셔서 감사합니다.\n색이 다른 불카모스를 사용해서\n포켓몬 배틀을 더욱 즐겨주세요!\nhttp://pokemonkorea.co.kr"
     }
    ]
   },
@@ -5938,6 +7068,12 @@
      "local_wireless_copy": false,
      "file": "cards/2be2cbdacb7d3bbcf047f0163693064a70634a3102d7aa0c0c416f0af57d5551.pgf"
     }
+   ],
+   "texts": [
+    {
+     "species": 25,
+     "text": "최강 클래스의 기술을\n배우고 있는 피카츄를 선물!\n피카츄와 함께 여러분도\n최강의 트레이너를 항해 GO!"
+    }
    ]
   },
   {
@@ -5968,6 +7104,12 @@
      ],
      "local_wireless_copy": false,
      "file": "cards/2be2cbdacb7d3bbcf047f0163693064a70634a3102d7aa0c0c416f0af57d5551.pgf"
+    }
+   ],
+   "texts": [
+    {
+     "species": 25,
+     "text": "This special Pikachu is a gift to you\nin celebration of the 2012 World Championships. Surprise your\nfriends in battle with the move Fly!"
     }
    ]
   },
@@ -6126,6 +7268,32 @@
      "local_wireless_copy": false,
      "file": "cards/b70418a63ea940d8828e2bcc3ea9b188a674a4817064dec9dad20742f8703087.pgf"
     }
+   ],
+   "texts": [
+    {
+     "species": 116,
+     "text": "드래곤으로 즐기자!!\n2012년 용의해 기념으로\n선물하는 색이 다른 포켓몬을 모두 모아\n배틀에 강한 드래곤 포켓몬으로 키워보자!"
+    },
+    {
+     "species": 328,
+     "text": "드래곤으로 즐기자!!\n2012년 용의해 기념으로\n선물하는 색이 다른 포켓몬을 모두 모아\n배틀에 강한 드래곤 포켓몬으로 키워보자!"
+    },
+    {
+     "species": 333,
+     "text": "드래곤으로 즐기자!!\n2012년 용의해 기념으로\n선물하는 색이 다른 포켓몬을 모두 모아\n배틀에 강한 드래곤 포켓몬으로 키워보자!"
+    },
+    {
+     "species": 371,
+     "text": "드래곤으로 즐기자!!\n2012년 용의해 기념으로\n선물하는 색이 다른 포켓몬을 모두 모아\n배틀에 강한 드래곤 포켓몬으로 키워보자!"
+    },
+    {
+     "species": 621,
+     "text": "드래곤으로 즐기자!!\n2012년 용의해 기념으로\n선물하는 색이 다른 포켓몬을 모두 모아\n배틀에 강한 드래곤 포켓몬으로 키워보자!"
+    },
+    {
+     "species": 633,
+     "text": "드래곤으로 즐기자!!\n2012년 용의해 기념으로\n선물하는 색이 다른 포켓몬을 모두 모아\n배틀에 강한 드래곤 포켓몬으로 키워보자!"
+    }
    ]
   },
   {
@@ -6181,6 +7349,12 @@
      "local_wireless_copy": false,
      "file": "cards/9b74298e3e5ff5f343ec375289bfb375f971975b25101f0fd6cf83a226bc3e14.pgf"
     }
+   ],
+   "texts": [
+    {
+     "species": 0,
+     "text": "특별한 기술을 배우고 있는\n포켓몬의 알을 선물 받아,\n전국도감 완성을 시작해 보자!"
+    }
    ]
   },
   {
@@ -6211,6 +7385,12 @@
      ],
      "local_wireless_copy": false,
      "file": "cards/28e4cd9cbc9ea70219f99d5deae33e4dcfc0ed4d5132b6357805ad680d4c8bd3.pgf"
+    }
+   ],
+   "texts": [
+    {
+     "species": 647,
+     "text": "영화에 등장하는 케르디오 선물!\n포켓몬스터 블랙 2 또는\n포켓몬스터 화이트 2에서\n케르디오의 스페셜 이벤트를\n확인해 보자!"
     }
    ]
   },
@@ -6243,6 +7423,12 @@
      "local_wireless_copy": false,
      "file": "cards/dbe3167f93b1e31d251487f37904040aefb5fb5c1ce29642e8457cef38895f07.pgf"
     }
+   ],
+   "texts": [
+    {
+     "species": 648,
+     "text": "영화에 등장하는 메로엣타 선물!\n기술 옛노래를 사용하여\n메로엣타의 폼체인지를\n확인해 보자!"
+    }
    ]
   },
   {
@@ -6273,6 +7459,12 @@
      ],
      "local_wireless_copy": false,
      "file": "cards/2329208bec240c583f1ba8a36fa5d322d06f853b63501db0303626586838bade.pgf"
+    }
+   ],
+   "texts": [
+    {
+     "species": 393,
+     "text": "기술 노래하기를 배우고 있는\n노래하는 팽도리를 손에 넣고,\n함께 극장판 포켓몬스터\n큐레무 VS 성검사 케르디오를 보러가자!"
     }
    ]
   },
@@ -6305,6 +7497,12 @@
      "local_wireless_copy": false,
      "file": "cards/904289b1ebc5f9eb0640b43e2865c5a8586948a73a91dfb0664f92d03638001d.pgf"
     }
+   ],
+   "texts": [
+    {
+     "species": 385,
+     "text": "캐릭터페어 참가 기념 환상의 포켓몬\n지라치를 선물!!\n지라치를 손에 넣고 올 여름 방학에\n이루고 싶은 소원도 빌어보자!!"
+    }
    ]
   },
   {
@@ -6336,6 +7534,12 @@
      "local_wireless_copy": false,
      "file": "cards/7b44a946ad639c5fa7b9ed000d6717fe30d559f2476fdf27110804b00cb793af.pgf"
     }
+   ],
+   "texts": [
+    {
+     "species": 385,
+     "text": "1000년 중 7일 동안만 깨어나 모든\n소원을 이루어주는 능력을 지닌\n지라치에게 소원을 빌어보자!!"
+    }
    ]
   },
   {
@@ -6355,7 +7559,13 @@
      "end": "2013-08-11"
     }
    ],
-   "cards": []
+   "cards": [],
+   "texts": [
+    {
+     "species": 235,
+     "text": "This special Smeargle is a gift\nto you in celebration of the\n2013 Pokémon World Championships."
+    }
+   ]
   },
   {
    "language": "ko",
@@ -6409,6 +7619,20 @@
      ],
      "local_wireless_copy": false,
      "file": "cards/85d16b06a426bad2a9cf6b38221626502c0178146d9749abac8730c9e3777fa4.pgf"
+    }
+   ],
+   "texts": [
+    {
+     "species": 510,
+     "text": "2013년 대한민국 챔피언\n박세준님의 포켓몬 레파르다스!!\n포켓몬 트레이너라면\n한국 챔피언이 되는 꿈에 도전해보자!!"
+    },
+    {
+     "species": 488,
+     "text": "2013년 대한민국 챔피언\n사승헌님의 포켓몬 크레세리아!!\n포켓몬 트레이너라면\n한국 챔피언이 되는 꿈에 도전해보자!!"
+    },
+    {
+     "species": 237,
+     "text": "2013년 대한민국 챔피언\n권도훈님의 포켓몬 카포에라!!\n포켓몬 트레이너라면\n한국 챔피언이 되는 꿈에 도전해보자!!"
     }
    ]
   },
@@ -6465,6 +7689,20 @@
      "local_wireless_copy": false,
      "file": "cards/12c3e3bb6789ab1596dbd5a1ad0da8b7f9d2696846206c159cc4654f70c7d7cd.pgf"
     }
+   ],
+   "texts": [
+    {
+     "species": 483,
+     "text": "포켓몬스터 X Y 체험 이벤트 실시 기념!\n색이 다른 디아루가 선물!\n손에 넣은 디아루가를\n포켓몬 뱅크, 포켓무버로\n칼로스지방에서도 활약시켜 보자!"
+    },
+    {
+     "species": 484,
+     "text": "포켓몬스터 X Y 체험 이벤트 실시 기념!\n색이 다른 펄기아 선물!\n손에 넣은 펄기아를\n포켓몬 뱅크, 포켓무버로\n칼로스지방에서도 활약시켜 보자!"
+    },
+    {
+     "species": 487,
+     "text": "포켓몬스터 X Y 체험 이벤트 실시 기념!\n색이 다른 기라티나 선물!\n손에 넣은 기라티나를\n포켓몬 뱅크, 포켓무버로\n칼로스지방에서도 활약시켜 보자!"
+    }
    ]
   },
   {
@@ -6495,6 +7733,12 @@
      ],
      "local_wireless_copy": false,
      "file": "cards/751e7d76eb44c0fbb3df3d86894267b04382fba417728ea6ad185e7212501f97.pgf"
+    }
+   ],
+   "texts": [
+    {
+     "species": 649,
+     "text": "올 겨을! 포켓몬 영화에서 활약하는,\n신속을 배운 붉은 게노세크트를 선물!\n붉은 게노세크트의 스피드를 배틀에서\n경험해보자!"
     }
    ]
   },
@@ -6527,6 +7771,12 @@
      "local_wireless_copy": false,
      "file": "cards/578a59cefd8f2d171db5570eeaf07240795723e45d0cbfdf88ad59be8ddefbf5.pgf"
     }
+   ],
+   "texts": [
+    {
+     "species": 0,
+     "text": "¡Monta con este billete especial en\nel barco que va desde Ciudad Porcelana\nhasta Isla Libertad y encuentra\nal singular Pokémon Victini!"
+    }
    ]
   },
   {
@@ -6557,6 +7807,12 @@
      ],
      "local_wireless_copy": false,
      "file": "cards/bf602b1dd5ad3ab319f7d12ccce68b6ca6b36218283ab956cd4c0f358be6602b.pgf"
+    }
+   ],
+   "texts": [
+    {
+     "species": 571,
+     "text": "¡Has recibido un Zoroark que conoce\nun movimiento especial!\n¡Prueba a usarlo en los combates!"
     }
    ]
   },
@@ -6601,6 +7857,16 @@
      "local_wireless_copy": false,
      "file": "cards/01e623e7cf6fba9fb4533ed1f8cdb9860e2f25bd8383032a25bc1ceefc3b1ae5.pgf"
     }
+   ],
+   "texts": [
+    {
+     "species": 588,
+     "text": "¡Has recibido un Karrablast!\n¡Intercambia tu Karrablast por\nel Shelmet de un amigo\npara que evolucione!"
+    },
+    {
+     "species": 616,
+     "text": "¡Has recibido un Shelmet!\n¡Intercambia tu Shelmet por\nel Karrablast de un amigo\npara que evolucione!"
+    }
    ]
   },
   {
@@ -6632,6 +7898,12 @@
      "local_wireless_copy": false,
      "file": "cards/846388bef8c62e24dc54a055fceffcaa543edd018c4875cc305479a1b216eca5.pgf"
     }
+   ],
+   "texts": [
+    {
+     "species": 560,
+     "text": "Gracias por asistir al Campeonato\nMundial Pokémon 2011!\nAsegúrate de guardar la partida\ntras recoger al Pokémon\nen el Centro Pokémon."
+    }
    ]
   },
   {
@@ -6662,6 +7934,12 @@
      ],
      "local_wireless_copy": false,
      "file": "cards/ce47c7875c7053fa1884728cde64c80f35d7a36970471d41b9327bf37aecc6d6.pgf"
+    }
+   ],
+   "texts": [
+    {
+     "species": 491,
+     "text": "¡Aquí tienes a Darkrai!\n¡Un Pokémon singular\nque todos quieren tener!"
     }
    ]
   },
@@ -6704,6 +7982,16 @@
      "local_wireless_copy": false,
      "file": "cards/050cef19713497eb4bd77650be319982160a97b1533c912d2a854f2a9edf73ef.pgf"
     }
+   ],
+   "texts": [
+    {
+     "species": 643,
+     "text": "¡Aquí llega Reshiram,\ndirectamente de la película!\n¡Prueba su Llama Azul\ny observa su tremendo poder\nen combate!"
+    },
+    {
+     "species": 644,
+     "text": "¡Aquí llega Zekrom,\ndirectamente de la película!\n¡Prueba su Ataque Fulgor\ny observa su tremendo poder\nen combate!"
+    }
    ]
   },
   {
@@ -6734,6 +8022,12 @@
      ],
      "local_wireless_copy": false,
      "file": "cards/cdd355858ace239dc4946726aaaef1f886375ce6e7251e72dd9d5b9af1a56110.pgf"
+    }
+   ],
+   "texts": [
+    {
+     "species": 246,
+     "text": ""
     }
    ]
   },
@@ -6766,6 +8060,12 @@
      "local_wireless_copy": false,
      "file": "cards/f0acf428246b8cdb9e8a09ac9b1ad34cd849a40ba0e8125ea09e399e76407b9e.pgf"
     }
+   ],
+   "texts": [
+    {
+     "species": 494,
+     "text": "¡Venido directo desde el Reino del Valle,\ncon el movimiento V de Fuego, este Victini\nte proporcionarà una victoria tras otra!"
+    }
    ]
   },
   {
@@ -6797,6 +8097,12 @@
      "local_wireless_copy": false,
      "file": "cards/6b3b5d28537d5ebff0cd4e894f20672dfb3246412c707349266a7e675b718e52.pgf"
     }
+   ],
+   "texts": [
+    {
+     "species": 150,
+     "text": "¡Gracias por jugar a Pokémon!\n¡Juega con el poderoso Mewtwo y\npresume en combate ante tus amigos!"
+    }
    ]
   },
   {
@@ -6827,6 +8133,12 @@
      ],
      "local_wireless_copy": false,
      "file": "cards/f34ac1df6bbf92b3ba814ca9dcb6e5e82eccfbf471fcdfcfb92a8191f033bbab.pgf"
+    }
+   ],
+   "texts": [
+    {
+     "species": 25,
+     "text": "¡Este Pikachu conoce\nun movimiento increíble!\n¡Haz realidad tus sueños de\nconvertirte en el Entrenador\nmás fuerte con este Pokémon!"
     }
    ]
   },
@@ -6870,6 +8182,12 @@
      "local_wireless_copy": false,
      "file": "cards/45bd81090fb2148895566fb3eb777d507e47159e5a14b6ae3e09a3ce769defec.pgf"
     }
+   ],
+   "texts": [
+    {
+     "species": 25,
+     "text": ""
+    }
    ]
   },
   {
@@ -6900,6 +8218,12 @@
      ],
      "local_wireless_copy": false,
      "file": "cards/649b4d45aec2a8ec7bc08350d2cb491b875e994bfcbc4ac6532f16559c767a80.pgf"
+    }
+   ],
+   "texts": [
+    {
+     "species": 647,
+     "text": "¡Será un gran compañero de\nequipo durante tu aventura\nen Pokemon Edición Negra 2\no Pokémon Edición Blanca 2!"
     }
    ]
   },
@@ -6932,6 +8256,12 @@
      "local_wireless_copy": false,
      "file": "cards/f06b57bea78e580f1f9bba9c2b7d1ff5a69a77267d9b08c784115187faea4530.pgf"
     }
+   ],
+   "texts": [
+    {
+     "species": 648,
+     "text": "Tenemos un regalo para ti: ¡el Pokémon\nsingular Meloetta! ¡Su canto y\nsu baile convertirán tus combates\nen un auténtico espectáculo!"
+    }
    ]
   },
   {
@@ -6963,6 +8293,12 @@
      "local_wireless_copy": false,
      "file": "cards/f721cdeaf43ae9d7193c580afbf91958355bb09c5ca06d23b839eac3546cecbe.pgf"
     }
+   ],
+   "texts": [
+    {
+     "species": 376,
+     "text": "¡Empieza ya tu entrenamiento para el\nCampeonato Mundial! ¡Este Metagross\ntan especial hará que tus oponentes\nse arrepientan de haberte desafiado!"
+    }
    ]
   },
   {
@@ -6993,6 +8329,12 @@
      ],
      "local_wireless_copy": false,
      "file": "cards/c3d0ad32ab7b26a12bfc104c6be50d9503ca8e280b468e77c4c7b9c2a32bcd03.pgf"
+    }
+   ],
+   "texts": [
+    {
+     "species": 235,
+     "text": ""
     }
    ]
   },
@@ -7048,6 +8390,20 @@
      ],
      "local_wireless_copy": false,
      "file": "cards/f32ea65e61068e4b11debdb0c03d2dde344a56228c67fc74132b9c5ab6163742.pgf"
+    }
+   ],
+   "texts": [
+    {
+     "species": 487,
+     "text": "¡Haz tuyo el poder de este Pokémon\nlegendario de tipo Dragόn de Sinnoh!\nLlévate a este Pokémon raro variocolor\nen mil y una aventuras ¡y consigue que\nvuestro vínculo sea inquebrantable!"
+    },
+    {
+     "species": 484,
+     "text": "¡Haz tuyo el poder de este Pokémon\nlegendario de tipo Dragόn de Sinnoh!\nLlévate a este Pokémon raro variocolor\nen mil y una aventuras ¡y consigue que\nvuestro vínculo sea inquebrantable!"
+    },
+    {
+     "species": 483,
+     "text": "¡Haz tuyo el poder de este Pokémon\nlegendario de tipo Dragόn de Sinnoh!\nLlévate a este Pokémon raro variocolor\nen mil y una aventuras ¡y consigue que\nvuestro vínculo sea inquebrantable!"
     }
    ]
   }

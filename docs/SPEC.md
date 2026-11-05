@@ -73,10 +73,7 @@ is not a decimal number, or the length is over the limit in section 6.
 | `X` | `<peer>` | a peer left or was dropped |
 | `D` | `<peer>\n<key>\n<bytes>` | a message; `peer` is the sender |
 | `E` | `<reason>` | an error; the relay closes the connection after it |
-| `M` | `<method>
-<title>
-<gifts>
-<card>` | one Mystery Gift event that is up (section 4b) |
+| `M` | `<method>\n<title>\n<gifts>\n<text>\n<card>` | one Mystery Gift event that is up (section 4b) |
 | `Z` | `<count>` | the end of the events; the relay closes the connection after it |
 
 Every frame from the relay has a non-empty payload. Released eidos clients
@@ -157,9 +154,11 @@ connection, outside any session.
 - The relay answers with one `M` frame for each event up on that date for
   that language and game, then `Z` with how many it sent, and closes the
   connection.
-- An `M` payload is the method (`wfc`, `wireless` or `infrared`), the title
-  and the gifts (comma-separated) on three lines, then the Wonder Card's
-  bytes (204 bytes for Black and White). For a wireless event the relay
+- An `M` payload is the method (`wfc`, `wireless` or `infrared`), the
+  title, the gifts (comma-separated) and the Wonder Card's text (its line
+  breaks written as tabs) on four lines, then the Wonder Card's bytes (204
+  bytes for Black and White). The text is the card's own for that language
+  and, for an event with a card per Pokemon, for the card sent. For a wireless event the relay
   sends the card's local wireless copy when the archive has one.
 - When is an event up: each time it ran (a run) comes back every month on
   the day of the month it first started and stays up for seven days. A run

@@ -24,6 +24,7 @@ Each entry gives:
 - the original dates, one range for each time the event ran
 - where each Wonder Card file is in Project Pokémon's EventsGallery, with
   its size and SHA-256
+- the text each Wonder Card shows
 
 The Wonder Card files are in `data/cards`, named by their SHA-256; the
 relay checks each one against the list when it starts. eidos asks the relay
@@ -34,7 +35,7 @@ starts on the day of the month it first started and stays up for a week.
 
 ### Sources
 
-- Event dates, methods and gifts: Bulbapedia's lists of Generation V event
+- Event dates, methods, gifts and the cards' texts: Bulbapedia's lists of Generation V event
   distributions, Wi-Fi and local, for each language, and its list of other
   event distributions (the Liberty Pass and the Master Ball).
   <https://bulbapedia.bulbagarden.net/>. Bulbapedia's text is under

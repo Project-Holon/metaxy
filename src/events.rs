@@ -24,6 +24,14 @@ pub struct CardRef {
     pub local_wireless_copy: bool,
 }
 
+/// The text a Wonder Card shows, for the card of one Pokemon (`species`)
+/// or for an item (0).
+#[derive(Debug, Clone, Deserialize)]
+pub struct CardText {
+    pub species: u16,
+    pub text: String,
+}
+
 #[derive(Debug, Clone, Deserialize)]
 pub struct Run {
     pub start: String,
@@ -39,6 +47,8 @@ pub struct EventRef {
     pub games: Vec<String>,
     pub runs: Vec<Run>,
     pub cards: Vec<CardRef>,
+    #[serde(default)]
+    pub texts: Vec<CardText>,
 }
 
 #[derive(Debug, Deserialize)]
@@ -239,17 +249,37 @@ pub fn sha256_hex(data: &[u8]) -> String {
     h.iter().map(|x| format!("{x:08x}")).collect()
 }
 
-/// The `M` frames' payloads for a reply: the method, the title and the
-/// gifts on three lines, then the card's bytes.
+/// The text for a card: the one for the card's Pokemon (its species at
+/// 0x1A when the gift is a Pokemon, kind 1 at 0xB3), else the first.
+pub fn card_text<'a>(event: &'a Event, card: &[u8]) -> &'a str {
+    let species = if card.len() > 0xB3 && card[0xB3] == 1 {
+        u16::from_le_bytes([card[0x1A], card[0x1B]])
+    } else {
+        0
+    };
+    let texts = &event.info.texts;
+    texts
+        .iter()
+        .find(|t| t.species == species)
+        .or_else(|| texts.first())
+        .map(|t| t.text.as_str())
+        .unwrap_or("")
+}
+
+/// The `M` frames' payloads for a reply: the method, the title, the gifts
+/// and the card's text (its line breaks as tabs) on four lines, then the
+/// card's bytes.
 pub fn reply_payloads(live: &[Live<'_>]) -> Vec<Vec<u8>> {
     live.iter()
         .map(|l| {
-            let mut p = Vec::with_capacity(l.card.len() + 128);
+            let mut p = Vec::with_capacity(l.card.len() + 512);
             p.extend_from_slice(l.event.info.method.as_bytes());
             p.push(b'\n');
             p.extend_from_slice(l.event.info.title.as_bytes());
             p.push(b'\n');
             p.extend_from_slice(l.event.info.gifts.join(", ").as_bytes());
+            p.push(b'\n');
+            p.extend_from_slice(card_text(l.event, l.card).replace('\n', "\t").as_bytes());
             p.push(b'\n');
             p.extend_from_slice(l.card);
             p
