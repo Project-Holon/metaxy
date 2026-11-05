@@ -1212,3 +1212,55 @@ async fn air_rooms() {
     )
     .await;
 }
+
+#[tokio::test]
+async fn mystery_gift_events_for_a_day() {
+    let mut c = cfg();
+    c.events = concat!(env!("CARGO_MANIFEST_DIR"), "/data/mystery_events.json").into();
+    let (_s, a) = start(c).await;
+    let mut cl = Client::connect(a).await;
+    // the Liberty Pass first started on 6 March: up on the 8th of any month
+    cl.send('G', b"eidos-net/1 en black 2026-11-08").await;
+    let mut titles = Vec::new();
+    loop {
+        match cl.read(Duration::from_secs(5)).await {
+            Got::Frame('M', p) => {
+                let mut lines = p.splitn(4, |&b| b == b'\n');
+                let method = String::from_utf8(lines.next().unwrap().to_vec()).unwrap();
+                let title = String::from_utf8(lines.next().unwrap().to_vec()).unwrap();
+                let _gifts = lines.next().unwrap();
+                let card = lines.next().unwrap();
+                assert!(method == "wfc" || method == "wireless" || method == "infrared");
+                assert_eq!(card.len(), 204);
+                titles.push(title);
+            }
+            Got::Frame('Z', p) => {
+                assert_eq!(String::from_utf8(p).unwrap(), titles.len().to_string());
+                break;
+            }
+            other => panic!("unexpected {other:?}"),
+        }
+    }
+    assert!(titles.iter().any(|t| t == "Liberty Pass"));
+    assert_eq!(cl.read(Duration::from_secs(2)).await, Got::Closed);
+}
+
+#[tokio::test]
+async fn mystery_gift_bad_requests() {
+    let (_s, a) = start(cfg()).await;
+    let mut cl = Client::connect(a).await;
+    cl.send('G', b"eidos-net/1 en red 2026-11-08").await;
+    match cl.read(Duration::from_secs(2)).await {
+        Got::Frame('E', p) => assert!(p.starts_with(b"bad-frame")),
+        other => panic!("unexpected {other:?}"),
+    }
+    let mut c = cfg();
+    c.events = String::new();
+    let (_s2, a2) = start(c).await;
+    let mut cl = Client::connect(a2).await;
+    cl.send('G', b"eidos-net/1 en black 2026-11-08").await;
+    match cl.read(Duration::from_secs(2)).await {
+        Got::Frame('E', p) => assert!(p.starts_with(b"unavailable")),
+        other => panic!("unexpected {other:?}"),
+    }
+}

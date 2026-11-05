@@ -2,6 +2,7 @@
 
 use crate::codec::{self, Fail};
 use crate::config::Config;
+use crate::events::{self, Events};
 use crate::outbox::{Ctl, Outbox};
 use crate::registry::{Outcome, Registry};
 
@@ -24,6 +25,8 @@ fn secs(t: Instant) -> f64 {
 struct Shared {
     cfg: Arc<Config>,
     reg: Mutex<Registry>,
+    /// The Mystery Gift events (G frames), when the list loaded.
+    events: Option<Events>,
 }
 
 /// A running relay.
@@ -66,9 +69,24 @@ impl Server {
         cfg.validate()?;
         let cfg = Arc::new(cfg);
         let reg = Registry::new(cfg.clone());
+        let events = if cfg.events.is_empty() {
+            None
+        } else {
+            match Events::load(std::path::Path::new(&cfg.events)) {
+                Ok(ev) => {
+                    info!(events = ev.list.len(), path = cfg.events.as_str(), "mystery gift events loaded");
+                    Some(ev)
+                }
+                Err(e) => {
+                    warn!(error = e.as_str(), "mystery gift events not loaded; G frames get E unavailable");
+                    None
+                }
+            }
+        };
         let shared = Arc::new(Shared {
             cfg: cfg.clone(),
             reg: Mutex::new(reg),
+            events,
         });
         let (stop, stop_rx) = watch::channel(false);
         let mut tasks = Vec::new();
@@ -300,6 +318,22 @@ async fn run_conn<S>(
                 Ok(Some((frame, used))) => {
                     buf.drain(..used);
                     last_frame = Instant::now();
+                    if frame.kind == b'G' {
+                        // a one-shot request: the events up today, then close
+                        let reply = if in_session {
+                            Err(Fail::new("bad-state", "G inside a session"))
+                        } else {
+                            gift_reply(shared.events.as_ref(), &frame.payload)
+                        };
+                        match reply {
+                            Ok((bytes, n)) => {
+                                out.kill(Some(bytes), "events sent");
+                                let _ = timeout(Duration::from_secs(3), out.ctl.closed.notified()).await;
+                                break 'conn (format!("events sent ({n})"), true);
+                            }
+                            Err(f) => break 'conn fail(&out, f).await,
+                        }
+                    }
                     let outcome = shared.reg.lock().unwrap().on_frame(id, frame);
                     match outcome {
                         Outcome::Ok => {}
@@ -361,6 +395,33 @@ async fn run_conn<S>(
         })
         .await;
     }
+}
+
+/// The reply to `G <version> <language> <game> <date>`: an `M` frame for
+/// each event up on that date for that language and game (method, title
+/// and gifts on three lines, then the Wonder Card's bytes), then `Z` with
+/// their count. Returns the frames and the count.
+fn gift_reply(events: Option<&Events>, payload: &[u8]) -> Result<(Vec<u8>, usize), Fail> {
+    let text = std::str::from_utf8(payload).map_err(|_| Fail::new("bad-frame", "G is not UTF-8"))?;
+    let f: Vec<&str> = text.split(' ').collect();
+    if f.len() != 4 {
+        return Err(Fail::new("bad-frame", "G wants <version> <language> <game> <date>"));
+    }
+    if f[0] != codec::PROTO {
+        return Err(Fail::new("version", format!("got {:?}, this relay speaks {}", f[0], codec::PROTO)));
+    }
+    if f[2] != "black" && f[2] != "white" {
+        return Err(Fail::new("bad-frame", "the game is black or white"));
+    }
+    let date = events::parse_date(f[3]).ok_or_else(|| Fail::new("bad-frame", "the date is YYYY-MM-DD"))?;
+    let ev = events.ok_or_else(|| Fail::new("unavailable", "this relay has no event list"))?;
+    let live = ev.live(f[1], f[2], date);
+    let mut bytes = Vec::new();
+    for p in events::reply_payloads(&live) {
+        bytes.extend_from_slice(&codec::encode(b'M', &p));
+    }
+    bytes.extend_from_slice(&codec::encode(b'Z', live.len().to_string().as_bytes()));
+    Ok((bytes, live.len()))
 }
 
 /// Send `E` and wait for the writer to finish. The cause is the reason.

@@ -66,6 +66,7 @@ settings! {
     handshake_ms: u64 = 10_000, "Time from connect to H or J, milliseconds";
     idle_ms: u64 = 60_000, "Silence before a connection is dropped, milliseconds";
     session_expiry_ms: u64 = 600_000, "A session is forgotten this long after its last player disconnected, milliseconds";
+    events: String = "data/mystery_events.json".to_string(), "Mystery Gift event list (G frames); empty turns them off";
     log_level: String = "info".to_string(), "Log level: error, warn, info, debug, trace or off (or filter directives such as metaxy=debug)";
     [num_args = 0..=1, default_missing_value = "true"] log_json: bool = false, "Write logs as JSON lines";
 }

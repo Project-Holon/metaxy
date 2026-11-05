@@ -61,6 +61,7 @@ is not a decimal number, or the length is over the limit in section 6.
 | `B` | empty | leave the session |
 | `K` | empty | keep-alive: sent after 20 seconds without any other frame; the relay never answers it |
 | `Q` | `<peer>` | remove a player (the host only) |
+| `G` | `<version> <language> <game> <date>` | the Mystery Gift events up on that date (section 4b); not in a session |
 
 ### Relay to client
 
@@ -72,6 +73,11 @@ is not a decimal number, or the length is over the limit in section 6.
 | `X` | `<peer>` | a peer left or was dropped |
 | `D` | `<peer>\n<key>\n<bytes>` | a message; `peer` is the sender |
 | `E` | `<reason>` | an error; the relay closes the connection after it |
+| `M` | `<method>
+<title>
+<gifts>
+<card>` | one Mystery Gift event that is up (section 4b) |
+| `Z` | `<count>` | the end of the events; the relay closes the connection after it |
 
 Every frame from the relay has a non-empty payload. Released eidos clients
 treat a 0-length frame as a broken stream. The relay accepts 0-length
@@ -136,6 +142,30 @@ on is in the air, and metaxy stands for the range of the radio.
   activity): the old room sees `X`, the new one `P`.
 - A room keeps no places: a player who drops is gone, and a room with no
   players is forgotten like an empty session.
+
+## 4b. Mystery Gift events
+
+The relay keeps the Mystery Gift events of Black and White
+(`data/mystery_events.json` and the Wonder Card files in `data/cards`) and
+tells eidos which ones are up on a given day. This is a request on its own
+connection, outside any session.
+
+- `G <version> <language> <game> <date>`: `language` is the cartridge's
+  (`en`, `fr`, `de`, `it`, `es`, `ja`, `ko`), `game` is `black` or `white`,
+  `date` is the player's own date, `YYYY-MM-DD` (each player keeps their own
+  clock, section 15).
+- The relay answers with one `M` frame for each event up on that date for
+  that language and game, then `Z` with how many it sent, and closes the
+  connection.
+- An `M` payload is the method (`wfc`, `wireless` or `infrared`), the title
+  and the gifts (comma-separated) on three lines, then the Wonder Card's
+  bytes (204 bytes for Black and White). For a wireless event the relay
+  sends the card's local wireless copy when the archive has one.
+- When is an event up: each time it ran (a run) comes back every month on
+  the day of the month it first started and stays up for seven days. A run
+  that started on the 31st starts on the last day of a shorter month.
+- A relay without the list answers `E unavailable`. A `G` with bad fields
+  is `E bad-frame`; a `G` inside a session is `E bad-state`.
 
 ## 5. What the relay does in a session
 
@@ -209,6 +239,7 @@ holds message contents, keys or tokens.
 | `too-slow` | the client does not read fast enough | `E too-slow 2097152 bytes queued (limit 2097152)` |
 | `busy` | too many sessions from this address | `E busy this address has 4 open sessions (limit 4)` |
 | `shutdown` | the relay is stopping | `E shutdown the relay is stopping` |
+| `unavailable` | the relay has no Mystery Gift event list | `E unavailable this relay has no event list` |
 
 The text is at most a few hundred bytes. A client that reads only the first
 word keeps working.

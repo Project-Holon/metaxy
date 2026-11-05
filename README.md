@@ -25,11 +25,12 @@ Each entry gives:
 - where each Wonder Card file is in Project Pokémon's EventsGallery, with
   its size and SHA-256
 
-The list holds no card files and no game data, only the facts above. eidos
-will read it to replay the events every month: each event starts on the day
-of the month it first started and stays up for a week. eidos gets the card
-files from EventsGallery and checks them against the SHA-256. Serving the
-list from the relay is not built yet.
+The Wonder Card files are in `data/cards`, named by their SHA-256; the
+relay checks each one against the list when it starts. eidos asks the relay
+which events are up on the player's date (a `G` frame, docs/SPEC.md section
+4b) and gets each one with its card. Every event comes back every month: it
+starts on the day of the month it first started and stays up for a week.
+`--events` names another list, and `--events ""` turns this off.
 
 ### Sources
 
@@ -38,7 +39,7 @@ list from the relay is not built yet.
   event distributions (the Liberty Pass and the Master Ball).
   <https://bulbapedia.bulbagarden.net/>. Bulbapedia's text is under
   CC BY-NC-SA 2.5; this list takes only dates and names from it.
-- Wonder Card files: Project Pokémon's EventsGallery.
+- Wonder Card files: Project Pokémon's EventsGallery, copied unchanged.
   <https://github.com/projectpokemon/EventsGallery>
 - Dates checked against Serebii's event pages
   (<https://www.serebii.net/events/>) and PKMN.NET.
@@ -171,6 +172,12 @@ WantedBy=multi-user.target
 ```
 
 `CAP_NET_BIND_SERVICE` lets the relay bind port 443 without root.
+
+For Mystery Gift, copy the repository's `data` folder to the server (for
+example `/usr/local/share/metaxy/data`) and set
+`events = "/usr/local/share/metaxy/data/mystery_events.json"` in
+`metaxy.toml`. The default path, `data/mystery_events.json`, is relative to
+the working directory. The Docker image has the folder built in.
 
 ### Docker
 

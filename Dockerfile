@@ -7,6 +7,8 @@ RUN cargo build --release
 FROM debian:stable-slim
 RUN useradd --system --no-create-home metaxy
 COPY --from=build /src/target/release/metaxy /usr/local/bin/metaxy
+WORKDIR /srv/metaxy
+COPY data ./data
 USER metaxy
 EXPOSE 4141 443
 ENTRYPOINT ["/usr/local/bin/metaxy"]
