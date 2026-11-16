@@ -176,7 +176,7 @@ async fn create_start_join_rejoin() {
         assert!(!wj.contains(k.as_str()) && !log.contains(k.as_str()));
     }
     assert!(wj.contains("\"seed\": 4242"));
-    assert!(wj.contains("\"world_hash\": \"b235700efb42c248\""));
+    assert!(wj.contains("\"world_hash\": \"1b98415ea2bc4583\""));
     assert_eq!(log.lines().filter(|l| l.contains("\"claim\"")).count(), 2);
 }
 
@@ -452,7 +452,7 @@ async fn restart_rebuilds_from_the_store() {
     let mut misty = conn(&a).await;
     let p2 = misty.join(&code, "Misty", GEN).await.unwrap();
     assert_eq!(p2.items.len(), half);
-    assert_eq!(p2.data["world_hash"], "b235700efb42c248");
+    assert_eq!(p2.data["world_hash"], "1b98415ea2bc4583");
     // Ash's name is claimed; the key still works; checks again are ignored
     let mut c = conn(&a).await;
     c.send(
@@ -492,7 +492,7 @@ async fn generator_mismatch_is_not_served() {
     // another stored hash; another generator version
     edit(
         &c1,
-        "\"world_hash\": \"b235700efb42c248\"",
+        "\"world_hash\": \"1b98415ea2bc4583\"",
         "\"world_hash\": \"0000000000000000\"",
     );
     edit(&c2, "\"version\": \"0.1.0\"", "\"version\": \"0.0.9\"");

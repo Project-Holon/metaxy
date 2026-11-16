@@ -31,7 +31,7 @@ webpki-roots = "1"
 # world names the generator version that made it (docs/SPEC.md, Part C).
 # serde_json must keep its default features here: a feature such as
 # preserve_order would change the generated worlds and their hashes.
-arkh-gen = { git = "https://github.com/Project-Holon/arkhipelagos", rev = "758617a8fec9999f605d5827cb1cde5158ce7d70" }
+arkh-gen = { git = "https://github.com/Project-Holon/arkhipelagos", rev = "13641f0e191f39a36c2c25912730dd12b59f920a" }
 
 [dev-dependencies]
 rcgen = { version = "0.13", default-features = false, features = ["ring", "pem"] }

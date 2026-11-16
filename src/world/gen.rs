@@ -237,7 +237,7 @@ mod tests {
     {"name": "Misty", "version": "white", "options": {"modify_logic": ["require_flash"]}}
   ]
 }"#;
-    const TWO_HASH: &str = "b235700efb42c248";
+    const TWO_HASH: &str = "1b98415ea2bc4583";
 
     #[test]
     fn golden_hash_of_the_pinned_generator() {
