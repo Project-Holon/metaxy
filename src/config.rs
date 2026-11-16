@@ -67,6 +67,20 @@ settings! {
     idle_ms: u64 = 60_000, "Silence before a connection is dropped, milliseconds";
     session_expiry_ms: u64 = 600_000, "A session is forgotten this long after its last player disconnected, milliseconds";
     events: String = "data/mystery_events.json".to_string(), "Mystery Gift event list (G frames); empty turns them off";
+    world_store: String = String::new(), "World store folder (world sessions); \"temp\" for a folder in the system temp dir (lost on restart), \"off\" or empty for none. The metaxy program reads METAXY_WORLD_STORE and then uses \"temp\" when this is not given";
+    gen_workers: usize = 0, "Threads that make worlds (0: the number of cores minus one, at least 1)";
+    gen_queue: usize = 64, "Generations that may wait (E gen-busy beyond this)";
+    gen_time_ms: u64 = 10_000, "Time limit of one generation, milliseconds";
+    gen_per_hour: usize = 6, "Generations per IP address per hour (E busy beyond this)";
+    worlds_per_ip: usize = 20, "Open worlds created from one IP address since the start (E busy beyond this)";
+    world_config_max: usize = 65_536, "Largest world configuration in bytes";
+    world_data_max: usize = 1_048_576, "Largest player data in bytes (a bigger world is gen-failed)";
+    pos_rate: f64 = 8.0, "Tile positions (U frames in the same zone) per second per player";
+    pos_burst: f64 = 16.0, "Tile position burst per player";
+    world_unload_ms: u64 = 600_000, "A made world leaves memory this long after its last player left, milliseconds";
+    world_idle_s: u64 = 90 * 86_400, "A world is deleted after this long with no join, seconds";
+    world_done_s: u64 = 30 * 86_400, "A world is deleted this long after every player reached the goal, seconds";
+    world_sweep_ms: u64 = 60_000, "How often worlds are checked for unloading and expiry, milliseconds";
     log_level: String = "info".to_string(), "Log level: error, warn, info, debug, trace or off (or filter directives such as metaxy=debug)";
     [num_args = 0..=1, default_missing_value = "true"] log_json: bool = false, "Write logs as JSON lines";
 }
@@ -102,6 +116,9 @@ impl Config {
         }
         if self.rate_window_ms == 0 || self.rate_close_windows == 0 {
             return Err("rate_window_ms and rate_close_windows must be above 0".into());
+        }
+        if self.world_sweep_ms == 0 || self.gen_time_ms == 0 {
+            return Err("world_sweep_ms and gen_time_ms must be above 0".into());
         }
         crate::logging::parse_level(&self.log_level)?;
         Ok(())

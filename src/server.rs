@@ -5,6 +5,7 @@ use crate::config::Config;
 use crate::events::{self, Events};
 use crate::outbox::{Ctl, Outbox};
 use crate::registry::{Outcome, Registry};
+use crate::world::{self, frames, Joined, Worlds};
 
 use std::net::{IpAddr, SocketAddr};
 use std::sync::atomic::Ordering;
@@ -27,6 +28,8 @@ struct Shared {
     reg: Mutex<Registry>,
     /// The Mystery Gift events (G frames), when the list loaded.
     events: Option<Events>,
+    /// World sessions, when a world store is open.
+    worlds: Option<Arc<Worlds>>,
 }
 
 /// A running relay.
@@ -83,10 +86,13 @@ impl Server {
                 }
             }
         };
+        let worlds = world::session::open_store(&cfg.world_store)
+            .map(|(store, persistent)| Worlds::open(cfg.clone(), store, persistent));
         let shared = Arc::new(Shared {
             cfg: cfg.clone(),
             reg: Mutex::new(reg),
             events,
+            worlds,
         });
         let (stop, stop_rx) = watch::channel(false);
         let mut tasks = Vec::new();
@@ -118,6 +124,9 @@ impl Server {
                 stop_rx.clone(),
             )));
         }
+        if let Some(w) = &shared.worlds {
+            tasks.push(tokio::spawn(world_janitor(w.clone(), shared.cfg.world_sweep_ms, stop_rx.clone())));
+        }
         tasks.push(tokio::spawn(janitor(shared.clone(), stop_rx)));
         Ok(Server {
             addr,
@@ -133,9 +142,22 @@ impl Server {
         self.shared.reg.lock().unwrap().session_count()
     }
 
+    /// Worlds kept right now (0 when world sessions are off).
+    pub fn world_count(&self) -> usize {
+        self.shared.worlds.as_ref().map_or(0, |w| w.count())
+    }
+
+    /// True when world sessions are on.
+    pub fn worlds_on(&self) -> bool {
+        self.shared.worlds.is_some()
+    }
+
     /// Tell every client `E shutdown` and close.
     pub async fn shutdown(self) {
         let _ = self.stop.send(true);
+        if let Some(w) = &self.shared.worlds {
+            w.stop();
+        }
         for t in self.tasks {
             let _ = t.await;
         }
@@ -165,6 +187,18 @@ async fn janitor(shared: Arc<Shared>, mut stop: watch::Receiver<bool>) {
                 reg.log_traffic();
             }
         }
+    }
+}
+
+async fn world_janitor(w: Arc<Worlds>, every_ms: u64, mut stop: watch::Receiver<bool>) {
+    let tick = Duration::from_millis(every_ms);
+    loop {
+        tokio::select! {
+            _ = stop.changed() => return,
+            _ = tokio::time::sleep(tick) => {}
+        }
+        let w = w.clone();
+        let _ = tokio::task::spawn_blocking(move || w.sweep()).await;
     }
 }
 
@@ -307,6 +341,7 @@ async fn run_conn<S>(
     let started = Instant::now();
     let mut last_frame = started;
     let mut in_session = false;
+    let mut wc = WorldConn::default();
     let mut buf: Vec<u8> = Vec::with_capacity(8192);
     let mut chunk = [0u8; 8192];
     // The cause for the log, and whether to read on for a moment after
@@ -318,9 +353,28 @@ async fn run_conn<S>(
                 Ok(Some((frame, used))) => {
                     buf.drain(..used);
                     last_frame = Instant::now();
+                    let world_kind = matches!(frame.kind, b'N' | b'O' | b'I' | b'V' | b'U' | b'F')
+                        || (wc.joined.is_some() && matches!(frame.kind, b'B' | b'D' | b'Q' | b'H' | b'J' | b'A'));
+                    if world_kind {
+                        let over = shared.reg.lock().unwrap().account(id, frame.payload.len());
+                        if let Some(f) = over {
+                            break 'conn fail(&out, f).await;
+                        }
+                        let r = world_frame(&shared, &mut wc, id, ip, &out, frame, in_session).await;
+                        last_frame = Instant::now();
+                        match r {
+                            Ok(true) => {}
+                            Ok(false) => break 'conn ("left (B)".into(), false),
+                            Err(f) => {
+                                shared.reg.lock().unwrap().report(id, &f);
+                                break 'conn fail(&out, f).await;
+                            }
+                        }
+                        continue;
+                    }
                     if frame.kind == b'G' {
                         // a one-shot request: the events up today, then close
-                        let reply = if in_session {
+                        let reply = if in_session || wc.joined.is_some() {
                             Err(Fail::new("bad-state", "G inside a session"))
                         } else {
                             gift_reply(shared.events.as_ref(), &frame.payload)
@@ -350,14 +404,15 @@ async fn run_conn<S>(
                 }
             }
         }
-        let deadline = if in_session {
+        let engaged = in_session || wc.engaged;
+        let deadline = if engaged {
             last_frame + Duration::from_millis(cfg.idle_ms)
         } else {
             started + Duration::from_millis(cfg.handshake_ms)
         };
         tokio::select! {
             _ = sleep_until(deadline) => {
-                let c = if in_session {
+                let c = if engaged {
                     format!("idle timeout ({} s idle)", last_frame.elapsed().as_secs())
                 } else {
                     format!("handshake timeout ({} s)", cfg.handshake_ms / 1000)
@@ -376,6 +431,9 @@ async fn run_conn<S>(
         }
     };
     out.kill(None, &cause);
+    if let (Some(w), Some(j)) = (&shared.worlds, wc.joined.take()) {
+        w.leave(&j, id, &cause);
+    }
     let session = shared.reg.lock().unwrap().disconnect(id, &cause);
     let _ = wtask.await;
     info!(
@@ -429,4 +487,92 @@ async fn fail(out: &Outbox, f: Fail) -> (String, bool) {
     out.kill(Some(f.frame()), f.reason);
     let _ = timeout(Duration::from_secs(3), out.ctl.closed.notified()).await;
     (f.reason.to_string(), true)
+}
+
+/// A connection's world-session side.
+#[derive(Default)]
+struct WorldConn {
+    /// Big payloads the client is sending in `F` pieces.
+    asm: frames::Assembly,
+    /// The relay's big payload ids on this connection.
+    next_id: u32,
+    joined: Option<Joined>,
+    /// Set after an accepted `N`, `O` or `I`: the idle limit applies, not
+    /// the handshake limit.
+    engaged: bool,
+}
+
+fn bad_state(d: String) -> Fail {
+    Fail::new("bad-state", d)
+}
+
+/// Handle one world-session frame. `Ok(false)`: the player left (`B`).
+async fn world_frame(
+    shared: &Arc<Shared>,
+    wc: &mut WorldConn,
+    id: u64,
+    ip: IpAddr,
+    out: &Outbox,
+    f: codec::Frame,
+    in_relay: bool,
+) -> Result<bool, Fail> {
+    let k = f.kind as char;
+    let Some(w) = shared.worlds.clone() else {
+        return Err(Fail::new("unavailable", "world sessions are off on this relay"));
+    };
+    let cap = shared.cfg.queue_cap;
+    let joined = wc.joined.clone().ok_or_else(|| bad_state(format!("{k} before joining a world")));
+    match f.kind {
+        b'F' => wc.asm.add(&f.payload, shared.cfg.world_config_max)?,
+        b'N' => {
+            if in_relay || wc.joined.is_some() {
+                return Err(bad_state("N in a session".into()));
+            }
+            let (_token, body) = frames::parse_new(&f.payload)?;
+            let bytes = wc.asm.resolve(body)?;
+            wc.engaged = true;
+            let r = w.create(ip, out, bytes).await?;
+            out.send(r, cap);
+        }
+        b'O' => {
+            if in_relay {
+                return Err(bad_state("O in a relay session".into()));
+            }
+            let (code, key, action) = frames::parse_owner(&f.payload)?;
+            wc.engaged = true;
+            let r = tokio::task::spawn_blocking(move || w.owner(&code, &key, action))
+                .await
+                .map_err(|e| Fail::new("unavailable", e.to_string()))??;
+            out.send(r, cap);
+        }
+        b'I' => {
+            if in_relay || wc.joined.is_some() {
+                return Err(bad_state("I after joining".into()));
+            }
+            let (_token, code, who) = frames::parse_join(&f.payload)?;
+            wc.engaged = true;
+            let j = w.join(id, ip, out, &code, &who, &mut wc.next_id).await?;
+            wc.joined = Some(j);
+        }
+        b'V' => {
+            let j = joined?;
+            let c = frames::parse_checks(&f.payload)?;
+            tokio::task::spawn_blocking(move || w.check(&j, c))
+                .await
+                .map_err(|e| Fail::new("unavailable", e.to_string()))??;
+        }
+        b'U' => {
+            let j = joined?;
+            let p = frames::parse_pos(&f.payload)?;
+            w.position(&j, id, p);
+        }
+        b'B' => {
+            if let Some(j) = wc.joined.take() {
+                w.leave(&j, id, "left (B)");
+            }
+            return Ok(false);
+        }
+        _ => return Err(bad_state(format!("{k} in a world session"))),
+    }
+    Ok(true)
 }

@@ -57,8 +57,30 @@ pub type Made = Result<(Arc<World>, String), String>;
 /// Told the job's place in the queue (1 is next) when it has to wait.
 pub type OnWait = Box<dyn Fn(usize) + Send>;
 
+/// A queued generation: `started` fires when a thread takes it, `done`
+/// with the result.
+#[derive(Debug)]
+pub struct Ticket {
+    pub started: oneshot::Receiver<()>,
+    pub done: oneshot::Receiver<Made>,
+}
+
+impl Ticket {
+    /// Wait for the result: as long as the job waits in the queue, then at
+    /// most `limit` once a thread works on it.
+    pub async fn wait(self, limit: Duration) -> Made {
+        let _ = self.started.await;
+        match tokio::time::timeout(limit, self.done).await {
+            Ok(Ok(m)) => m,
+            Ok(Err(_)) => Err("the generation thread stopped".into()),
+            Err(_) => Err(format!("over the time limit of {} s", limit.as_secs_f64())),
+        }
+    }
+}
+
 struct Job {
     cfg: GenConfig,
+    started: oneshot::Sender<()>,
     reply: oneshot::Sender<Made>,
     on_wait: Option<OnWait>,
     /// The last place sent, 0 when none was.
@@ -91,7 +113,8 @@ impl Pool {
         let pool = Arc::new(Pool {
             inner: Mutex::new(Inner {
                 queue: VecDeque::new(),
-                idle: 0,
+                // threads not working on a job (they may still be starting)
+                idle: workers.max(1),
                 stop: false,
             }),
             cv: Condvar::new(),
@@ -121,8 +144,9 @@ impl Pool {
         cfg: GenConfig,
         front: bool,
         on_wait: Option<OnWait>,
-    ) -> Result<oneshot::Receiver<Made>, Full> {
+    ) -> Result<Ticket, Full> {
         let (tx, rx) = oneshot::channel();
+        let (stx, srx) = oneshot::channel();
         let mut g = self.inner.lock().unwrap();
         if !front && g.queue.len() >= self.queue_cap {
             return Err(Full {
@@ -131,6 +155,7 @@ impl Pool {
         }
         let job = Job {
             cfg,
+            started: stx,
             reply: tx,
             on_wait,
             told: 0,
@@ -143,7 +168,10 @@ impl Pool {
         Self::tell_places(&mut g);
         drop(g);
         self.cv.notify_one();
-        Ok(rx)
+        Ok(Ticket {
+            started: srx,
+            done: rx,
+        })
     }
 
     /// Send each waiting job its place when it changed. Jobs that an idle
@@ -174,21 +202,22 @@ impl Pool {
         loop {
             let job = {
                 let mut g = self.inner.lock().unwrap();
-                g.idle += 1;
                 while g.queue.is_empty() && !g.stop {
                     g = self.cv.wait(g).unwrap();
                 }
-                g.idle -= 1;
                 match g.queue.pop_front() {
                     Some(j) => {
+                        g.idle -= 1;
                         Self::tell_places(&mut g);
                         j
                     }
                     None => return,
                 }
             };
+            let _ = job.started.send(());
             let made = make(&job.cfg);
             let _ = job.reply.send(made);
+            self.inner.lock().unwrap().idle += 1;
         }
     }
 }
@@ -224,11 +253,15 @@ mod tests {
         let pool = Pool::start(1, 1, Duration::from_secs(30));
         let cfg: GenConfig = serde_json::from_str(TWO).unwrap();
         let a = pool.submit(cfg.clone(), false, None).unwrap();
-        let (w, h) = a.await.unwrap().unwrap();
+        let (w, h) = a.wait(Duration::from_secs(30)).await.unwrap();
         assert_eq!((h.as_str(), w.players.len()), (TWO_HASH, 2));
         let mut bad = cfg.clone();
         bad.schema = 9;
-        let e = pool.submit(bad, false, None).unwrap().await.unwrap();
+        let e = pool
+            .submit(bad, false, None)
+            .unwrap()
+            .wait(Duration::from_secs(30))
+            .await;
         assert!(e.unwrap_err().contains("schema"));
         // one thread busy, one job waiting: the next is refused, a job in
         // front is not
@@ -248,13 +281,20 @@ mod tests {
             std::thread::sleep(Duration::from_millis(5));
         }
         let r2 = pool
-            .submit(cfg.clone(), false, Some(Box::new(move |n| p2.lock().unwrap().push(n))))
+            .submit(
+                cfg.clone(),
+                false,
+                Some(Box::new(move |n| p2.lock().unwrap().push(n))),
+            )
             .unwrap();
-        assert_eq!(pool.submit(cfg.clone(), false, None).unwrap_err(), Full { queued: 1 });
+        assert_eq!(
+            pool.submit(cfg.clone(), false, None).unwrap_err(),
+            Full { queued: 1 }
+        );
         let r3 = pool.submit(cfg.clone(), true, None).unwrap();
-        assert!(r1.await.unwrap().is_ok());
-        assert!(r3.await.unwrap().is_ok());
-        assert!(r2.await.unwrap().is_ok());
+        assert!(r1.wait(Duration::from_secs(30)).await.is_ok());
+        assert!(r3.wait(Duration::from_secs(30)).await.is_ok());
+        assert!(r2.wait(Duration::from_secs(30)).await.is_ok());
         assert_eq!(*places.lock().unwrap(), vec![1, 2, 1]);
         pool.stop();
     }

@@ -145,6 +145,25 @@ impl Rate {
 
     /// Account for one `D` frame of `len` bytes.
     fn offer(&mut self, len: usize, cfg: &Config, now: Instant) -> Verdict {
+        if let Some(d) = self.window(len, cfg, now) {
+            return Verdict::Close(d);
+        }
+        self.msgs.refill(cfg.msg_rate, cfg.msg_burst, now);
+        self.bytes.refill(cfg.byte_rate, cfg.byte_burst, now);
+        if self.msgs.tokens < 1.0 {
+            Verdict::Drop("message rate")
+        } else if self.bytes.tokens < len as f64 {
+            Verdict::Drop("byte rate")
+        } else {
+            self.msgs.tokens -= 1.0;
+            self.bytes.tokens -= len as f64;
+            Verdict::Pass
+        }
+    }
+
+    /// Count one frame in the rate windows; the close detail when the
+    /// excess went on for too long.
+    fn window(&mut self, len: usize, cfg: &Config, now: Instant) -> Option<String> {
         let win = cfg.rate_window_ms as f64 / 1000.0;
         let elapsed = now.duration_since(self.win_start).as_secs_f64();
         if elapsed >= win {
@@ -166,19 +185,9 @@ impl Rate {
         self.win_msgs += 1.0;
         self.win_bytes += len as f64;
         if self.streak >= cfg.rate_close_windows {
-            return Verdict::Close(self.close_detail(cfg));
+            return Some(self.close_detail(cfg));
         }
-        self.msgs.refill(cfg.msg_rate, cfg.msg_burst, now);
-        self.bytes.refill(cfg.byte_rate, cfg.byte_burst, now);
-        if self.msgs.tokens < 1.0 {
-            Verdict::Drop("message rate")
-        } else if self.bytes.tokens < len as f64 {
-            Verdict::Drop("byte rate")
-        } else {
-            self.msgs.tokens -= 1.0;
-            self.bytes.tokens -= len as f64;
-            Verdict::Pass
-        }
+        None
     }
 }
 
@@ -397,6 +406,25 @@ impl Registry {
         self.leave(id, true, cause);
         self.conns.remove(&id);
         session
+    }
+
+    /// Count a world-session frame (`N O I V U F`, and `B` in a world)
+    /// toward the client's rates, which count all roles together. These
+    /// frames are never dropped; a sustained excess gets `E rate`.
+    pub fn account(&mut self, id: u64, len: usize) -> Option<Fail> {
+        let cfg = self.cfg.clone();
+        let c = self.conns.get_mut(&id)?;
+        c.traffic.frames_in += 1;
+        c.traffic.bytes_in += len as u64;
+        let d = c.rate.window(len, &cfg, Instant::now())?;
+        let f = Fail::new("rate", d);
+        log_e(c, f.reason, &f.detail);
+        Some(f)
+    }
+
+    /// True while the connection is in a relay session.
+    pub fn in_session(&self, id: u64) -> bool {
+        self.conns.get(&id).is_some_and(|c| c.session.is_some())
     }
 
     /// Handle one frame from connection `id`.

@@ -16,6 +16,15 @@ async fn main() {
         None => Config::default(),
     };
     args.apply(&mut cfg);
+    // The world store: --world-store (or the file), then METAXY_WORLD_STORE,
+    // then a temporary folder. A folder that cannot be used falls back to
+    // the temporary one when the server starts; the relay always starts.
+    if cfg.world_store.is_empty() {
+        cfg.world_store = std::env::var("METAXY_WORLD_STORE")
+            .ok()
+            .filter(|s| !s.trim().is_empty())
+            .unwrap_or_else(|| "temp".into());
+    }
     if let Err(e) = metaxy::logging::init(&cfg.log_level, cfg.log_json) {
         eprintln!("metaxy: {e}");
         std::process::exit(2);
