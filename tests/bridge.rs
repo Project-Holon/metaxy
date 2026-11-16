@@ -155,6 +155,8 @@ async fn fake(mode: Mode) -> (u16, Arc<AtomicUsize>) {
                                 let mut f1 = server_frame(1, a);
                                 f1[0] &= 0x7f;
                                 s.write_all(&f1).await.unwrap();
+                                // a ping between the fragments
+                                s.write_all(&server_frame(9, b"mid")).await.unwrap();
                                 s.write_all(&server_frame(0, b)).await.unwrap();
                             } else {
                                 s.write_all(&server_frame(1, reply.as_bytes()))

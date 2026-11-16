@@ -517,7 +517,9 @@ most 64 KB of unused pieces; more is `E too-big`.
    that (a drop, `B`, a stop of metaxy), the claim is released: the name is
    free again and the old key no longer works. A game sends `V` with every
    check it has (or an empty `V`) right after it stored its key, on every
-   connect.
+   connect. A game whose join with a stored key gets `E bad-key` (its claim
+   was released before it confirmed) joins once more by its name and keeps
+   the new key.
 5. **Later joins.** `I` with the player key. The push carries the same key.
    A join while the same player's old connection is still open closes the
    old one first, without `X`.

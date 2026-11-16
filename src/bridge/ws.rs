@@ -113,6 +113,10 @@ pub struct Reader {
     rd: ReadHalf<Stream>,
     buf: Vec<u8>,
     max: usize,
+    /// A message whose last fragment has not come yet (a ping may come
+    /// between fragments).
+    msg: Vec<u8>,
+    in_text: bool,
 }
 
 /// The writing side of a link.
@@ -155,7 +159,16 @@ pub async fn upgrade(
         return Err("the WebSocket upgrade does not match its key".into());
     }
     let (rd, wr) = tokio::io::split(s);
-    Ok((Reader { rd, buf: rest, max }, Writer { wr }))
+    Ok((
+        Reader {
+            rd,
+            buf: rest,
+            max,
+            msg: Vec::new(),
+            in_text: false,
+        },
+        Writer { wr },
+    ))
 }
 
 impl Reader {
@@ -173,8 +186,6 @@ impl Reader {
 
     /// The next message. Errors are a broken link.
     pub async fn next(&mut self) -> Result<Msg, String> {
-        let mut msg: Vec<u8> = Vec::new();
-        let mut in_text = false;
         loop {
             self.need(2).await?;
             let (b0, b1) = (self.buf[0], self.buf[1]);
@@ -196,7 +207,7 @@ impl Reader {
                 }
                 n => (u64::from(n), 2),
             };
-            if len as usize > self.max || msg.len() + len as usize > self.max {
+            if len as usize > self.max || self.msg.len() + len as usize > self.max {
                 return Err(format!("a message over {} bytes", self.max));
             }
             let len = len as usize;
@@ -207,15 +218,16 @@ impl Reader {
                 0x8 => return Ok(Msg::Close),
                 0x9 => return Ok(Msg::Ping(payload)),
                 0xA => continue,
-                0x1 | 0x2 if !in_text => {
-                    msg = payload;
-                    in_text = true;
+                0x1 | 0x2 if !self.in_text => {
+                    self.msg = payload;
+                    self.in_text = true;
                 }
-                0x0 if in_text => msg.extend_from_slice(&payload),
+                0x0 if self.in_text => self.msg.extend_from_slice(&payload),
                 _ => return Err(format!("unexpected WebSocket opcode {op}")),
             }
             if fin {
-                return String::from_utf8(msg)
+                self.in_text = false;
+                return String::from_utf8(std::mem::take(&mut self.msg))
                     .map(Msg::Text)
                     .map_err(|_| "a message that is not UTF-8".into());
             }
