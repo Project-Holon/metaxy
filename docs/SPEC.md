@@ -6,7 +6,7 @@ sessions"), and the limits the relay applies. Part B is the multiplayer
 design the game follows on top of it (eidos's side). Both were agreed on
 2026-10-22. Part C is world sessions: eidos-only arkhipelagos games that
 metaxy makes, keeps on disk and routes (protocol `eidos-net/2`), approved on
-2026-11-16.
+2026-11-16. Part D is the Archipelago bridge (off by default).
 
 # Part A: the relay
 
@@ -735,3 +735,87 @@ addresses, as for the relay; never keys.
   between the claim and the game storing its key does not lock the player
   out. An empty `V` is allowed for this, so a game with no checks yet can
   confirm too. There is no separate confirm frame.
+
+# Part D: the Archipelago bridge
+
+The bridge lets an eidos game play in an Archipelago multiworld through
+metaxy: one outbound WebSocket per bridged player to an Archipelago server.
+The design was approved on 2026-11-16 (arkhipelagos
+`docs/metaxy-proposal.md`, Part D). It is off unless the operator turns it
+on (`--bridge`, below).
+
+## 30. What it does
+
+- Opens one WebSocket (`ws` or `wss`) per bridged player to an Archipelago
+  server, and passes Archipelago messages (JSON text) both ways as `T`
+  frames.
+- Reads nothing in them, except the server's first message: it must be a
+  JSON array whose first command is `RoomInfo`. A server that does not
+  answer the WebSocket upgrade, or sends something else first, is closed
+  (no open proxy). Nothing the player sends passes before that.
+- Keeps nothing. The Archipelago server sees metaxy's address, not the
+  player's.
+
+## 31. Frames
+
+| Direction | Type | Payload | Meaning |
+|---|---|---|---|
+| client | `L` | `<version> <token>\n<link>` | open the link |
+| relay | `L` | `ok` | linked: the server sent `RoomInfo` |
+| both | `T` | `<JSON text>` or `@<message id>` | one Archipelago message |
+| both | `F` | `<message id> <last 0/1>\n<bytes>` | a piece of a big message (section 20) |
+
+- `version` is `eidos-net/2`; `token` as in section 20.
+- After `L ok` the first `T` is the server's `RoomInfo`, as it came. Then
+  every message, in order.
+- A message that does not fit in a frame travels as `F` pieces, then
+  `T @<message id>`. Messages are at most 2 MB either way.
+- metaxy answers a server's ping with a pong.
+
+### The link
+
+| Form | Example | What metaxy does |
+|---|---|---|
+| room link | `https://archipelago.gg/room/<id>` (the scheme may be left out) | opens the room page (it wakes a sleeping room), reads `/api/room_status/<id>` for `last_port`, then connects to `wss://<host>:<last_port>` |
+| host and port | `archipelago.gg:38281` | `wss://`, then `ws://` if that fails |
+| WebSocket URL | `ws://host:port`, `wss://host:port/path` | exactly that |
+
+An `http://` room link uses `ws://` for the room (for local servers).
+
+## 32. Rules
+
+- One link per connection. `L` is refused in a world session, `I` with a
+  link, and a second `L` (`E bad-state`). A relay session and a link may
+  share a connection (a co-op host in Archipelago mode).
+- The link is set up within 15 s (`bridge_setup_ms`): connect, upgrade,
+  `RoomInfo`. When a link form has two tries (`wss`, then `ws`), the first
+  has a third of that time.
+- By default the bridge connects only to public addresses: loopback,
+  private, link-local and other special ranges are refused
+  (`bridge_private` lets a test or a private network use them).
+- When the server closes the link, or it breaks, the player gets
+  `E ap-closed` and the connection closes. When the player leaves, metaxy
+  closes the WebSocket.
+- A message to the player waits while the player's queue is over half full,
+  instead of dropping or closing; after 30 s the link ends.
+
+## 33. Limits and errors
+
+| Limit | Value | When reached |
+|---|---|---|
+| Bridge links per IP address | 4 | `E busy` |
+| Archipelago message | 2 MB, either way | `E ap-closed` (from the server), `E too-big` (from the player) |
+| Link set-up time | 15 s | `E ap-unreachable` |
+
+| Reason | Meaning |
+|---|---|
+| `ap-unreachable` | no connection, no WebSocket, or no `RoomInfo` in time |
+| `ap-closed` | the server closed the link, or it broke |
+| `unavailable` | the bridge is off on this relay |
+
+## 34. Settings
+
+`bridge` (off), `bridge_per_ip` (4), `bridge_setup_ms` (15000),
+`bridge_msg_max` (2097152), `bridge_private` (off). The public relay keeps
+the bridge off until archipelago.gg's operators have been asked about many
+players arriving from one address (proposal D6).

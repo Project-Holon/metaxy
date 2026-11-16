@@ -83,6 +83,24 @@ impl Client {
         self.s.write_all(&b).await
     }
 
+    /// `T <text>`, or `F` pieces and `T @<id>` when it does not fit.
+    pub async fn send_t(&mut self, text: &str) -> std::io::Result<()> {
+        if text.len() <= 4224 {
+            return self.send('T', text.as_bytes()).await;
+        }
+        self.next_id += 1;
+        let id = self.next_id;
+        let mut out = Vec::new();
+        let n = text.len().div_ceil(frames::PIECE);
+        for (i, c) in text.as_bytes().chunks(frames::PIECE).enumerate() {
+            let mut p = format!("{id} {}\n", u8::from(i + 1 == n)).into_bytes();
+            p.extend_from_slice(c);
+            out.extend_from_slice(&frame('F', &p));
+        }
+        out.extend_from_slice(&frame('T', format!("@{id}").as_bytes()));
+        self.s.write_all(&out).await
+    }
+
     fn take(&mut self) -> Option<(char, Vec<u8>)> {
         let nl = self.buf.iter().position(|&b| b == b'\n')?;
         let head = std::str::from_utf8(&self.buf[..nl]).ok()?.to_string();
@@ -128,6 +146,16 @@ impl Client {
                             q.extend_from_slice(&body);
                             return Got::Frame(k, q);
                         }
+                    }
+                }
+                // `@<id>` alone (a `T` message)
+                if let Some(id) = std::str::from_utf8(&p)
+                    .ok()
+                    .and_then(|r| r.strip_prefix('@'))
+                    .and_then(|r| r.parse::<u32>().ok())
+                {
+                    if let Some(body) = self.pieces.remove(&id) {
+                        return Got::Frame(k, body);
                     }
                 }
                 return Got::Frame(k, p);

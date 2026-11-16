@@ -81,6 +81,11 @@ settings! {
     world_idle_s: u64 = 90 * 86_400, "A world is deleted after this long with no join, seconds";
     world_done_s: u64 = 30 * 86_400, "A world is deleted this long after every player reached the goal, seconds";
     world_sweep_ms: u64 = 60_000, "How often worlds are checked for unloading and expiry, milliseconds";
+    [num_args = 0..=1, default_missing_value = "true"] bridge: bool = false, "Archipelago bridge (L and T frames): on (true) or off (false)";
+    bridge_per_ip: usize = 4, "Bridge links open per IP address";
+    bridge_setup_ms: u64 = 15_000, "Time to connect a bridge link and get RoomInfo, milliseconds";
+    bridge_msg_max: usize = 2_097_152, "Largest Archipelago message in bytes, either way";
+    [num_args = 0..=1, default_missing_value = "true"] bridge_private: bool = false, "Let bridge links reach loopback and private addresses (for tests and private networks)";
     log_level: String = "info".to_string(), "Log level: error, warn, info, debug, trace or off (or filter directives such as metaxy=debug)";
     [num_args = 0..=1, default_missing_value = "true"] log_json: bool = false, "Write logs as JSON lines";
 }

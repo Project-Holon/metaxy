@@ -192,6 +192,15 @@ differs, the world is not served (`E gen-mismatch`). The test
 its two-player test world. Keep `serde_json` without extra features: a
 feature such as `preserve_order` changes every world's hash.
 
+## The Archipelago bridge
+
+With `--bridge` (or `bridge = true`), eidos can play in an Archipelago
+multiworld through metaxy: the game sends a room link or `host:port` in an
+`L` frame, and metaxy opens a WebSocket to that Archipelago server and
+passes its messages both ways (Part D of the spec). metaxy checks that the
+server's first message is `RoomInfo` and connects only to public addresses
+unless `bridge_private = true`. It is off by default.
+
 ## Logs
 
 The relay writes one line per event to standard error, with a UTC time (RFC

@@ -12,7 +12,7 @@ pub const PROTO: &str = "eidos-net/1";
 pub const MAX_NAME: usize = 64;
 
 /// Frame types a client may send.
-const CLIENT_TYPES: &[u8] = b"HJADBKQGNOIVUF";
+const CLIENT_TYPES: &[u8] = b"HJADBKQGNOIVUFLT";
 
 /// One frame.
 #[derive(Debug, Clone, PartialEq, Eq)]

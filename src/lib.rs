@@ -4,6 +4,7 @@
 
 #![forbid(unsafe_code)]
 
+pub mod bridge;
 pub mod codec;
 pub mod config;
 pub mod events;

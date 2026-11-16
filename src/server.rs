@@ -28,6 +28,8 @@ struct Shared {
     reg: Mutex<Registry>,
     /// The Mystery Gift events (G frames), when the list loaded.
     events: Option<Events>,
+    /// Bridge links per address.
+    bridge: Arc<crate::bridge::Bridge>,
     /// World sessions, when a world store is open.
     worlds: Option<Arc<Worlds>>,
 }
@@ -93,6 +95,7 @@ impl Server {
             reg: Mutex::new(reg),
             events,
             worlds,
+            bridge: Arc::default(),
         });
         let (stop, stop_rx) = watch::channel(false);
         let mut tasks = Vec::new();
@@ -353,7 +356,7 @@ async fn run_conn<S>(
                 Ok(Some((frame, used))) => {
                     buf.drain(..used);
                     last_frame = Instant::now();
-                    let world_kind = matches!(frame.kind, b'N' | b'O' | b'I' | b'V' | b'U' | b'F')
+                    let world_kind = matches!(frame.kind, b'N' | b'O' | b'I' | b'V' | b'U' | b'F' | b'L' | b'T')
                         || (wc.joined.is_some() && matches!(frame.kind, b'B' | b'D' | b'Q' | b'H' | b'J' | b'A'));
                     if world_kind {
                         let over = shared.reg.lock().unwrap().account(id, frame.payload.len());
@@ -431,6 +434,8 @@ async fn run_conn<S>(
         }
     };
     out.kill(None, &cause);
+    // the bridge link closes now, not after the linger below
+    wc.link = None;
     if let (Some(w), Some(j)) = (&shared.worlds, wc.joined.take()) {
         w.leave(&j, id, &cause);
     }
@@ -500,6 +505,8 @@ struct WorldConn {
     /// Set after an accepted `N`, `O` or `I`: the idle limit applies, not
     /// the handshake limit.
     engaged: bool,
+    /// The Archipelago bridge link, when one is open.
+    link: Option<crate::bridge::Link>,
 }
 
 fn bad_state(d: String) -> Fail {
@@ -530,6 +537,12 @@ async fn world_frame(
     in_relay: bool,
 ) -> Result<bool, Fail> {
     let k = f.kind as char;
+    if matches!(f.kind, b'L' | b'T') || (f.kind == b'F' && wc.link.is_some()) {
+        return bridge_frame(shared, wc, id, ip, out, f).await;
+    }
+    if f.kind == b'I' && wc.link.is_some() {
+        return Err(bad_state("I with a bridge link".into()));
+    }
     let Some(w) = shared.worlds.clone() else {
         return Err(Fail::new("unavailable", "world sessions are off on this relay"));
     };
@@ -588,6 +601,70 @@ async fn world_frame(
             return Ok(false);
         }
         _ => return Err(bad_state(format!("{k} in a world session"))),
+    }
+    Ok(true)
+}
+
+/// `L`, `T`, and `F` pieces once a bridge link is open.
+async fn bridge_frame(
+    shared: &Arc<Shared>,
+    wc: &mut WorldConn,
+    id: u64,
+    ip: IpAddr,
+    out: &Outbox,
+    f: codec::Frame,
+) -> Result<bool, Fail> {
+    let cfg = &shared.cfg;
+    if !cfg.bridge {
+        return Err(Fail::new(
+            "unavailable",
+            "the Archipelago bridge is off on this relay",
+        ));
+    }
+    match f.kind {
+        b'F' => wc.asm.add(&f.payload, cfg.bridge_msg_max)?,
+        b'L' => {
+            if wc.joined.is_some() {
+                return Err(bad_state("L in a world session".into()));
+            }
+            if wc.link.is_some() {
+                return Err(bad_state("L after linking".into()));
+            }
+            let (_token, body) = frames::parse_new(&f.payload)
+                .map_err(|e| Fail::new(e.reason, e.detail.replacen("N ", "L ", 1)))?;
+            let link = match body {
+                frames::Body::Inline(b) => String::from_utf8(b)
+                    .map_err(|_| Fail::new("bad-frame", "L link is not UTF-8"))?,
+                frames::Body::Pieces(_) => {
+                    return Err(Fail::new("bad-frame", "L link must be in the frame"))
+                }
+            };
+            let slot = shared.bridge.slot(ip, cfg.bridge_per_ip)?;
+            wc.engaged = true;
+            let started = Instant::now();
+            let l = crate::bridge::open(&link, cfg.clone(), out.clone(), slot, id).await?;
+            info!(conn = id, addr = %ip, setup_ms = started.elapsed().as_millis() as u64, "bridge linked");
+            wc.link = Some(l);
+        }
+        b'T' => {
+            let Some(link) = &wc.link else {
+                return Err(bad_state("T before L ok".into()));
+            };
+            let body = match f.payload.strip_prefix(b"@") {
+                Some(n) => {
+                    let n = std::str::from_utf8(n)
+                        .ok()
+                        .and_then(|n| n.parse::<u32>().ok())
+                        .ok_or_else(|| Fail::new("bad-frame", "T message id is not a number"))?;
+                    wc.asm.take(n)?
+                }
+                None => f.payload,
+            };
+            let text = String::from_utf8(body)
+                .map_err(|_| Fail::new("bad-frame", "T is not UTF-8"))?;
+            link.send(text);
+        }
+        _ => unreachable!(),
     }
     Ok(true)
 }

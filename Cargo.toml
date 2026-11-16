@@ -25,6 +25,8 @@ getrandom = "0.2"
 tracing = "0.1"
 tracing-subscriber = { version = "0.3", default-features = false, features = ["std", "fmt", "env-filter", "json"] }
 ring = "0.17"
+base64 = "0.22"
+webpki-roots = "1"
 # The world generator (world sessions). Pinned to one commit: a stored
 # world names the generator version that made it (docs/SPEC.md, Part C).
 # serde_json must keep its default features here: a feature such as
