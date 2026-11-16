@@ -9,6 +9,9 @@ The host opens a session and gets a short code; the others join with it.
 The relay forwards messages between the players and keeps nothing. It holds
 no game code and no game data.
 
+metaxy also runs world sessions: eidos-only arkhipelagos (randomizer) games
+that it makes, keeps on disk and routes. See "World sessions" below.
+
 The protocol and the multiplayer design are in [docs/SPEC.md](docs/SPEC.md).
 
 ## Mystery Gift events
@@ -116,6 +119,79 @@ log_level = "info"     # error, warn, info, debug, trace or off
 log_json = false       # true: JSON lines
 ```
 
+## World sessions
+
+metaxy also runs eidos-only arkhipelagos games: it makes a world with
+arkhipelagos' generator (linked in, no Python), keeps it on disk, sends each
+player their data when they join, and passes items and positions between
+the players. The frames and rules are in Part C of the spec
+([docs/SPEC.md](docs/SPEC.md)). This role keeps state on disk, unlike the
+relay.
+
+### The world store
+
+Each world is a folder: `world.json` (its configuration, seed, generator
+version and hash) and `log` (one line per claim, check, goal). metaxy picks
+the folder in this order:
+
+1. `--world-store <dir>` (or `world_store` in the TOML file);
+2. the environment variable `METAXY_WORLD_STORE`;
+3. `metaxy-worlds` in the system temp folder.
+
+metaxy makes the folder if it is missing. If it cannot write there, it logs
+an error and uses the temp folder. A temp folder is not persistent: worlds
+are lost when the service restarts or redeploys, and the log warns about
+it at start. The relay never stops over the store. `--world-store off`
+turns world sessions off.
+
+### Run it locally
+
+```
+cargo run --release -- --bind 127.0.0.1 --port 20609 --world-store E:/dev/metaxy-worlds
+```
+
+Any folder works for `--world-store`; leave it out to use the temp folder.
+Then point eidos at `127.0.0.1:20609`.
+
+To play a whole two-player world against it (create, start, both players
+join, every check, every item with its index, positions, both goals, then
+delete):
+
+```
+cargo run --release --example world_play -- 127.0.0.1:20609
+```
+
+`--keep` keeps the world and prints its code and keys; `--config file.json`
+plays another two-player configuration.
+
+### Settings
+
+| Setting | Default | What |
+|---|---|---|
+| `world_store` | (see above) | the store folder, `temp` or `off` |
+| `gen_workers` | cores minus one | threads that make worlds |
+| `gen_queue` | 64 | generations that may wait |
+| `gen_time_ms` | 10000 | time limit of one generation |
+| `gen_per_hour` | 6 | generations per IP address per hour |
+| `worlds_per_ip` | 20 | open worlds made from one IP address |
+| `world_config_max` | 65536 | largest configuration in bytes |
+| `world_data_max` | 1048576 | largest player data in bytes |
+| `pos_rate`, `pos_burst` | 8, 16 | tile positions per second per player |
+| `world_unload_ms` | 600000 | a made world leaves memory after this long without players |
+| `world_idle_s` | 7776000 (90 days) | a world with no join for this long is deleted |
+| `world_done_s` | 2592000 (30 days) | a finished world is deleted this long after its end |
+| `world_sweep_ms` | 60000 | how often unloading and expiry are checked |
+
+### The generator
+
+`Cargo.toml` pins `arkh-gen` (arkhipelagos' `crates/gen`) to one commit. A
+stored world names the generator version that made it, and metaxy makes the
+world again from its configuration when a player joins. If the hash
+differs, the world is not served (`E gen-mismatch`). The test
+`golden_hash_of_the_pinned_generator` checks arkhipelagos' golden hash for
+its two-player test world. Keep `serde_json` without extra features: a
+feature such as `preserve_order` changes every world's hash.
+
 ## Logs
 
 The relay writes one line per event to standard error, with a UTC time (RFC
@@ -192,6 +268,40 @@ For TLS, mount the certificate and key and pass the flags:
 ```
 docker run -d -p 443:443 -v /etc/letsencrypt/live/example.org:/certs:ro metaxy   --tls-cert /certs/fullchain.pem --tls-key /certs/privkey.pem
 ```
+
+### The world store in a container
+
+The world store must outlive the container. Never keep it in the
+container's own layer, which a redeploy throws away.
+
+Docker, with a named volume:
+
+```
+docker volume create metaxy-worlds
+docker run -d --restart unless-stopped -p 4141:4141 \
+  -v metaxy-worlds:/var/lib/metaxy/worlds metaxy --world-store /var/lib/metaxy/worlds
+```
+
+systemd: add `StateDirectory=metaxy/worlds` to the unit and
+`world_store = "/var/lib/metaxy/worlds"` to `metaxy.toml`.
+
+Railway (the public relay):
+
+- Attach a Railway Volume to the metaxy service, mounted at `/data`.
+- Set the variable `METAXY_WORLD_STORE=/data/worlds`.
+- The image runs as the non-root user `metaxy`, and Railway mounts the
+  volume owned by root. Set `RAILWAY_RUN_UID=0` on the service, or give the
+  folder to the user `metaxy`.
+- Until the volume and `RAILWAY_RUN_UID` exist, `/data/worlds` cannot be
+  made or written. metaxy then logs an error and uses the temp folder:
+  world sessions work, but worlds are lost at the next redeploy. Check the
+  start log for "world store loaded" with `persistent=true`.
+- A service with a volume runs as one instance. That fits metaxy: two
+  processes must never share a store.
+- Start the volume at 1 GB. A world takes tens of KB plus its log.
+
+The store is plain files written with sync and rename, so copying the
+folder while metaxy runs is a usable backup.
 
 ## License
 

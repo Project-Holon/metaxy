@@ -4,7 +4,9 @@ Part A is the relay: protocol version 1 (`eidos-net/1`), which eidos's
 client speaks (eidos `sdk/mod_net.c`, `docs/mod-services.md`, "Peer
 sessions"), and the limits the relay applies. Part B is the multiplayer
 design the game follows on top of it (eidos's side). Both were agreed on
-2026-10-22.
+2026-10-22. Part C is world sessions: eidos-only arkhipelagos games that
+metaxy makes, keeps on disk and routes (protocol `eidos-net/2`), approved on
+2026-11-16.
 
 # Part A: the relay
 
@@ -20,7 +22,8 @@ design the game follows on top of it (eidos's side). Both were agreed on
 It does not: run game logic, store saves or sessions, match players with
 strangers, keep accounts, or keep message contents. It keeps nothing on
 disk except its logs: a session exists in memory only. The host's save is
-the source of truth for the session (Part B).
+the source of truth for the session (Part B). (World sessions, Part C, are
+another role of the same service and do keep worlds on disk.)
 
 ## 2. Transport
 
@@ -240,6 +243,8 @@ holds message contents, keys or tokens.
 | `shutdown` | the relay is stopping | `E shutdown the relay is stopping` |
 | `unavailable` | the relay has no Mystery Gift event list | `E unavailable this relay has no event list` |
 
+World sessions add their own reasons (section 27).
+
 The text is at most a few hundred bytes. A client that reads only the first
 word keeps working.
 
@@ -276,6 +281,8 @@ word keeps working.
 - A stats page (counts only: sessions, players, bytes per second) is
   optional and off by default.
 - Players never see each other's IP addresses.
+- World sessions keep worlds on disk; what they hold about people is in
+  section 28.
 - A self-hosted relay is one binary with a config file or command-line
   flags: bind address, ports, TLS certificate paths, log settings, and the
   limits in section 6.
@@ -399,3 +406,318 @@ The original main menu stays as it is.
 6. The shared-table service.
 7. TLS.
 8. Adding players after the first start.
+
+# Part C: world sessions
+
+World sessions run eidos-only arkhipelagos games (eidos's randomizer
+played online, with no Archipelago server). They are a role of the same
+service, on the same listeners, beside the relay. The design was approved
+on 2026-11-16 (arkhipelagos `docs/metaxy-proposal.md`, Part C).
+
+Unlike the relay, this role keeps state on disk: each world's
+configuration and an append-only log of what happened in it. The relay's
+rule in section 1 stays as it was for relay sessions.
+
+## 19. What it does
+
+- Makes a world from a game configuration with arkhipelagos' generator
+  (`arkh-gen`, a Rust crate linked into metaxy, pinned to one commit).
+- Keeps each world and its state on disk until it expires.
+- Lets players join any time, without waiting for anyone. There is no host.
+- On a join, sends the player's whole data at once, then every item for
+  them.
+- Records checks and gives each item to its receiver now, or keeps it until
+  they join.
+- Passes positions between the players of a world.
+
+## 20. Frames
+
+The frame format is the relay's (section 3). `N`, `O` and `I` carry the
+version `eidos-net/2`; a relay that speaks only version 1 answers
+`E bad-frame` (an unknown frame type), and this relay answers `E version`
+to any other version. `H`, `J`, `A` and `G` keep `eidos-net/1`.
+
+### Client to relay
+
+| Type | Payload | Meaning |
+|---|---|---|
+| `N` | `<version> <token>\n<configuration JSON>` | make a world |
+| `O` | `<version> <code> <owner key> <action>` | owner action: `start`, `close` or `delete` |
+| `I` | `<version> <token> <code> <name or player key>` | join a world |
+| `V` | `<location id> ...` or `goal` | checks, or the goal reached |
+| `U` | `<zone> <x> <y> <z> <dir>` | this player's position |
+| `F` | `<message id> <last 0/1>\n<bytes>` | a piece of a big payload |
+| `B` | empty | leave the world |
+| `K` | empty | keep-alive, as in a relay session |
+
+### Relay to client
+
+| Type | Payload | Meaning |
+|---|---|---|
+| `R` | `wait <place>` | the configuration waits in the queue at this place (1 is next) |
+| `R` | `<code> <owner key>` | the world is made and stored |
+| `O` | `<code> <state>` | the owner action is done: `started`, `closed` or `deleted` |
+| `S` | `<player> <player key>\n<player data JSON>` | the push on join |
+| `Y` | `<index> <item id> <from player> ...` | items for this player, three numbers each |
+| `W` | `<player> <name>` | you are in |
+| `P` | `<player> <name>` | a player came (also once for each player already in, after `W`) |
+| `X` | `<player>` | a player left |
+| `U` | `<player> <zone> <x> <y> <z> <dir>` | another player's position |
+| `F` | `<message id> <last 0/1>\n<bytes>` | a piece of a big payload |
+| `E` | `<reason> <text>` | an error, then the relay closes the connection |
+
+### Fields
+
+- `token`: as in `H` (16 to 64 characters of `0-9 a-f`). It is checked and
+  not used further: the player key is what lets a player back in.
+- `code`: 6 characters from the session-code alphabet (section 4), not case
+  sensitive. World codes and session codes are separate.
+- `owner key`, `player key`: 32 characters of `0-9 a-f`, from the OS random
+  source. metaxy keeps only their SHA-256.
+- `name or player key`: a player's name from the configuration, or the key
+  metaxy gave on the first join. A field of 32 hex digits that is not a
+  name is taken as a key. A configuration may not use a name that looks
+  like a key.
+- `player`: 1 to 16, the player's place in the configuration (player 1
+  first), the same as the generator's `slot`.
+- `location id`, `item id`: arkhipelagos' permanent numbers
+  (arkhipelagos `docs/generator.md`). A `V` holds up to 4096 bytes; a game
+  sends its checks in as many `V` frames as it needs.
+- `zone`, `dir`: whole numbers from 0; `x`, `y`, `z`: whole numbers that
+  may be negative.
+
+### Big payloads
+
+A configuration or a player's data can be larger than a frame. It then
+travels as `F` frames with one message id, each with up to 4096 bytes, the
+last one with `1`. The frame that uses it comes right after, with
+`@<message id>` in place of its body: `N <version> <token>\n@7`,
+`S <player> <key>\n@1`. A body that fits in one frame is sent in the frame
+itself. Message ids are counted by each side on its own connection.
+
+Limits: a configuration 64 KB, a player's data 1 MB. A client may hold at
+most 64 KB of unused pieces; more is `E too-big`.
+
+## 21. A world's life
+
+1. **Make.** `N` sends the configuration (below). metaxy checks it and puts
+   it in the queue. While it waits behind others, the client gets
+   `R wait <place>` each time its place changes. When the world is made,
+   metaxy stores it and answers `R <code> <owner key>`. Nobody can join
+   yet.
+2. **Start.** `O <version> <code> <owner key> start` makes it joinable. The
+   answer is `O <code> started`.
+3. **First join.** `I` with a name that is not claimed yet. metaxy makes a
+   player key, stores its hash, and sends the push (below) with the new
+   key. From now on that name is claimed: a join with it is
+   `E name-taken`.
+4. **Later joins.** `I` with the player key. The push carries the same key.
+   A join while the same player's old connection is still open closes the
+   old one first, without `X`.
+5. **Play.** `V` checks and `U` positions (sections 22 and 23).
+6. **Leave.** `B`, a closed connection, or 60 s without a frame. The others
+   get `X <player>`. metaxy keeps the world and its state.
+7. **Close.** `O ... close`: no more joins, by name or key. Players already
+   in play on. `O ... start` opens it again.
+8. **Delete.** `O ... delete`: the world is gone at once. Players in it get
+   `E no-world`, and its folder is removed.
+
+`N`, `O` and `I` are refused with `E bad-state` inside a relay session, and
+`H`, `J`, `A`, `D` and `Q` inside a world session. A connection holds at
+most one world session. A connection may send `N`, then `O`, then `I`.
+After an accepted `N`, `O` or `I`, the 60 s idle limit applies instead of
+the 10 s handshake limit.
+
+### The configuration
+
+It is arkhipelagos' configuration (`docs/generator.md` there), as JSON:
+
+```json
+{"schema": 1, "seed": 4242,
+ "options": {"goal": "ghetsis"},
+ "players": [{"name": "Ash", "version": "black"},
+             {"name": "Misty", "version": "white"}]}
+```
+
+metaxy checks: valid JSON, an object, `schema` 1, 1 to 16 players, each
+with a name of 1 to 64 bytes and no control characters, names all
+different, at most 64 KB. When `seed` is missing, metaxy draws one. The
+generator checks the rest (versions, options). Anything wrong is
+`E gen-failed` with the reason.
+
+### The push on join
+
+In this order:
+
+1. `S <player> <player key>\n<player data JSON>`, in `F` pieces when big;
+2. `Y` frames with every item for this player, from index 1, in order;
+3. `W <player> <name>`;
+4. `P <player> <name>` for each other player connected now;
+5. `U` with the last position of each other player connected now.
+
+The other players get `P <player> <name>`.
+
+The player data is a JSON object:
+
+| Key | What |
+|---|---|
+| `world` | the world's code |
+| `player` | the player's number |
+| `players` | every player: `player`, `name`, `version` |
+| `generator` | `crate`, `version` and `data_hash` of the generator |
+| `seed` | the world's seed |
+| `world_hash` | the world's hash |
+| `data` | this player's part of the generated world (arkhipelagos `PlayerOut`: `slot`, `name`, `version`, `options`, `locations` as `[location, item, receiver]`, `left_out`, `starters`, `picks`, `tables`) |
+
+Every join sends the whole item list again, from index 1. The game keeps
+the last index it applied in its save and skips the items up to it, so a
+repeat does no harm, and an item handed over just before a crash is never
+lost.
+
+## 22. Checks, items and goals
+
+- `V <location id> ...`: for each location of this player's game that is
+  not recorded yet, metaxy writes one log line and syncs the log to disk,
+  then sends the item: to the receiver at once as `Y <index> <item> <from>`
+  if they are connected, or with the next push when they join.
+- Each receiver's items are numbered 1, 2, 3 ... in the order they were
+  found. The number never changes.
+- A check for the player's own item is recorded, but it is not put in any
+  list and sends no `Y`: the game gave the item already.
+- A location already recorded, a location twice in one frame, and a
+  location that is not in the player's world are ignored. So a game sends
+  every check it made again on every connect, and nothing is counted
+  twice.
+- `V goal`: the player reached the goal. It is recorded once. When every
+  player of the world reached it, the world is finished.
+- `V` has no answer. Lines are on disk before any `Y` they cause is sent.
+
+## 23. Positions
+
+- A `U` with another zone than the player's last one (or the player's first
+  `U`) is a zone change. It goes to every other connected player of the
+  world, for the Town Map.
+- A `U` in the same zone is a tile position. It goes only to the other
+  players whose last zone is the same, for field avatars.
+- Tile positions are limited to 8 per second per player (bursts of 16); the
+  excess is dropped. Zone changes are not dropped.
+- metaxy keeps each connected player's last position in memory, so a joiner
+  sees everyone at once (step 5 of the push). Positions are not written to
+  disk. A player who leaves is forgotten (`X`).
+
+## 24. Generation
+
+- Worlds are made on a few threads of their own (`gen_workers`, default the
+  number of cores minus one, at least 1), never on the threads that serve
+  connections. The queue holds `gen_queue` configurations (64).
+- A generation has a time limit (`gen_time_ms`, 10 s). It counts from when a
+  thread takes the job, not while it waits. A generation over the limit
+  gets `E gen-failed`; the thread finishes it and drops the result (a
+  running generation cannot be stopped).
+- The same configuration and seed give the same world. A world's hash is
+  FNV-1a over its JSON, as `arkh-gen hash` prints it.
+
+## 25. The store
+
+- A folder per world, named by its code, under the store folder:
+  - `world.json`, written once (through a temporary file and a rename): the
+    format (`metaxy-world/1`), the code, the creation time, the generator
+    (`crate`, `version`, `data_hash`), the seed, the world hash, the
+    SHA-256 of the owner key, the configuration as checked on `N` (with its
+    seed), and the players' names;
+  - `log`, one JSON line per change, written and synced to disk before
+    metaxy answers: `start`, `close`, `claim` (player and key hash), `join`,
+    `check` (player, location, item, receiver, index), `goal`. Each line has
+    its time.
+- The generated world is not stored. When it is first needed (a join),
+  metaxy makes it again with the stored configuration and checks the hash.
+  The same hash: the world is served. Another hash, another generator
+  version or data hash: the world is not served (`E gen-mismatch`), and the
+  log says which world and which versions. A made world stays in memory
+  while it has players and leaves 10 minutes after the last one
+  (`world_unload_ms`).
+- At start, metaxy reads every folder and rebuilds each world's state from
+  its log. A cut last line (a crash during a write) is cut off the file.
+  A folder that does not read is logged and left alone. A log with many
+  repeated joins is compacted (one join line per player kept).
+- Expiry: a world is deleted after 90 days with no join
+  (`world_idle_s`), or 30 days after every player reached the goal
+  (`world_done_s`), never while a player is connected. Only the owner key
+  deletes earlier.
+- Shutting down: every line is on disk before it is answered, so a stop
+  loses nothing that was confirmed. Clients send their checks again when
+  they come back.
+
+### Where the store is
+
+- `--world-store <dir>` (or `world_store` in the file), then the
+  environment variable `METAXY_WORLD_STORE`, then a temporary folder
+  (`metaxy-worlds` in the system temp folder).
+- A folder that cannot be made or written falls back to the temporary
+  folder, with an error in the log. A temporary store is not persistent:
+  worlds are lost when the service restarts or redeploys, and the log says
+  so at start.
+- If even the temporary folder cannot be written, world sessions are off
+  and their frames get `E unavailable`. The relay always starts.
+- `--world-store off` turns world sessions off.
+- One store per metaxy process. Two processes must never share a store.
+
+## 26. Limits
+
+| Limit | Value | When reached |
+|---|---|---|
+| Generations per IP address | 6 per hour | `E busy` |
+| Generations waiting | 64 | `E gen-busy` |
+| Open worlds made from one IP address | 20 (closed and deleted ones do not count) | `E busy` |
+| Players in a world | 16 (and at most `max_players`) | `E gen-failed` |
+| Configuration | 64 KB | `E too-big` |
+| Player data | 1 MB | `E gen-failed` |
+| Tile positions | 8 per second, bursts of 16 | excess dropped |
+
+The per-address counts are kept in memory only (no addresses on disk), so
+they start again when metaxy restarts. `N`, `O`, `I`, `V`, `U` and `F`
+frames count toward the client's rates of section 6 together with `D`
+frames: they are never dropped, but a sustained excess is `E rate`.
+
+## 27. Errors
+
+| Reason | Meaning |
+|---|---|
+| `gen-failed` | the configuration cannot make a world (the text says why) |
+| `gen-busy` | the generation queue is full |
+| `no-world` | no world has that code (or it was deleted) |
+| `not-started` | the world is not joinable yet |
+| `closed` | the owner closed the world |
+| `not-owner` | the owner key is wrong |
+| `name-taken` | that player is claimed; join with the player key |
+| `bad-key` | no player of the world has that key (or that name) |
+| `gen-mismatch` | the world made again does not match its stored hash or generator |
+| `unavailable` | world sessions are off on this relay, or the store cannot be written |
+
+`version`, `bad-frame`, `bad-state`, `too-big`, `busy` and `rate` keep their
+meaning from section 7.
+
+## 28. Privacy
+
+The store holds the names in the configuration, the SHA-256 of the owner
+and player keys, and the times of joins and checks. It holds no addresses
+and no keys. The logs hold world codes, player numbers and names, and
+addresses, as for the relay; never keys.
+
+## 29. Decisions where the proposal was silent
+
+- The answer to `O` is a relay `O <code> <state>`. `V` has no answer.
+- A name that is not in the world is `bad-key` (there is no reason word for
+  it in the proposal).
+- The push order is `S`, `Y`, `W`, `P`, `U`; every join resends the whole
+  item list from index 1.
+- Own items are recorded as checks but are not numbered.
+- `start` on a closed world opens it again.
+- The proposal's `gen-v0.1.0` tag does not exist yet; metaxy pins
+  arkhipelagos by commit (`rev`) in `Cargo.toml`.
+- A world made again for a join goes to the front of the queue and is not
+  refused by the queue limit; its time limit is three times `gen_time_ms`.
+- Without a store setting, metaxy uses a temporary folder and warns, and an
+  unusable folder falls back to it (the proposal said to refuse the world
+  role; the operator asked for this so that world sessions can be tried
+  before the volume exists).
