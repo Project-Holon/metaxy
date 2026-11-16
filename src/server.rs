@@ -506,6 +506,19 @@ fn bad_state(d: String) -> Fail {
     Fail::new("bad-state", d)
 }
 
+/// The first `V` or `U` after a new claim confirms it: the game kept its
+/// key.
+async fn confirm(w: &Arc<Worlds>, wc: &mut WorldConn, id: u64) -> Result<(), Fail> {
+    let Some(j) = wc.joined.as_mut().filter(|j| j.claimed) else {
+        return Ok(());
+    };
+    j.claimed = false;
+    let (w, j) = (w.clone(), j.clone());
+    tokio::task::spawn_blocking(move || w.confirm(&j, id))
+        .await
+        .map_err(|e| Fail::new("unavailable", e.to_string()))?
+}
+
 /// Handle one world-session frame. `Ok(false)`: the player left (`B`).
 async fn world_frame(
     shared: &Arc<Shared>,
@@ -557,6 +570,7 @@ async fn world_frame(
         b'V' => {
             let j = joined?;
             let c = frames::parse_checks(&f.payload)?;
+            confirm(&w, wc, id).await?;
             tokio::task::spawn_blocking(move || w.check(&j, c))
                 .await
                 .map_err(|e| Fail::new("unavailable", e.to_string()))??;
@@ -564,6 +578,7 @@ async fn world_frame(
         b'U' => {
             let j = joined?;
             let p = frames::parse_pos(&f.payload)?;
+            confirm(&w, wc, id).await?;
             w.position(&j, id, p);
         }
         b'B' => {

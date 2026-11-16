@@ -145,8 +145,10 @@ async fn create_start_join_rejoin() {
     assert_eq!(p1.data["data"]["version"], "black");
     let (locs, _) = locations(&p1.data);
     assert!(locs.len() > 500, "{} locations", locs.len());
+    ash.confirm().await.unwrap();
     let mut misty = conn(&a).await;
     let p2 = misty.join(&code, "Misty", GEN).await.unwrap();
+    misty.confirm().await.unwrap();
     assert_eq!(p2.player, 2);
     assert_ne!(p2.key, p1.key);
     assert_eq!(next(&mut misty, 'P').await, "1 Ash");
@@ -354,6 +356,8 @@ async fn items_for_an_absent_player_wait_with_their_index() {
     let p1 = ash.join(&code, "Ash", GEN).await.unwrap();
     let mut misty = conn(&a).await;
     let p2 = misty.join(&code, "Misty", GEN).await.unwrap();
+    misty.confirm().await.unwrap();
+    sleep(Duration::from_millis(100)).await;
     drop(misty);
     let (locs1, to1) = locations(&p1.data);
     let for_misty = to1[&2];
@@ -721,6 +725,8 @@ async fn unloaded_world_is_made_again_on_join() {
     let (code, _) = world(&a, TWO).await;
     let mut c = conn(&a).await;
     let p1 = c.join(&code, "Ash", GEN).await.unwrap();
+    c.confirm().await.unwrap();
+    sleep(Duration::from_millis(100)).await;
     drop(c);
     sleep(Duration::from_millis(500)).await;
     let mut c = conn(&a).await;
@@ -846,4 +852,118 @@ async fn generation_time_limit() {
     let (code, _) = world(&a, TWO).await;
     let mut c = conn(&a).await;
     assert_eq!(c.join(&code, "Ash", GEN).await.unwrap().player, 1);
+}
+
+fn log_lines(dir: &Path, code: &str, e: &str) -> usize {
+    std::fs::read_to_string(dir.join(code).join("log"))
+        .unwrap()
+        .lines()
+        .filter(|l| l.contains(&format!("\"e\":\"{e}\"")))
+        .count()
+}
+
+/// A first join that ends before the game confirmed its key (its first
+/// `V` or `U`) frees the name; after the confirmation the name stays
+/// claimed.
+#[tokio::test]
+async fn claims_are_provisional_until_confirmed() {
+    let dir = tempfile::tempdir().unwrap();
+    let (_s, a) = start(wcfg(dir.path())).await;
+    let (code, _) = world(&a, TWO).await;
+    // a drop before the confirmation: the name is free again, with a new key
+    let mut c = conn(&a).await;
+    let first = c.join(&code, "Ash", GEN).await.unwrap();
+    drop(c);
+    sleep(Duration::from_millis(300)).await;
+    assert_eq!(log_lines(dir.path(), &code, "release"), 1);
+    let mut c = conn(&a).await;
+    c.send(
+        'I',
+        format!("eidos-net/2 {} {code} {}", c.token, first.key).as_bytes(),
+    )
+    .await
+    .unwrap();
+    expect_error(&mut c, "bad-key").await;
+    let mut c = conn(&a).await;
+    let second = c.join(&code, "Ash", GEN).await.unwrap();
+    assert_ne!(second.key, first.key);
+    // B before the confirmation also frees it
+    c.send('B', b"").await.unwrap();
+    sleep(Duration::from_millis(300)).await;
+    assert_eq!(log_lines(dir.path(), &code, "release"), 2);
+    // a U confirms
+    let mut c = conn(&a).await;
+    let third = c.join(&code, "Ash", GEN).await.unwrap();
+    c.send('U', b"1 0 0 0 0").await.unwrap();
+    sleep(Duration::from_millis(200)).await;
+    drop(c);
+    sleep(Duration::from_millis(300)).await;
+    assert_eq!(log_lines(dir.path(), &code, "confirm"), 1);
+    let mut c = conn(&a).await;
+    c.send(
+        'I',
+        format!("eidos-net/2 {} {code} Ash", c.token).as_bytes(),
+    )
+    .await
+    .unwrap();
+    expect_error(&mut c, "name-taken").await;
+    let mut c = conn(&a).await;
+    assert_eq!(c.join(&code, &third.key, GEN).await.unwrap().player, 1);
+    // a rejoin with the key over a provisional claim confirms it
+    let mut m = conn(&a).await;
+    let pm = m.join(&code, "Misty", GEN).await.unwrap();
+    let mut m2 = conn(&a).await;
+    m2.join(&code, &pm.key, GEN).await.unwrap();
+    drop(m);
+    drop(m2);
+    sleep(Duration::from_millis(300)).await;
+    assert_eq!(log_lines(dir.path(), &code, "confirm"), 2);
+    let mut c = conn(&a).await;
+    c.send(
+        'I',
+        format!("eidos-net/2 {} {code} Misty", c.token).as_bytes(),
+    )
+    .await
+    .unwrap();
+    expect_error(&mut c, "name-taken").await;
+}
+
+/// A restart between the claim and the confirmation frees the name too:
+/// a graceful stop releases it at the drop, a crash releases it at load.
+#[tokio::test]
+async fn unconfirmed_claims_are_released_over_a_restart() {
+    let dir = tempfile::tempdir().unwrap();
+    let (s, a) = start(wcfg(dir.path())).await;
+    let (code, _) = world(&a, &players(3, 4)).await;
+    // P1 confirmed, P2 provisional at the stop
+    let mut p1 = conn(&a).await;
+    let k1 = p1.join(&code, "P1", GEN).await.unwrap().key;
+    p1.confirm().await.unwrap();
+    let mut p2 = conn(&a).await;
+    let k2 = p2.join(&code, "P2", GEN).await.unwrap().key;
+    sleep(Duration::from_millis(200)).await;
+    s.shutdown().await;
+    drop((p1, p2));
+    // a crash right after P3's claim line was written
+    let log = dir.path().join(&code).join("log");
+    let mut text = std::fs::read_to_string(&log).unwrap();
+    text.push_str("{\"e\":\"claim\",\"p\":3,\"key\":\"00\",\"t\":1}\n");
+    std::fs::write(&log, text).unwrap();
+    let (_s, a) = start(wcfg(dir.path())).await;
+    assert_eq!(log_lines(dir.path(), &code, "release"), 2);
+    let mut c = conn(&a).await;
+    assert_eq!(c.join(&code, &k1, GEN).await.unwrap().player, 1);
+    let mut c = conn(&a).await;
+    c.send(
+        'I',
+        format!("eidos-net/2 {} {code} {k2}", c.token).as_bytes(),
+    )
+    .await
+    .unwrap();
+    expect_error(&mut c, "bad-key").await;
+    for name in ["P2", "P3"] {
+        let mut c = conn(&a).await;
+        let p = c.join(&code, name, GEN).await.unwrap();
+        assert_ne!(p.key, k2);
+    }
 }

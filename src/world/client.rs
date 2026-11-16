@@ -246,6 +246,12 @@ impl Client {
         })
     }
 
+    /// An empty `V`: no checks, but it confirms a new claim (the game kept
+    /// its key).
+    pub async fn confirm(&mut self) -> std::io::Result<()> {
+        self.send('V', b"").await
+    }
+
     /// `V` checks, in frames of at most 4096 bytes.
     pub async fn checks(&mut self, locs: &[u32]) -> std::io::Result<()> {
         let mut cur = String::new();

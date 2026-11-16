@@ -87,6 +87,11 @@ async fn run(addr: &str, config: &str, keep: bool) -> Result<(), String> {
         la.len(),
         lb.len()
     );
+    // both games keep their keys and say so (an empty V), as a game does
+    // on every connect with the checks it has
+    a.confirm().await.map_err(|e| e.to_string())?;
+    b.confirm().await.map_err(|e| e.to_string())?;
+    tokio::time::sleep(Duration::from_millis(200)).await;
     // player 2 leaves; player 1 checks everything
     drop(b);
     a.checks(&la).await.map_err(|e| e.to_string())?;

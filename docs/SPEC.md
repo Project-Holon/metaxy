@@ -444,7 +444,7 @@ to any other version. `H`, `J`, `A` and `G` keep `eidos-net/1`.
 | `N` | `<version> <token>\n<configuration JSON>` | make a world |
 | `O` | `<version> <code> <owner key> <action>` | owner action: `start`, `close` or `delete` |
 | `I` | `<version> <token> <code> <name or player key>` | join a world |
-| `V` | `<location id> ...` or `goal` | checks, or the goal reached |
+| `V` | `<location id> ...`, `goal`, or empty | checks, the goal reached, or no checks yet |
 | `U` | `<zone> <x> <y> <z> <dir>` | this player's position |
 | `F` | `<message id> <last 0/1>\n<bytes>` | a piece of a big payload |
 | `B` | empty | leave the world |
@@ -511,15 +511,22 @@ most 64 KB of unused pieces; more is `E too-big`.
    player key, stores its hash, and sends the push (below) with the new
    key. From now on that name is claimed: a join with it is
    `E name-taken`.
-4. **Later joins.** `I` with the player key. The push carries the same key.
+4. **Confirming the claim.** The claim is provisional until the game shows
+   it kept the key: its first `V` (an empty `V` will do) or `U` on that
+   connection, or a later join with the key. If the connection ends before
+   that (a drop, `B`, a stop of metaxy), the claim is released: the name is
+   free again and the old key no longer works. A game sends `V` with every
+   check it has (or an empty `V`) right after it stored its key, on every
+   connect.
+5. **Later joins.** `I` with the player key. The push carries the same key.
    A join while the same player's old connection is still open closes the
    old one first, without `X`.
-5. **Play.** `V` checks and `U` positions (sections 22 and 23).
-6. **Leave.** `B`, a closed connection, or 60 s without a frame. The others
+6. **Play.** `V` checks and `U` positions (sections 22 and 23).
+7. **Leave.** `B`, a closed connection, or 60 s without a frame. The others
    get `X <player>`. metaxy keeps the world and its state.
-7. **Close.** `O ... close`: no more joins, by name or key. Players already
+8. **Close.** `O ... close`: no more joins, by name or key. Players already
    in play on. `O ... start` opens it again.
-8. **Delete.** `O ... delete`: the world is gone at once. Players in it get
+9. **Delete.** `O ... delete`: the world is gone at once. Players in it get
    `E no-world`, and its folder is removed.
 
 `N`, `O` and `I` are refused with `E bad-state` inside a relay session, and
@@ -588,6 +595,7 @@ lost.
   location that is not in the player's world are ignored. So a game sends
   every check it made again on every connect, and nothing is counted
   twice.
+- An empty `V` records nothing; it confirms a new claim (section 21).
 - `V goal`: the player reached the goal. It is recorded once. When every
   player of the world reached it, the world is finished.
 - `V` has no answer. Lines are on disk before any `Y` they cause is sent.
@@ -626,9 +634,9 @@ lost.
     SHA-256 of the owner key, the configuration as checked on `N` (with its
     seed), and the players' names;
   - `log`, one JSON line per change, written and synced to disk before
-    metaxy answers: `start`, `close`, `claim` (player and key hash), `join`,
-    `check` (player, location, item, receiver, index), `goal`. Each line has
-    its time.
+    metaxy answers: `start`, `close`, `claim` (player and key hash),
+    `confirm`, `release`, `join`, `check` (player, location, item,
+    receiver, index), `goal`. Each line has its time.
 - The generated world is not stored. When it is first needed (a join),
   metaxy makes it again with the stored configuration and checks the hash.
   The same hash: the world is served. Another hash, another generator
@@ -637,7 +645,8 @@ lost.
   while it has players and leaves 10 minutes after the last one
   (`world_unload_ms`).
 - At start, metaxy reads every folder and rebuilds each world's state from
-  its log. A cut last line (a crash during a write) is cut off the file.
+  its log. A claim with no `confirm` line is released (with a `release`
+  line): its connection ended with the last run. A cut last line (a crash during a write) is cut off the file.
   A folder that does not read is logged and left alone. A log with many
   repeated joins is compacted (one join line per player kept).
 - Expiry: a world is deleted after 90 days with no join
@@ -721,8 +730,8 @@ addresses, as for the relay; never keys.
   unusable folder falls back to it (the proposal said to refuse the world
   role; the operator asked for this so that world sessions can be tried
   before the volume exists).
-- A first join writes the claim to disk, then sends `S` with the new key.
-  If the connection drops before the game keeps the key, the name stays
-  claimed and nobody can join as that player again; only the owner can
-  help (`O delete` and a new world). A later version may let the owner
-  free a claim.
+- A claim is provisional until the game's first `V` or `U` (or a join with
+  the key), and is released if the connection ends before that. So a drop
+  between the claim and the game storing its key does not lock the player
+  out. An empty `V` is allowed for this, so a game with no checks yet can
+  confirm too. There is no separate confirm frame.

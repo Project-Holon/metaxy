@@ -63,8 +63,14 @@ pub enum Line {
     Start { t: u64 },
     /// The owner closed it: no more joins.
     Close { t: u64 },
-    /// A player's first join: the hash of their new key.
+    /// A player's first join: the hash of their new key. The claim is
+    /// provisional until a `confirm` line.
     Claim { p: u8, key: String, t: u64 },
+    /// The game showed it kept its key: its first `V` or `U`, or a join
+    /// with the key.
+    Confirm { p: u8, t: u64 },
+    /// A provisional claim whose connection ended: the name is free again.
+    Release { p: u8, t: u64 },
     /// A later join.
     Join { p: u8, t: u64 },
     /// Player `p` checked location `loc`; the item goes to player `to`
@@ -87,6 +93,8 @@ pub struct PlayerState {
     pub name: String,
     /// SHA-256 of the player key, once claimed.
     pub key: Option<String>,
+    /// The claim is confirmed (the game kept its key).
+    pub confirmed: bool,
     pub checks: HashSet<u32>,
     /// Items for this player, index 1 first: (item, from player).
     pub items: Vec<(u32, u8)>,
@@ -139,7 +147,19 @@ impl State {
                 self.last_join = self.last_join.max(*t);
                 if let Some(s) = self.player(*p) {
                     s.key = Some(key.clone());
+                    s.confirmed = false;
                     s.last_seen = *t;
+                }
+            }
+            Line::Confirm { p, .. } => {
+                if let Some(s) = self.player(*p) {
+                    s.confirmed = s.key.is_some();
+                }
+            }
+            Line::Release { p, .. } => {
+                if let Some(s) = self.player(*p) {
+                    s.key = None;
+                    s.confirmed = false;
                 }
             }
             Line::Join { p, t } => {

@@ -151,6 +151,10 @@ pub enum Checks {
 
 /// `V <location id> ...` or `V goal`
 pub fn parse_checks(p: &[u8]) -> Result<Checks, Fail> {
+    if p.is_empty() {
+        // no checks yet: still confirms a new claim
+        return Ok(Checks::Locations(Vec::new()));
+    }
     if p == b"goal" {
         return Ok(Checks::Goal);
     }
@@ -414,7 +418,7 @@ mod tests {
             Checks::Locations(vec![1, 22, 333])
         );
         assert!(parse_checks(b"1  2").is_err());
-        assert!(parse_checks(b"").is_err());
+        assert_eq!(parse_checks(b"").unwrap(), Checks::Locations(vec![]));
         assert!(parse_checks(b"1 -2").is_err());
         let p = parse_pos(b"12 -3 4 0 2").unwrap();
         assert_eq!(

@@ -63,6 +63,8 @@ impl Built {
 /// A connected player.
 struct Seat {
     conn: u64,
+    /// The claim of this join is not confirmed yet.
+    provisional: bool,
     out: Outbox,
     pos: Option<Pos>,
     tokens: f64,
@@ -124,6 +126,8 @@ pub struct Worlds {
 pub struct Joined {
     pub entry: Arc<Entry>,
     pub player: u8,
+    /// This join made a new claim, not confirmed yet.
+    pub claimed: bool,
 }
 
 fn send(out: &Outbox, cap: usize, frame: Vec<u8>) {
@@ -155,8 +159,29 @@ impl Worlds {
         );
         let mut map = HashMap::new();
         let mut skipped = 0;
-        for l in store.load() {
+        for mut l in store.load() {
             skipped += l.skipped;
+            // a claim never confirmed: its connection is gone
+            let t = now_s();
+            let releases: Vec<Line> = l
+                .state
+                .players
+                .iter()
+                .enumerate()
+                .filter(|(_, p)| p.key.is_some() && !p.confirmed)
+                .map(|(i, _)| Line::Release { p: i as u8 + 1, t })
+                .collect();
+            if !releases.is_empty() {
+                match store.append(&l.meta.code, &releases) {
+                    Ok(()) => {
+                        for r in &releases {
+                            l.state.apply(r);
+                        }
+                        info!(code = %l.meta.code, released = releases.len(), "unconfirmed claims released");
+                    }
+                    Err(e) => error!(code = %l.meta.code, error = %e, "claims not released"),
+                }
+            }
             let n = l.meta.players.len();
             let code = l.meta.code.clone();
             map.insert(
@@ -625,8 +650,12 @@ impl Worlds {
         .await
         .map_err(|e| Fail::new("unavailable", e.to_string()))?;
         *next_id = r.1;
-        let player = r.0?;
-        Ok(Joined { entry, player })
+        let (player, claimed) = r.0?;
+        Ok(Joined {
+            entry,
+            player,
+            claimed,
+        })
     }
 
     fn seat(
@@ -637,7 +666,7 @@ impl Worlds {
         out: &Outbox,
         who: &str,
         next_id: &mut u32,
-    ) -> Result<u8, Fail> {
+    ) -> Result<(u8, bool), Fail> {
         let cap = self.cfg.queue_cap;
         let mut g = entry.inner.lock().unwrap();
         let (player, key) = self.resolve(entry, &g, who)?;
@@ -670,8 +699,15 @@ impl Worlds {
         let body =
             serde_json::to_vec(&body).map_err(|e| Fail::new("unavailable", e.to_string()))?;
         let t = now_s();
-        let (key, line, first) = match key {
-            Some(k) => (k, Line::Join { p: player, t }, false),
+        let (key, lines, first) = match key {
+            Some(k) => {
+                let mut l = vec![Line::Join { p: player, t }];
+                // a join with the key shows the game kept it
+                if !g.state.players[idx].confirmed {
+                    l.push(Line::Confirm { p: player, t });
+                }
+                (k, l, false)
+            }
             None => {
                 let k = new_key();
                 let l = Line::Claim {
@@ -679,13 +715,15 @@ impl Worlds {
                     key: key_hash(&k),
                     t,
                 };
-                (k, l, true)
+                (k, vec![l], true)
             }
         };
         self.store
-            .append(&entry.code, std::slice::from_ref(&line))
+            .append(&entry.code, &lines)
             .map_err(|e| store_err(&entry.code, e))?;
-        g.state.apply(&line);
+        for l in &lines {
+            g.state.apply(l);
+        }
         // a live connection of the same player is replaced, without X
         let mut replaced = false;
         if let Some(old) = g.seats[idx].take() {
@@ -724,6 +762,7 @@ impl Worlds {
         send(out, cap, push);
         g.seats[idx] = Some(Seat {
             conn,
+            provisional: first,
             out: out.clone(),
             pos: None,
             tokens: self.cfg.pos_burst,
@@ -739,7 +778,33 @@ impl Worlds {
             items = items.len(),
             "world join"
         );
-        Ok(player)
+        Ok((player, first))
+    }
+
+    /// Confirm a provisional claim: the game sent its first `V` or `U`
+    /// after the push, so it kept its key (blocking: writes to disk).
+    pub fn confirm(&self, j: &Joined, conn: u64) -> Result<(), Fail> {
+        let mut g = j.entry.inner.lock().unwrap();
+        let idx = usize::from(j.player - 1);
+        let Some(seat) = g.seats[idx].as_mut().filter(|s| s.conn == conn) else {
+            return Ok(());
+        };
+        if !seat.provisional {
+            return Ok(());
+        }
+        seat.provisional = false;
+        if g.state.players[idx].confirmed {
+            return Ok(());
+        }
+        let l = Line::Confirm {
+            p: j.player,
+            t: now_s(),
+        };
+        self.store
+            .append(&j.entry.code, std::slice::from_ref(&l))
+            .map_err(|e| store_err(&j.entry.code, e))?;
+        g.state.apply(&l);
+        Ok(())
     }
 
     /// `V`: record checks and hand out items, or record the goal
@@ -872,7 +937,27 @@ impl Worlds {
         if !g.seats[idx].as_ref().is_some_and(|s| s.conn == conn) {
             return;
         }
-        g.seats[idx] = None;
+        let seat = g.seats[idx].take();
+        // a claim never confirmed is released: the game may not have its key
+        if seat.is_some_and(|s| s.provisional)
+            && !g.state.players[idx].confirmed
+            && g.state.players[idx].key.is_some()
+            && !g.deleted
+        {
+            let l = Line::Release {
+                p: j.player,
+                t: now_s(),
+            };
+            match self.store.append(&j.entry.code, std::slice::from_ref(&l)) {
+                Ok(()) => {
+                    g.state.apply(&l);
+                    info!(world = %j.entry.code, player = j.player, "unconfirmed claim released");
+                }
+                Err(e) => {
+                    error!(world = %j.entry.code, error = %e, "claim not released");
+                }
+            }
+        }
         let x = encode(b'X', j.player.to_string().as_bytes());
         for (_, s) in g.connected() {
             send(&s.out, cap, x.clone());
