@@ -11,6 +11,7 @@ pub mod logging;
 pub mod outbox;
 pub mod registry;
 pub mod server;
+pub mod world;
 
 pub use config::Config;
 pub use server::Server;

@@ -24,6 +24,12 @@ toml = "0.8"
 getrandom = "0.2"
 tracing = "0.1"
 tracing-subscriber = { version = "0.3", default-features = false, features = ["std", "fmt", "env-filter", "json"] }
+ring = "0.17"
+# The world generator (world sessions). Pinned to one commit: a stored
+# world names the generator version that made it (docs/SPEC.md, Part C).
+# serde_json must keep its default features here: a feature such as
+# preserve_order would change the generated worlds and their hashes.
+arkh-gen = { git = "https://github.com/Project-Holon/arkhipelagos", rev = "758617a8fec9999f605d5827cb1cde5158ce7d70" }
 
 [dev-dependencies]
 rcgen = { version = "0.13", default-features = false, features = ["ring", "pem"] }
@@ -31,3 +37,7 @@ tempfile = "3"
 
 [profile.release]
 lto = true
+
+# Generation is slow without optimisation; tests make real worlds.
+[profile.dev.package.arkh-gen]
+opt-level = 3

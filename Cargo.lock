@@ -62,6 +62,15 @@ dependencies = [
 ]
 
 [[package]]
+name = "arkh-gen"
+version = "0.1.0"
+source = "git+https://github.com/Project-Holon/arkhipelagos?rev=758617a8fec9999f605d5827cb1cde5158ce7d70#758617a8fec9999f605d5827cb1cde5158ce7d70"
+dependencies = [
+ "serde",
+ "serde_json",
+]
+
+[[package]]
 name = "base64"
 version = "0.22.1"
 source = "registry+https://github.com/rust-lang/crates.io-index"
@@ -268,9 +277,11 @@ checksum = "cf8baf1c55e62ffcace7a9f06f4bd9cd3f0c4beb022d3b367256b91b87513d98"
 name = "metaxy"
 version = "0.1.0"
 dependencies = [
+ "arkh-gen",
  "clap",
  "getrandom 0.2.17",
  "rcgen",
+ "ring",
  "rustls-pemfile",
  "serde",
  "serde_json",
