@@ -449,6 +449,7 @@ to any other version. `H`, `J`, `A` and `G` keep `eidos-net/1`.
 | `F` | `<message id> <last 0/1>\n<bytes>` | a piece of a big payload |
 | `B` | empty | leave the world |
 | `K` | empty | keep-alive, as in a relay session |
+| `C` | `<version> <code>` | what the code names (a one-shot question, below) |
 
 ### Relay to client
 
@@ -465,6 +466,27 @@ to any other version. `H`, `J`, `A` and `G` keep `eidos-net/1`.
 | `U` | `<player> <zone> <x> <y> <z> <dir>` | another player's position |
 | `F` | `<message id> <last 0/1>\n<bytes>` | a piece of a big payload |
 | `E` | `<reason> <text>` | an error, then the relay closes the connection |
+| `C` | `session`, `world\n<JSON>` or `none` | the answer to `C`, then the relay closes the connection |
+
+### The code lookup
+
+A game has one box to join with: the player types a code, and the game
+asks first what it names. `C` is the first frame of its own connection,
+like `G`; the relay answers once and closes.
+
+- `session`: a co-op session is live with that code (join it with `J`).
+- `world`: a world has it. The JSON holds `world` (the code), `state`
+  (`waiting` before the owner starts it, `open`, `closed`, or `broken`
+  when the world made again does not match), `free` (players not claimed
+  yet), `players` (`name`, `claimed`), `version` (player 1's game),
+  `options` and `player_options` (player 1's own). When the JSON would not
+  fit one frame, both option maps are sent empty.
+- `none`: nothing has it, or it is no code.
+
+A live session is answered first. A new session code is never a code the
+world store holds, and a new world code is never a live session's, so one
+code names one thing. A relay without `C` answers `E bad-frame`; a game
+then takes the code as a session code, as before.
 
 ### Fields
 

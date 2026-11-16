@@ -760,6 +760,59 @@ async fn coop_relay_works_beside_worlds() {
     nothing(&mut w, 'E').await;
 }
 
+/// `C`: a game's Join box asks what a code names before it joins.
+#[tokio::test]
+async fn lookup_names_session_world_or_nothing() {
+    let dir = tempfile::tempdir().unwrap();
+    let (_s, a) = start(wcfg(dir.path())).await;
+    let ask = |code: String| {
+        let a = a.clone();
+        async move {
+            let mut c = conn(&a).await;
+            c.send('C', format!("eidos-net/2 {code}").as_bytes()).await.unwrap();
+            let p = next(&mut c, 'C').await;
+            assert_eq!(c.read(Duration::from_secs(3)).await, Got::Closed);
+            p
+        }
+    };
+    // a world: its state, its players and its options
+    let (code, key) = world(&a, TWO).await;
+    let p = ask(code.to_lowercase()).await;
+    let (kind, json) = p.split_once('\n').unwrap();
+    assert_eq!(kind, "world");
+    let v: serde_json::Value = serde_json::from_str(json).unwrap();
+    assert_eq!(v["state"], "open");
+    assert_eq!(v["free"], 2);
+    assert_eq!(v["players"][0]["name"], "Ash");
+    assert_eq!(v["players"][0]["claimed"], false);
+    assert_eq!(v["options"]["goal"], "ghetsis");
+    // a claim shows
+    let mut w = conn(&a).await;
+    w.join(&code, "Ash", GEN).await.unwrap();
+    w.send('V', b"").await.unwrap();
+    sleep(Duration::from_millis(300)).await;
+    let v: serde_json::Value =
+        serde_json::from_str(ask(code.clone()).await.split_once('\n').unwrap().1).unwrap();
+    assert_eq!(v["free"], 1);
+    assert_eq!(v["players"][0]["claimed"], true);
+    // a closed world says so
+    let mut o = conn(&a).await;
+    assert_eq!(o.owner(&code, &key, "close").await.unwrap(), format!("{code} closed"));
+    let v: serde_json::Value =
+        serde_json::from_str(ask(code.clone()).await.split_once('\n').unwrap().1).unwrap();
+    assert_eq!(v["state"], "closed");
+    // a live co-op session
+    let mut h = conn(&a).await;
+    h.send('H', format!("eidos-net/1 {} Host", h.token).as_bytes()).await.unwrap();
+    let rc = next(&mut h, 'C').await;
+    assert_eq!(ask(rc.clone()).await, "session");
+    // nothing, and a malformed code
+    assert_eq!(ask("ZZZZZZ".into()).await, "none");
+    assert_eq!(ask("ab".into()).await, "none");
+    // the session code is no world's and the world code is no session's
+    assert_ne!(rc, code);
+}
+
 /// 16 players, all online: every player checks every location; each gets
 /// exactly the items placed for them, with indexes 1 up and no gaps.
 #[tokio::test]

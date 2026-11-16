@@ -13,7 +13,7 @@ use std::sync::Arc;
 use std::time::{Duration, Instant};
 use tracing::{debug, info};
 
-const CODE_ALPHABET: &[u8] = b"23456789ABCDEFGHJKMNPQRSTUVWXYZ";
+pub const CODE_ALPHABET: &[u8] = b"23456789ABCDEFGHJKMNPQRSTUVWXYZ";
 
 /// A session code or peer number for a log line, left out when absent.
 fn opt<T: std::fmt::Display>(v: Option<T>) -> Option<tracing::field::DisplayValue<T>> {
@@ -266,6 +266,8 @@ pub struct Registry {
     sessions: HashMap<String, Session>,
     ip_hist: HashMap<IpAddr, VecDeque<Instant>>,
     next_id: u64,
+    /// Codes the world store holds (set_taken).
+    taken: Option<Box<dyn Fn(&str) -> bool + Send + Sync>>,
 }
 
 fn tell(conns: &HashMap<u64, Conn>, cap: usize, id: u64, frame: &[u8]) {
@@ -289,6 +291,7 @@ impl Registry {
             sessions: HashMap::new(),
             ip_hist: HashMap::new(),
             next_id: 1,
+            taken: None,
         }
     }
 
@@ -526,10 +529,23 @@ impl Registry {
                 .take(6)
                 .map(|b| CODE_ALPHABET[(*b % 31) as usize] as char)
                 .collect();
-            if code.len() == 6 && !self.sessions.contains_key(&code) {
+            if code.len() == 6
+                && !self.sessions.contains_key(&code)
+                && !self.taken.as_ref().is_some_and(|f| f(&code))
+            {
                 return code;
             }
         }
+    }
+
+    /// The world store's codes, so a new session code is never a world's.
+    pub fn set_taken(&mut self, f: Box<dyn Fn(&str) -> bool + Send + Sync>) {
+        self.taken = Some(f);
+    }
+
+    /// A live session has this code.
+    pub fn has_session(&self, code: &str) -> bool {
+        self.sessions.contains_key(code)
     }
 
     fn host(&mut self, id: u64, h: codec::Hello) -> Result<(), Fail> {

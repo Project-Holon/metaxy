@@ -90,6 +90,12 @@ impl Server {
         };
         let worlds = world::session::open_store(&cfg.world_store)
             .map(|(store, persistent)| Worlds::open(cfg.clone(), store, persistent));
+        let mut reg = reg;
+        if let Some(w) = &worlds {
+            // one code names one thing: a session code is never a world's
+            let w2 = w.clone();
+            reg.set_taken(Box::new(move |c| w2.has_code(c)));
+        }
         let shared = Arc::new(Shared {
             cfg: cfg.clone(),
             reg: Mutex::new(reg),
@@ -97,6 +103,13 @@ impl Server {
             worlds,
             bridge: Arc::default(),
         });
+        if let Some(w) = &shared.worlds {
+            // and a world code is never a live session's
+            let weak = Arc::downgrade(&shared);
+            w.set_sessions_taken(Box::new(move |c| {
+                weak.upgrade().is_some_and(|s| s.reg.lock().unwrap().has_session(c))
+            }));
+        }
         let (stop, stop_rx) = watch::channel(false);
         let mut tasks = Vec::new();
         let mut addr = None;
@@ -391,6 +404,22 @@ async fn run_conn<S>(
                             Err(f) => break 'conn fail(&out, f).await,
                         }
                     }
+                    if frame.kind == b'C' {
+                        // a one-shot question: what does this code name
+                        let reply = if in_session || wc.joined.is_some() {
+                            Err(Fail::new("bad-state", "C inside a session"))
+                        } else {
+                            lookup_reply(&shared, &frame.payload)
+                        };
+                        match reply {
+                            Ok((bytes, what)) => {
+                                out.kill(Some(bytes), "lookup answered");
+                                let _ = timeout(Duration::from_secs(3), out.ctl.closed.notified()).await;
+                                break 'conn (format!("lookup ({what})"), true);
+                            }
+                            Err(f) => break 'conn fail(&out, f).await,
+                        }
+                    }
                     let outcome = shared.reg.lock().unwrap().on_frame(id, frame);
                     match outcome {
                         Outcome::Ok => {}
@@ -485,6 +514,44 @@ fn gift_reply(events: Option<&Events>, payload: &[u8]) -> Result<(Vec<u8>, usize
     }
     bytes.extend_from_slice(&codec::encode(b'Z', live.len().to_string().as_bytes()));
     Ok((bytes, live.len()))
+}
+
+/// `C <version> <code>`: what the code names. A live session first (the
+/// game being joined now), then a world, then nothing:
+/// `C session`, `C world\n<JSON>` (Worlds::lookup), or `C none`.
+fn lookup_reply(shared: &Shared, payload: &[u8]) -> Result<(Vec<u8>, &'static str), Fail> {
+    let text = std::str::from_utf8(payload).map_err(|_| Fail::new("bad-frame", "C is not UTF-8"))?;
+    let f: Vec<&str> = text.split(' ').collect();
+    if f.len() != 2 {
+        return Err(Fail::new("bad-frame", "C wants <version> <code>"));
+    }
+    if f[0] != world::frames::PROTO2 {
+        return Err(Fail::new(
+            "version",
+            format!("got {:?}, C speaks {}", f[0], world::frames::PROTO2),
+        ));
+    }
+    let code = f[1].to_ascii_uppercase();
+    if code.len() != 6 || !code.bytes().all(|b| crate::registry::CODE_ALPHABET.contains(&b)) {
+        return Ok((codec::encode(b'C', b"none"), "none"));
+    }
+    if shared.reg.lock().unwrap().has_session(&code) {
+        return Ok((codec::encode(b'C', b"session"), "session"));
+    }
+    if let Some(v) = shared.worlds.as_ref().and_then(|w| w.lookup(&code)) {
+        let mut body = b"world\n".to_vec();
+        let mut json = serde_json::to_vec(&v).map_err(|e| Fail::new("unavailable", e.to_string()))?;
+        if body.len() + json.len() > shared.cfg.max_payload {
+            // the options do not fit one frame: the state and players alone
+            let mut v = v;
+            v["options"] = serde_json::json!({});
+            v["player_options"] = serde_json::json!({});
+            json = serde_json::to_vec(&v).map_err(|e| Fail::new("unavailable", e.to_string()))?;
+        }
+        body.extend_from_slice(&json);
+        return Ok((codec::encode(b'C', &body), "world"));
+    }
+    Ok((codec::encode(b'C', b"none"), "none"))
 }
 
 /// Send `E` and wait for the writer to finish. The cause is the reason.

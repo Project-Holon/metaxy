@@ -12,7 +12,7 @@ pub const PROTO: &str = "eidos-net/1";
 pub const MAX_NAME: usize = 64;
 
 /// Frame types a client may send.
-const CLIENT_TYPES: &[u8] = b"HJADBKQGNOIVUFLT";
+const CLIENT_TYPES: &[u8] = b"HJADBKQGNOIVUFLTC";
 
 /// One frame.
 #[derive(Debug, Clone, PartialEq, Eq)]
@@ -632,7 +632,7 @@ mod tests {
         )
         .unwrap()
         .is_some());
-        for t in ["C", "W", "P", "X", "E"] {
+        for t in ["W", "P", "X", "E"] {
             assert_eq!(
                 parse(
                     format!(

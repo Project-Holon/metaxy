@@ -64,7 +64,7 @@ dependencies = [
 [[package]]
 name = "arkh-gen"
 version = "0.1.0"
-source = "git+https://github.com/Project-Holon/arkhipelagos?rev=13641f0e191f39a36c2c25912730dd12b59f920a#13641f0e191f39a36c2c25912730dd12b59f920a"
+source = "git+https://github.com/Project-Holon/arkhipelagos?rev=111333108c3c02bb0ddedbf64ccf71a7007bf1ac#111333108c3c02bb0ddedbf64ccf71a7007bf1ac"
 dependencies = [
  "serde",
  "serde_json",

@@ -119,6 +119,8 @@ pub struct Worlds {
     pub persistent: bool,
     map: Mutex<HashMap<String, Arc<Entry>>>,
     ips: Mutex<IpBook>,
+    /// The relay's live session codes (set_sessions_taken).
+    sessions_taken: std::sync::OnceLock<Box<dyn Fn(&str) -> bool + Send + Sync>>,
 }
 
 /// A joined player: the world and the player number.
@@ -217,7 +219,67 @@ impl Worlds {
             persistent,
             map: Mutex::new(map),
             ips: Mutex::new(IpBook::default()),
+            sessions_taken: std::sync::OnceLock::new(),
         })
+    }
+
+    /// The relay's live session codes, so a new world code is never one of
+    /// them (a code typed in a game's Join box names one thing).
+    pub fn set_sessions_taken(&self, f: Box<dyn Fn(&str) -> bool + Send + Sync>) {
+        let _ = self.sessions_taken.set(f);
+    }
+
+    /// A world has this code (in memory or in the store).
+    pub fn has_code(&self, code: &str) -> bool {
+        self.map.lock().unwrap().contains_key(code) || self.store.exists(code)
+    }
+
+    /// `C`: what a joiner needs to know before joining: the state, the
+    /// players (claimed or free) and the configuration's options. None when
+    /// no world has the code.
+    pub fn lookup(&self, code: &str) -> Option<Value> {
+        let entry = self.map.lock().unwrap().get(code).cloned()?;
+        let g = entry.inner.lock().unwrap();
+        if g.deleted {
+            return None;
+        }
+        let state = if g.mismatch.is_some() {
+            "broken"
+        } else if g.state.closed {
+            "closed"
+        } else if !g.state.started {
+            "waiting"
+        } else {
+            "open"
+        };
+        let players: Vec<Value> = g
+            .state
+            .players
+            .iter()
+            .map(|p| json!({"name": p.name, "claimed": p.key.is_some()}))
+            .collect();
+        let free = g.state.players.iter().filter(|p| p.key.is_none()).count();
+        let cfg = &entry.meta.config;
+        let version = cfg
+            .get("players")
+            .and_then(|p| p.get(0))
+            .and_then(|p| p.get("version"))
+            .cloned()
+            .unwrap_or(Value::Null);
+        Some(json!({
+            "world": entry.code,
+            "state": state,
+            "free": free,
+            "players": players,
+            "version": version,
+            "options": cfg.get("options").cloned().unwrap_or(json!({})),
+            "player_options": cfg
+                .get("players")
+                .and_then(|p| p.get(0))
+                .and_then(|p| p.get("options"))
+                .cloned()
+                .unwrap_or(json!({})),
+        }))
     }
 
     /// Worlds kept now.
@@ -238,7 +300,6 @@ impl Worlds {
     }
 
     fn new_code(&self) -> String {
-        let map = self.map.lock().unwrap();
         loop {
             let mut raw = [0u8; 16];
             getrandom::getrandom(&mut raw).expect("OS random source");
@@ -248,9 +309,15 @@ impl Worlds {
                 .take(6)
                 .map(|b| CODE_ALPHABET[(*b % 31) as usize] as char)
                 .collect();
-            if code.len() == 6 && !map.contains_key(&code) && !self.store.exists(&code) {
-                return code;
+            if code.len() != 6 || self.has_code(&code) {
+                continue;
             }
+            // the session check runs with no world lock held: the registry
+            // asks has_code while it holds its own lock
+            if self.sessions_taken.get().is_some_and(|f| f(&code)) {
+                continue;
+            }
+            return code;
         }
     }
 
