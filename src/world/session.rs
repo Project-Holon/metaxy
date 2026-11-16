@@ -372,6 +372,9 @@ impl Worlds {
                 return Err(failed(format!("two players named {name}")));
             }
         }
+        // the relay's own field: joiners' names take free places (a world
+        // made in a game); the generator does not read it
+        let open_names = v.get("open_names") == Some(&Value::Bool(true));
         let cfg: GenConfig = serde_json::from_value(v)
             .map_err(|e| failed(format!("the configuration does not read: {e}")))?;
         if cfg.schema != arkh_gen::gen::SCHEMA {
@@ -382,7 +385,12 @@ impl Worlds {
             )));
         }
         // stored as the generator reads it
-        let canon = serde_json::to_value(&cfg).map_err(|e| failed(e.to_string()))?;
+        let mut canon = serde_json::to_value(&cfg).map_err(|e| failed(e.to_string()))?;
+        if open_names {
+            if let Some(o) = canon.as_object_mut() {
+                o.insert("open_names".into(), Value::Bool(true));
+            }
+        }
         Ok((cfg, canon))
     }
 
@@ -622,6 +630,14 @@ impl Worlds {
             }
             return Err(Fail::new("bad-key", "no player of this world has that key"));
         }
+        // a world with open names (made in a game, its other players not
+        // known yet): a new name takes the first free place, as that name
+        if entry.meta.config.get("open_names") == Some(&Value::Bool(true)) {
+            if let Some(i) = g.state.players.iter().position(|p| p.key.is_none()) {
+                return Ok((i as u8 + 1, None));
+            }
+            return Err(Fail::new("full", "every player of this world is claimed"));
+        }
         Err(Fail::new(
             "bad-key",
             "no player of this world has that name",
@@ -749,11 +765,26 @@ impl Worlds {
             .players
             .get(idx)
             .ok_or_else(|| Fail::new("unavailable", "the world has no such player"))?;
+        // a first join under a new name in a world with open names: the
+        // place becomes that name's (the claim line keeps it)
+        let rename = key.is_none() && !is_key(who) && g.state.players[idx].name != who;
+        let name_of = |i: usize, base: &str| -> String {
+            if i == idx && rename {
+                who.to_string()
+            } else {
+                g.state.players.get(i).map(|p| p.name.clone()).unwrap_or_else(|| base.to_string())
+            }
+        };
         let players: Vec<Value> = w
             .players
             .iter()
-            .map(|p| json!({"player": p.slot, "name": p.name, "version": p.version}))
+            .enumerate()
+            .map(|(i, p)| json!({"player": p.slot, "name": name_of(i, &p.name), "version": p.version}))
             .collect();
+        let mut pdata = serde_json::to_value(pdata).map_err(|e| Fail::new("unavailable", e.to_string()))?;
+        if let Some(o) = pdata.as_object_mut() {
+            o.insert("name".into(), json!(name_of(idx, "")));
+        }
         let body = json!({
             "world": entry.code,
             "player": player,
@@ -781,6 +812,7 @@ impl Worlds {
                     p: player,
                     key: key_hash(&k),
                     t,
+                    name: rename.then(|| who.to_string()),
                 };
                 (k, vec![l], true)
             }

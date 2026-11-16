@@ -65,7 +65,15 @@ pub enum Line {
     Close { t: u64 },
     /// A player's first join: the hash of their new key. The claim is
     /// provisional until a `confirm` line.
-    Claim { p: u8, key: String, t: u64 },
+    Claim {
+        p: u8,
+        key: String,
+        t: u64,
+        /// The name the player joined with, in a world with open names
+        /// (`"open_names": true`): the place is theirs under that name.
+        #[serde(default, skip_serializing_if = "Option::is_none")]
+        name: Option<String>,
+    },
     /// The game showed it kept its key: its first `V` or `U`, or a join
     /// with the key.
     Confirm { p: u8, t: u64 },
@@ -91,6 +99,8 @@ pub enum Line {
 #[derive(Debug, Clone, Default)]
 pub struct PlayerState {
     pub name: String,
+    /// The name the configuration gave (a released claim gives it back).
+    pub base_name: String,
     /// SHA-256 of the player key, once claimed.
     pub key: Option<String>,
     /// The claim is confirmed (the game kept its key).
@@ -122,6 +132,7 @@ impl State {
                 .iter()
                 .map(|n| PlayerState {
                     name: n.clone(),
+                    base_name: n.clone(),
                     ..PlayerState::default()
                 })
                 .collect(),
@@ -143,9 +154,12 @@ impl State {
                 self.closed = false;
             }
             Line::Close { .. } => self.closed = true,
-            Line::Claim { p, key, t } => {
+            Line::Claim { p, key, t, name } => {
                 self.last_join = self.last_join.max(*t);
                 if let Some(s) = self.player(*p) {
+                    if let Some(n) = name {
+                        s.name = n.clone();
+                    }
                     s.key = Some(key.clone());
                     s.confirmed = false;
                     s.last_seen = *t;
@@ -160,6 +174,7 @@ impl State {
                 if let Some(s) = self.player(*p) {
                     s.key = None;
                     s.confirmed = false;
+                    s.name = s.base_name.clone();
                 }
             }
             Line::Join { p, t } => {
@@ -413,6 +428,7 @@ mod tests {
                     p: 1,
                     key: key_hash("k1"),
                     t: 102,
+                    name: None,
                 },
                 Line::Check {
                     p: 1,

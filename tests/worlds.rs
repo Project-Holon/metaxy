@@ -760,6 +760,45 @@ async fn coop_relay_works_beside_worlds() {
     nothing(&mut w, 'E').await;
 }
 
+/// A world made in a game (`"open_names": true`): a joiner's own name takes
+/// the first free place, and the others see that name.
+#[tokio::test]
+async fn open_names_take_free_places() {
+    let dir = tempfile::tempdir().unwrap();
+    let (_s, a) = start(wcfg(dir.path())).await;
+    let cfg = r#"{"schema": 1, "seed": 7, "open_names": true,
+     "players": [{"name": "Ash", "version": "black"}, {"name": "Player 2", "version": "white"},
+                 {"name": "Player 3", "version": "black"}]}"#;
+    let (code, _) = world(&a, cfg).await;
+    let mut ash = conn(&a).await;
+    ash.join(&code, "Ash", GEN).await.unwrap();
+    ash.send('V', b"").await.unwrap();
+    let mut m = conn(&a).await;
+    let j = m.join(&code, "Misty", GEN).await.unwrap();
+    assert_eq!(j.player, 2, "the first free place");
+    assert_eq!(j.data["data"]["name"], "Misty", "the push names the player as they joined");
+    assert_eq!(j.name, "Misty", "and so does W");
+    assert_eq!(j.data["players"][1]["name"], "Misty", "and the players list");
+    m.send('V', b"").await.unwrap();
+    assert_eq!(next(&mut ash, 'P').await, "2 Misty", "the others see the name");
+    // the name holds on a rejoin with the key, and stays taken
+    drop(m);
+    sleep(Duration::from_millis(300)).await;
+    let mut m2 = conn(&a).await;
+    assert_eq!(m2.join(&code, &j.key, GEN).await.unwrap().player, 2);
+    let mut b = conn(&a).await;
+    b.send('I', format!("eidos-net/2 {} {code} Misty", b.token).as_bytes()).await.unwrap();
+    expect_error(&mut b, "name-taken").await;
+    // the last place, then a full world
+    let mut brock = conn(&a).await;
+    assert_eq!(brock.join(&code, "Brock", GEN).await.unwrap().player, 3);
+    brock.send('V', b"").await.unwrap();
+    sleep(Duration::from_millis(300)).await;
+    let mut late = conn(&a).await;
+    late.send('I', format!("eidos-net/2 {} {code} Gary", late.token).as_bytes()).await.unwrap();
+    expect_error(&mut late, "full").await;
+}
+
 /// `C`: a game's Join box asks what a code names before it joins.
 #[tokio::test]
 async fn lookup_names_session_world_or_nothing() {

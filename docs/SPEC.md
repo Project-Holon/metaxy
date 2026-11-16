@@ -500,6 +500,12 @@ then takes the code as a session code, as before.
   metaxy gave on the first join. A field of 32 hex digits that is not a
   name is taken as a key. A configuration may not use a name that looks
   like a key.
+- Open names: a configuration with `"open_names": true` (a world made in a
+  game, whose other players are not known yet) lets a first join with a
+  name the world does not have take the first free place under that name.
+  The claim's log line keeps the name; the push, `W` and `P` give it; a
+  released claim gives the place back under its old name. With no free
+  place the answer is `E full`. The generator does not read the field.
 - `player`: 1 to 16, the player's place in the configuration (player 1
   first), the same as the generator's `slot`.
 - `location id`, `item id`: arkhipelagos' permanent numbers
