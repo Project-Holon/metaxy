@@ -1,0 +1,32 @@
+{
+  "schema": 1,
+  "seed": 777,
+  "options": {
+    "goal": "ghetsis",
+    "season_control": "changeable",
+    "species_sources": ["static", "evolutions", "form_change", "trainers", "trades"],
+    "randomize_wild_pokemon": ["randomize", "ensure_all", "similar_stats"],
+    "randomize_static_pokemon": ["randomize", "similar_stats"],
+    "randomize_gift_pokemon": ["randomize"],
+    "randomize_legendary_pokemon": ["randomize", "keep_legendary"],
+    "randomize_trade_pokemon": ["randomize_offer", "randomize_request"],
+    "randomize_starter_pokemon": ["randomize", "type_variety"],
+    "randomize_trainer_pokemon": ["randomize", "similar_stats", "shuffle_gym_types", "rivals_keep_starter"],
+    "randomize_evolutions": ["randomize", "follow_type"],
+    "replace_evo_methods": ["trade"],
+    "randomize_tm_hm_compatibility": ["randomize", "follow_evolutions"],
+    "randomize_types": ["shuffle"],
+    "randomize_base_stats": ["randomize", "follow_evolutions"],
+    "randomize_catch_rates": ["shuffle"],
+    "randomize_gender_ratio": ["randomize"],
+    "randomize_abilities": ["randomize"],
+    "randomize_held_items": ["randomize"],
+    "randomize_levelup_movesets": ["randomize", "match_types"],
+    "randomize_move_data": ["power", "type", "accuracy", "pp"],
+    "randomize_type_chart": ["shuffle"]
+  },
+  "players": [
+    {"name": "Ash", "version": "black"},
+    {"name": "Misty", "version": "white", "options": {"randomize_types": ["randomize", "follow_evolutions"], "randomize_wild_pokemon": ["randomize", "type_themed_areas"]}}
+  ]
+}

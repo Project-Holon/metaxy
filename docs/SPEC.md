@@ -721,3 +721,8 @@ addresses, as for the relay; never keys.
   unusable folder falls back to it (the proposal said to refuse the world
   role; the operator asked for this so that world sessions can be tried
   before the volume exists).
+- A first join writes the claim to disk, then sends `S` with the new key.
+  If the connection drops before the game keeps the key, the name stays
+  claimed and nobody can join as that player again; only the owner can
+  help (`O delete` and a new world). A later version may let the owner
+  free a claim.

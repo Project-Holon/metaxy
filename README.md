@@ -147,7 +147,7 @@ turns world sessions off.
 ### Run it locally
 
 ```
-cargo run --release -- --bind 127.0.0.1 --port 20609 --world-store E:/dev/metaxy-worlds
+cargo run --release -- --bind 127.0.0.1 --port 20609 --world-store worlds
 ```
 
 Any folder works for `--world-store`; leave it out to use the temp folder.

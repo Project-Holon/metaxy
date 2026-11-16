@@ -229,6 +229,9 @@ pub fn parse_piece(p: &[u8]) -> Result<(u32, bool, &[u8]), Fail> {
     Ok((id, last, bytes))
 }
 
+/// The most big payloads a client may have open or unused at once.
+pub const MAX_MESSAGES: usize = 8;
+
 /// The big payloads a client is sending: pieces by message id.
 #[derive(Debug, Default)]
 pub struct Assembly {
@@ -243,6 +246,12 @@ impl Assembly {
         let (id, last, bytes) = parse_piece(payload)?;
         if self.done.contains_key(&id) {
             return Err(bad(format!("F message {id} is already whole")));
+        }
+        if !self.open.contains_key(&id) && self.open.len() + self.done.len() >= MAX_MESSAGES {
+            return Err(Fail::new(
+                "too-big",
+                format!("more than {MAX_MESSAGES} big payloads at once"),
+            ));
         }
         if self.total + bytes.len() > cap {
             return Err(Fail::new(
@@ -442,6 +451,19 @@ mod tests {
         assert_eq!(a.add(b"1 0 x", 100).unwrap_err().reason, "bad-frame");
         a.add(b"2 1\n", 100).unwrap();
         assert_eq!(a.take(2).unwrap(), b"");
+    }
+
+    #[test]
+    fn pieces_are_limited_in_count() {
+        let mut a = Assembly::default();
+        for id in 0..MAX_MESSAGES {
+            a.add(format!("{id} {}\n", id % 2).as_bytes(), 100).unwrap();
+        }
+        a.add(b"0 0\nx", 100).unwrap();
+        let e = a.add(b"99 0\n", 100).unwrap_err();
+        assert_eq!(e.reason, "too-big");
+        a.take(1).unwrap();
+        a.add(b"99 0\n", 100).unwrap();
     }
 
     #[test]

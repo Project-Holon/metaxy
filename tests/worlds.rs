@@ -806,3 +806,44 @@ async fn soak_sixteen_players() {
     let log = std::fs::read_to_string(dir.path().join(&code).join("log")).unwrap();
     assert_eq!(log.lines().filter(|l| l.contains("\"goal\"")).count(), 16);
 }
+
+/// Every randomizer on (arkhipelagos' tests/configs/all-random.json): the
+/// player data is far bigger than a frame and arrives whole in F pieces.
+#[tokio::test]
+async fn every_randomizer_on() {
+    let dir = tempfile::tempdir().unwrap();
+    let (_s, a) = start(wcfg(dir.path())).await;
+    let (code, _) = world(&a, include_str!("all-random.json")).await;
+    let mut c = conn(&a).await;
+    let p = c.join(&code, "Misty", GEN).await.unwrap();
+    let size = serde_json::to_vec(&p.data).unwrap().len();
+    assert!(size > 100_000 && size < 1_048_576, "{size} bytes");
+    let tables = p.data["data"]["tables"].as_object().unwrap();
+    assert!(!tables.is_empty());
+    assert_eq!(p.data["data"]["options"]["randomize_types"][0], "randomize");
+    assert_eq!(p.data["players"][0]["name"], "Ash");
+}
+
+/// A generation over the time limit is gen-failed; the thread finishes it,
+/// and the next configuration is made.
+#[tokio::test]
+async fn generation_time_limit() {
+    let dir = tempfile::tempdir().unwrap();
+    let mut cfg = wcfg(dir.path());
+    cfg.gen_workers = 1;
+    cfg.gen_time_ms = 1500;
+    let (_s, a) = start(cfg).await;
+    // the logic builds on first use: not inside the timed run below
+    world(&a, &players(1, 1)).await;
+    let mut c = conn(&a).await;
+    c.send(
+        'N',
+        format!("eidos-net/2 {}\n{}", c.token, players(16, 5)).as_bytes(),
+    )
+    .await
+    .unwrap();
+    expect_error(&mut c, "gen-failed over the time limit").await;
+    let (code, _) = world(&a, TWO).await;
+    let mut c = conn(&a).await;
+    assert_eq!(c.join(&code, "Ash", GEN).await.unwrap().player, 1);
+}

@@ -589,7 +589,10 @@ impl Worlds {
             return Err(mismatch(format!("made again with hash {hash}")));
         }
         info!(code = %entry.code, gen_ms = started.elapsed().as_millis() as u64, "world made again");
-        entry.inner.lock().unwrap().built = Some(Built::new(world));
+        let mut g = entry.inner.lock().unwrap();
+        g.built = Some(Built::new(world));
+        // not unloaded before the joiner takes its seat
+        g.empty_since = Instant::now();
         Ok(())
     }
 
@@ -639,29 +642,8 @@ impl Worlds {
         let mut g = entry.inner.lock().unwrap();
         let (player, key) = self.resolve(entry, &g, who)?;
         let idx = usize::from(player - 1);
-        let t = now_s();
-        let (key, line, first) = match key {
-            Some(k) => (k, Line::Join { p: player, t }, false),
-            None => {
-                let k = new_key();
-                let l = Line::Claim {
-                    p: player,
-                    key: key_hash(&k),
-                    t,
-                };
-                (k, l, true)
-            }
-        };
-        self.store
-            .append(&entry.code, std::slice::from_ref(&line))
-            .map_err(|e| store_err(&entry.code, e))?;
-        g.state.apply(&line);
-        // a live connection of the same player is replaced, without X
-        let mut replaced = false;
-        if let Some(old) = g.seats[idx].take() {
-            old.out.kill(None, "replaced by a rejoin");
-            replaced = true;
-        }
+        // everything that can fail comes before the log line, so a claim
+        // on disk is always followed by the push with its key
         let built = g
             .built
             .as_ref()
@@ -687,6 +669,29 @@ impl Worlds {
         });
         let body =
             serde_json::to_vec(&body).map_err(|e| Fail::new("unavailable", e.to_string()))?;
+        let t = now_s();
+        let (key, line, first) = match key {
+            Some(k) => (k, Line::Join { p: player, t }, false),
+            None => {
+                let k = new_key();
+                let l = Line::Claim {
+                    p: player,
+                    key: key_hash(&k),
+                    t,
+                };
+                (k, l, true)
+            }
+        };
+        self.store
+            .append(&entry.code, std::slice::from_ref(&line))
+            .map_err(|e| store_err(&entry.code, e))?;
+        g.state.apply(&line);
+        // a live connection of the same player is replaced, without X
+        let mut replaced = false;
+        if let Some(old) = g.seats[idx].take() {
+            old.out.kill(None, "replaced by a rejoin");
+            replaced = true;
+        }
         let name = g.state.players[idx].name.clone();
         let mut push = frames::encode_big(
             b'S',
